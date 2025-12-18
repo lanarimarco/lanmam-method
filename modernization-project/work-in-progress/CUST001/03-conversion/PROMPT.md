@@ -1,3 +1,5 @@
+# Phase 3: Conversion - Program: CUST001
+
 # Conversion Agent
 
 ## Purpose
@@ -13,11 +15,13 @@ Convert RPGLE programs to Java services following established patterns and best 
 
 ## Outputs to Produce
 Create in `/work-in-progress/{PROGRAM}/03-conversion/`:
-1. Service class (e.g., `CustomerInquiryService.java`)
-2. Controller class (e.g., `CustomerInquiryController.java`)
-3. DTO classes (e.g., `CustomerInquiryDTO.java`)
+1. Service class (e.g., `CustomerInquiryService.java`) within `services` folder
+2. Controller class (e.g., `CustomerInquiryController.java`) within `controllers` folder
+3. DTO classes (e.g., `CustomerInquiryDTO.java`) within `dtos` folder
 4. Exception classes if needed
 5. `conversion-notes.md` - Explain all decisions
+
+
 
 ## Process
 1. Review analysis document thoroughly
@@ -30,6 +34,30 @@ Create in `/work-in-progress/{PROGRAM}/03-conversion/`:
 8. Add logging at key points
 9. Document any deviations or special handling
 10. **Document any issues encountered** - If you face significant challenges, unclear requirements, or make important decisions, document them clearly in `conversion-notes.md` for the project manager to review
+
+## IMPORTANT: Java Package Structure
+**Java packages MUST match the folder structure.**
+
+When you declare a package in Java:
+```java
+package com.example.myapp.services;
+```
+
+The file MUST be placed in the corresponding folder path:
+```
+services/com/example/myapp/services/YourClass.java
+```
+
+**Examples:**
+- Package: `com.smeup.erp.services` → File: `services/com/smeup/erp/services/CustomerInquiryService.java`
+- Package: `com.smeup.erp.controllers` → File: `controllers/com/smeup/erp/controllers/CustomerInquiryController.java`
+- Package: `com.smeup.erp.dtos` → File: `dtos/com/smeup/erp/dtos/CustomerInquiryDTO.java`
+
+**Always:**
+1. Determine the full package name (e.g., `com.smeup.erp.services`)
+2. Create the corresponding folder structure under `services/`, `controllers/`, or `dtos/`
+3. Place the `.java` file in the deepest package folder
+4. The folder path must exactly mirror the package declaration
 
 ## Output Format
 Follow Spring Boot best practices and use provided templates

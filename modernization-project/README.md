@@ -36,20 +36,46 @@ Place your RPGLE programs in the appropriate directories:
 - DDS files: `source-rpgle/dds/`
 - Copybooks: `source-rpgle/copybooks/`
 
-### 2. Run Analysis on First Program
+### 2. Run the Full Pipeline Setup
 ```bash
 cd scripts
-./run-analysis.sh PROGRAM_NAME
+./run-full-pipeline.sh PROGRAM_NAME
 ```
 
-### 3. Follow the Agent Workflow
-Each agent has a README.md with detailed instructions:
-1. Analysis Agent (`agents/01-analysis-agent/README.md`)
-2. Database Agent (`agents/02-database-agent/README.md`)
-3. Conversion Agent (`agents/03-conversion-agent/README.md`)
-4. UI Agent (`agents/04-ui-agent/README.md`)
-5. Testing Agent (`agents/05-testing-agent/README.md`)
-6. Review Agent (`agents/06-review-agent/README.md`)
+This will:
+- Create workspaces for all 6 phases
+- Copy templates and reference files
+- Generate LLM-agnostic prompts for each phase
+- Create a master prompt for the complete pipeline
+
+### 3. Choose Your Workflow
+
+**Option A: Single LLM Session (Recommended for powerful LLMs)**
+```bash
+# Copy the master prompt to your clipboard
+cat work-in-progress/PROGRAM_NAME/MASTER-PIPELINE-PROMPT.md | pbcopy
+
+# Then paste into your preferred LLM:
+# - Claude Code
+# - ChatGPT
+# - GitHub Copilot
+# - Local models (Ollama, etc.)
+```
+
+**Option B: Individual Phase Sessions**
+```bash
+# Run each phase separately
+cd scripts
+./run-analysis.sh PROGRAM_NAME      # Phase 1
+./run-database.sh PROGRAM_NAME      # Phase 2
+./run-conversion.sh PROGRAM_NAME    # Phase 3
+./run-ui.sh PROGRAM_NAME            # Phase 4
+./run-testing.sh PROGRAM_NAME       # Phase 5
+./run-review.sh PROGRAM_NAME        # Phase 6
+
+# Copy each phase prompt as needed
+cat work-in-progress/PROGRAM_NAME/01-analysis/PROMPT.md | pbcopy
+```
 
 ### 4. Track Progress
 Update the conversion status in:
@@ -80,21 +106,50 @@ Each agent folder contains templates to ensure consistency:
 - React component templates for UI
 - Test templates for comprehensive testing
 
-## Usage with Claude Code
+## Usage with Any LLM (LLM-Agnostic Design)
 
-When converting a program, start a new Claude Code session and reference the appropriate agent folder:
+The pipeline is designed to work with **any LLM tool**:
 
+**Automated Prompt Generation:**
+```bash
+# Run the setup script
+cd scripts
+./run-full-pipeline.sh CUST001
+
+# Copy the generated prompt
+cat work-in-progress/CUST001/MASTER-PIPELINE-PROMPT.md | pbcopy
 ```
-"Using the agent instructions in /agents/01-analysis-agent/,
-analyze program CUST001.rpgle from /source-rpgle/programs/"
+
+**Compatible with:**
+- Claude Code (CLI or VS Code extension)
+- ChatGPT (web or API)
+- GitHub Copilot
+- Local models (Ollama, LM Studio, etc.)
+- Any LLM with sufficient context window
+
+The scripts generate standalone prompt files that include all necessary instructions, making them portable across any LLM platform.
+
+## Testing the Workflow
+
+**Before processing production programs**, test the workflow with sample programs:
+
+```bash
+# Run the test workflow
+cd test-programs
+./test-workflow.sh
+
+# This will set up CUST001 (a simple customer inquiry program)
+# Follow the prompts to test with your preferred LLM
 ```
+
+See [test-programs/README.md](test-programs/README.md) for complete testing instructions and validation checklist.
 
 ## Next Steps
 
-1. Review the setup guide: `rpgle-java-modernization-setup.md` (if you still have it)
+1. **Test the workflow** with `test-programs/CUST001` (recommended first step!)
 2. Customize templates for your company's standards
 3. Add your RPGLE source files
-4. Start with a simple program (e.g., CUST001) as a calibration exercise
+4. Start with a simple production program as a calibration exercise
 5. Build up the common patterns library as you discover reusable solutions
 
 ## Notes

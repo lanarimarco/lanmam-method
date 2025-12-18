@@ -1,0 +1,464 @@
+/**
+ * Styles for Customer Inquiry Screen (CUST001)
+ * Converted from RPGLE 5250 display file: CUSTDSP.dds
+ * Follows style guide specifications
+ */
+
+/* ===== Global Container ===== */
+.screen-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #f8f9fa;
+    color: #212529;
+    min-height: 100vh;
+    box-sizing: border-box;
+}
+
+/* ===== Header Section ===== */
+/* Maps to DDS header lines with program ID, title, date/time */
+.screen-header {
+    background-color: #ffffff;
+    border-bottom: 3px solid #0066cc;
+    padding: 15px 20px;
+    margin-bottom: 20px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.header-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 5px;
+}
+
+.header-row:last-child {
+    margin-bottom: 0;
+    justify-content: flex-end;
+}
+
+/* Program ID - Maps to DSPATR(HI) */
+.program-id {
+    font-family: 'Courier New', monospace;
+    font-weight: bold;
+    font-size: 14px;
+    color: #212529;
+    background-color: #e9ecef;
+    padding: 4px 8px;
+    border-radius: 3px;
+}
+
+/* Screen Title - Maps to DSPATR(HI) */
+.screen-title {
+    font-size: 20px;
+    font-weight: bold;
+    margin: 0;
+    color: #0066cc;
+    flex-grow: 1;
+    text-align: center;
+}
+
+/* Date/Time Display - Maps to DDS DATE and TIME keywords */
+.header-time,
+.header-date {
+    font-family: 'Courier New', monospace;
+    font-size: 13px;
+    color: #6c757d;
+    margin-left: 10px;
+}
+
+/* ===== Form Section ===== */
+.screen-form {
+    background-color: #ffffff;
+    padding: 30px;
+    border-radius: 4px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    margin-bottom: 20px;
+}
+
+.form-section {
+    margin-bottom: 20px;
+}
+
+/* Form Row - Maps to DDS field positioning */
+.form-row {
+    display: flex;
+    align-items: center;
+    margin-bottom: 12px;
+    gap: 10px;
+}
+
+.form-row label {
+    min-width: 180px;
+    font-weight: 500;
+    color: #212529;
+    text-align: right;
+    padding-right: 10px;
+}
+
+/* ===== Input Fields ===== */
+/* Maps to DDS input fields (type B - Both) */
+.input-field,
+input[type="text"],
+input[type="number"] {
+    height: 32px;
+    padding: 6px 12px;
+    border: 1px solid #ced4da;
+    border-radius: 4px;
+    font-size: 14px;
+    font-family: 'Courier New', monospace;
+    flex: 1;
+    max-width: 300px;
+    transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+}
+
+.input-field:focus,
+input[type="text"]:focus,
+input[type="number"]:focus {
+    outline: none;
+    border-color: #0066cc;
+    box-shadow: 0 0 0 0.2rem rgba(0, 102, 204, 0.25);
+}
+
+.input-field:disabled,
+input:disabled {
+    background-color: #e9ecef;
+    cursor: not-allowed;
+    opacity: 0.6;
+}
+
+/* Remove spinner from number input */
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+input[type="number"] {
+    -moz-appearance: textfield;
+}
+
+/* ===== Output Fields ===== */
+/* Maps to DDS output fields (type O - Output) */
+.output-field {
+    font-family: 'Courier New', monospace;
+    font-size: 14px;
+    color: #212529;
+    padding: 6px 12px;
+    background-color: #f8f9fa;
+    border: 1px solid #dee2e6;
+    border-radius: 4px;
+    min-width: 200px;
+    display: inline-block;
+}
+
+/* Balance field - Maps to EDTCDE(J) with special formatting */
+.output-field.balance {
+    font-weight: 600;
+    color: #28a745;
+    text-align: right;
+    min-width: 150px;
+}
+
+/* ===== Detail Section ===== */
+/* Maps to DDS DETAIL record format */
+.detail-section {
+    background-color: #ffffff;
+    padding: 30px;
+    border-radius: 4px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    margin-bottom: 20px;
+}
+
+.detail-section .form-row {
+    padding: 8px 0;
+    border-bottom: 1px solid #f1f3f5;
+}
+
+.detail-section .form-row:last-child {
+    border-bottom: none;
+}
+
+/* ===== Error Messages ===== */
+/* Maps to DDS indicator 90 with COLOR(RED) and DSPATR(HI) */
+.error-message {
+    background-color: #f8d7da;
+    border: 1px solid #dc3545;
+    border-left: 4px solid #dc3545;
+    color: #721c24;
+    padding: 12px 16px;
+    border-radius: 4px;
+    margin: 15px 0;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    animation: fadeIn 0.3s ease-in;
+}
+
+.error-label {
+    font-weight: bold;
+    color: #dc3545;
+}
+
+.error-text {
+    flex: 1;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(-5px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* ===== Buttons ===== */
+.button-row {
+    display: flex;
+    gap: 10px;
+    margin-top: 20px;
+    flex-wrap: wrap;
+}
+
+/* Primary Button - Enter/Submit */
+.btn-primary {
+    height: 36px;
+    padding: 8px 24px;
+    background-color: #0066cc;
+    color: #ffffff;
+    border: none;
+    border-radius: 4px;
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+    min-width: 120px;
+}
+
+.btn-primary:hover:not(:disabled) {
+    background-color: #0052a3;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.btn-primary:active:not(:disabled) {
+    background-color: #004080;
+}
+
+.btn-primary:disabled {
+    background-color: #6c757d;
+    cursor: not-allowed;
+    opacity: 0.6;
+}
+
+/* Secondary Button - Cancel, Back */
+.btn-secondary {
+    height: 36px;
+    padding: 8px 24px;
+    background-color: #6c757d;
+    color: #ffffff;
+    border: none;
+    border-radius: 4px;
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background-color 0.15s ease-in-out;
+    min-width: 120px;
+}
+
+.btn-secondary:hover {
+    background-color: #545b62;
+}
+
+.btn-secondary:active {
+    background-color: #3e444a;
+}
+
+/* ===== Footer Section ===== */
+/* Maps to DDS function key help text (COLOR(BLU)) */
+.screen-footer {
+    background-color: #ffffff;
+    border-top: 2px solid #0066cc;
+    padding: 12px 20px;
+    display: flex;
+    gap: 15px;
+    flex-wrap: wrap;
+    box-shadow: 0 -2px 4px rgba(0, 0, 0, 0.05);
+}
+
+/* Function Key Buttons - Maps to CA03, CA12 */
+.btn-function-key {
+    background: none;
+    border: none;
+    color: #0066cc;
+    font-size: 13px;
+    font-weight: 500;
+    cursor: pointer;
+    padding: 6px 12px;
+    border-radius: 3px;
+    transition: background-color 0.15s ease-in-out;
+}
+
+.btn-function-key:hover {
+    background-color: #e7f3ff;
+    text-decoration: underline;
+}
+
+.btn-function-key:active {
+    background-color: #cfe6ff;
+}
+
+/* ===== Responsive Design ===== */
+/* Mobile devices */
+@media (max-width: 768px) {
+    .screen-container {
+        padding: 10px;
+    }
+
+    .screen-header {
+        padding: 10px 15px;
+    }
+
+    .header-row {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 8px;
+    }
+
+    .screen-title {
+        text-align: left;
+        font-size: 18px;
+    }
+
+    .header-time,
+    .header-date {
+        margin-left: 0;
+    }
+
+    .screen-form,
+    .detail-section {
+        padding: 20px 15px;
+    }
+
+    .form-row {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 5px;
+    }
+
+    .form-row label {
+        min-width: auto;
+        text-align: left;
+        padding-right: 0;
+        font-size: 14px;
+    }
+
+    .input-field,
+    .output-field {
+        width: 100%;
+        max-width: 100%;
+    }
+
+    .button-row {
+        flex-direction: column;
+    }
+
+    .btn-primary,
+    .btn-secondary {
+        width: 100%;
+    }
+
+    .screen-footer {
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    .btn-function-key {
+        width: 100%;
+        text-align: left;
+    }
+}
+
+/* Tablet devices */
+@media (min-width: 769px) and (max-width: 1024px) {
+    .screen-container {
+        padding: 15px;
+    }
+
+    .form-row label {
+        min-width: 150px;
+    }
+
+    .input-field,
+    .output-field {
+        max-width: 400px;
+    }
+}
+
+/* ===== Accessibility ===== */
+/* Focus visible for keyboard navigation */
+*:focus-visible {
+    outline: 2px solid #0066cc;
+    outline-offset: 2px;
+}
+
+/* Screen reader only text */
+.sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border-width: 0;
+}
+
+/* High contrast mode support */
+@media (prefers-contrast: high) {
+    .screen-container {
+        border: 2px solid currentColor;
+    }
+
+    .input-field,
+    .output-field {
+        border-width: 2px;
+    }
+
+    .btn-primary,
+    .btn-secondary {
+        border: 2px solid currentColor;
+    }
+}
+
+/* Reduced motion support */
+@media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+    }
+}
+
+/* Print styles */
+@media print {
+    .screen-container {
+        background-color: white;
+        box-shadow: none;
+    }
+
+    .button-row,
+    .screen-footer {
+        display: none;
+    }
+
+    .screen-header {
+        border-bottom: 2px solid black;
+    }
+}

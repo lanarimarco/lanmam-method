@@ -1,0 +1,26 @@
+     A*===============================================================
+     A* File: CUSTMAST - Customer Master File
+     A* Description: Physical file containing customer master data
+     A*===============================================================
+     A          R CUSTREC
+     A            CUSTNO         5P 0       COLHDG('Customer' 'Number')
+     A                                      TEXT('Customer Number')
+     A            CUSTNAME      30A         COLHDG('Customer' 'Name')
+     A                                      TEXT('Customer Name')
+     A            ADDR1         30A         COLHDG('Address' 'Line 1')
+     A                                      TEXT('Address Line 1')
+     A            CITY          20A         COLHDG('City')
+     A                                      TEXT('City')
+     A            STATE          2A         COLHDG('State')
+     A                                      TEXT('State Code')
+     A            ZIP            5P 0       COLHDG('Zip' 'Code')
+     A                                      TEXT('Zip Code')
+     A            PHONE         12A         COLHDG('Phone' 'Number')
+     A                                      TEXT('Phone Number')
+     A            BALANCE        9P 2       COLHDG('Account' 'Balance')
+     A                                      TEXT('Account Balance')
+     A            CREDITLIM      9P 2       COLHDG('Credit' 'Limit')
+     A                                      TEXT('Credit Limit')
+     A            LASTORDER      8P 0       COLHDG('Last' 'Order Date')
+     A                                      TEXT('Last Order Date YYYYMMDD')
+     A          K CUSTNO
