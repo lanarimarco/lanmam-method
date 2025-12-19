@@ -1,4 +1,4 @@
-package com.company.modernization.entities;
+package {PACKAGE_NAME}.entities;
 
 import jakarta.persistence.*;
 import java.math.BigDecimal;

@@ -1,4 +1,4 @@
-package com.company.modernization.repositories;
+package {PACKAGE_NAME}.repositories;
 
 import com.company.modernization.entities.{EntityName};
 import org.springframework.data.jpa.repository.JpaRepository;

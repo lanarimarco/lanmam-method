@@ -19,6 +19,7 @@ This project modernizes 50 RPGLE programs to Java using AI-assisted conversion.
 4. UI: Create React interfaces
 5. Testing: Build test suites
 6. Review: Quality assurance
+7. Integration: Assemble final application
 
 ## Technology Stack
 - Java 17+
@@ -33,3 +34,5 @@ This project modernizes 50 RPGLE programs to Java using AI-assisted conversion.
 2. Run analysis: `./scripts/run-analysis.sh PROGRAM_NAME`
 3. Follow the agent workflow
 4. Review outputs in `/work-in-progress/`
+
+
