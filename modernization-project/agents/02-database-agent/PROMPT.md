@@ -14,7 +14,7 @@ Create JPA entities, repositories, and database access layer based on RPGLE file
 8. Templates from this agent folder
 
 ## Outputs to Produce
-Create in `/work-in-progress/{PROGRAM}/02-database/` by following `/common-patterns/maven-project-structure.md`
+Create in `/work-in-progress/{PROGRAM}/02-database/` by following `/common-patterns/maven-project-structure.md`:
 1. JPA Entity classes (e.g., `Customer.java`)
 2. Repository interfaces (e.g., `CustomerRepository.java`)
 3. Custom query methods if needed
