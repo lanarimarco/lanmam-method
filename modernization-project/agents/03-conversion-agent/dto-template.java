@@ -1,4 +1,4 @@
-package com.company.modernization.dto;
+package {PACKAGE_NAME}.dto;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import java.math.BigDecimal;

@@ -1,4 +1,4 @@
-package com.company.modernization.services;
+package {PACKAGE_NAME}.services;
 
 import com.company.modernization.dto.*;
 import com.company.modernization.entities.*;

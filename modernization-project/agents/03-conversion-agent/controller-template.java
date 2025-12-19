@@ -1,4 +1,4 @@
-package com.company.modernization.controllers;
+package {PACKAGE_NAME}.controllers;
 
 import com.company.modernization.dto.*;
 import com.company.modernization.services.*;

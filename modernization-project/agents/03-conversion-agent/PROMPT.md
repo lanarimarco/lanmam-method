@@ -4,18 +4,19 @@
 Convert RPGLE programs to Java services following established patterns and best practices.
 
 ## Inputs Required
-1. RPGLE source file from `/source-rpgle/programs/{PROGRAM}.rpgle`
-2. Analysis document from `/work-in-progress/{PROGRAM}/01-analysis/`
-3. Database entities from `/work-in-progress/{PROGRAM}/02-database/`
-4. Display file specifications from `/source-rpgle/dds/display-files/`
-5. All common patterns from `/common-patterns/`
-6. Templates from this agent folder
+1. Project settings from `project-settings.md`
+2. RPGLE source file from `/source-rpgle/programs/{PROGRAM}.rpgle`
+3. Analysis document from `/work-in-progress/{PROGRAM}/01-analysis/`
+4. Database entities from `/work-in-progress/{PROGRAM}/02-database/`
+5. Display file specifications from `/source-rpgle/dds/display-files/`
+6. All common patterns from `/common-patterns/`
+7. Templates from this agent folder
 
 ## Outputs to Produce
-Create in `/work-in-progress/{PROGRAM}/03-conversion/`:
-1. Service class (e.g., `CustomerInquiryService.java`) within `services` folder
-2. Controller class (e.g., `CustomerInquiryController.java`) within `controllers` folder
-3. DTO classes (e.g., `CustomerInquiryDTO.java`) within `dtos` folder
+Create in `/work-in-progress/{PROGRAM}/03-conversion/` by following `/common-patterns/maven-project-structure.md`:
+1. Service class (e.g., `CustomerInquiryService.java`)
+2. Controller class (e.g., `CustomerInquiryController.java`)
+3. DTO classes (e.g., `CustomerInquiryDTO.java`)
 4. Exception classes if needed
 5. `conversion-notes.md` - Explain all decisions
 
@@ -32,30 +33,6 @@ Create in `/work-in-progress/{PROGRAM}/03-conversion/`:
 8. Add logging at key points
 9. Document any deviations or special handling
 10. **Document any issues encountered** - If you face significant challenges, unclear requirements, or make important decisions, document them clearly in `conversion-notes.md` for the project manager to review
-
-## IMPORTANT: Java Package Structure
-**Java packages MUST match the folder structure.**
-
-When you declare a package in Java:
-```java
-package com.example.myapp.services;
-```
-
-The file MUST be placed in the corresponding folder path:
-```
-services/com/example/myapp/services/YourClass.java
-```
-
-**Examples:**
-- Package: `com.smeup.erp.services` → File: `services/com/smeup/erp/services/CustomerInquiryService.java`
-- Package: `com.smeup.erp.controllers` → File: `controllers/com/smeup/erp/controllers/CustomerInquiryController.java`
-- Package: `com.smeup.erp.dtos` → File: `dtos/com/smeup/erp/dtos/CustomerInquiryDTO.java`
-
-**Always:**
-1. Determine the full package name (e.g., `com.smeup.erp.services`)
-2. Create the corresponding folder structure under `services/`, `controllers/`, or `dtos/`
-3. Place the `.java` file in the deepest package folder
-4. The folder path must exactly mirror the package declaration
 
 ## Output Format
 Follow Spring Boot best practices and use provided templates
