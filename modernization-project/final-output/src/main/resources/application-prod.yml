@@ -1,0 +1,26 @@
+# Production Configuration
+spring:
+  datasource:
+    url: jdbc:db2://${DB_HOST:production-db-server}:${DB_PORT:50000}/${DB_NAME:DATABASE}
+    username: ${DB_USERNAME}
+    password: ${DB_PASSWORD}
+
+  jpa:
+    show-sql: false
+    hibernate:
+      ddl-auto: validate
+
+logging:
+  level:
+    root: WARN
+    com.company.modernization: WARN
+    com.smeup.erp: WARN
+    org.springframework.web: WARN
+    org.hibernate: WARN
+
+# Production CORS Configuration
+app:
+  cors:
+    allowed-origins: https://erp.smeup.com,https://customer-inquiry.smeup.com
+  api:
+    version: v1

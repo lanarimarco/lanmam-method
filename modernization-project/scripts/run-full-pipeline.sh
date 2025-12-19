@@ -1,6 +1,6 @@
 #!/bin/bash
 # Run complete conversion pipeline for a program
-# This script orchestrates all 6 agents and creates individual + master prompts
+# This script orchestrates all 7 agents and creates individual + master prompts
 
 PROGRAM=$1
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
@@ -10,7 +10,7 @@ if [ -z "$PROGRAM" ]; then
     echo "Usage: ./run-full-pipeline.sh PROGRAM_NAME"
     echo ""
     echo "This script will:"
-    echo "  1. Set up workspaces for all 6 phases"
+    echo "  1. Set up workspaces for all 7 phases"
     echo "  2. Generate individual prompts for each phase"
     echo "  3. Generate a master prompt for the full pipeline"
     echo ""
@@ -21,13 +21,14 @@ echo "========================================="
 echo "Full Pipeline Setup for: $PROGRAM"
 echo "========================================="
 echo ""
-echo "This will create workspaces and prompts for all 6 phases:"
+echo "This will create workspaces and prompts for all 7 phases:"
 echo "  Phase 1: Analysis"
 echo "  Phase 2: Database Layer"
 echo "  Phase 3: Business Logic Conversion"
 echo "  Phase 4: UI Creation"
 echo "  Phase 5: Testing"
 echo "  Phase 6: Code Review"
+echo "  Phase 7: Integration & Deployment"
 echo ""
 
 # Run each phase setup script
@@ -54,6 +55,10 @@ echo ""
 echo "Phase 6: Setting up Review..."
 ./run-review.sh $PROGRAM
 
+echo ""
+echo "Phase 7: Setting up Integration..."
+./run-integration.sh $PROGRAM
+
 # Create master pipeline prompt
 echo ""
 echo "========================================="
@@ -64,7 +69,7 @@ PIPELINE_DIR="$PROJECT_ROOT/work-in-progress/$PROGRAM"
 cat > "$PIPELINE_DIR/MASTER-PIPELINE-PROMPT.md" <<'MASTER_EOF'
 # Complete Conversion Pipeline for RPGLE Program: PROGRAM_PLACEHOLDER
 
-This is a master prompt for converting the entire RPGLE program through all 6 phases.
+This is a master prompt for converting the entire RPGLE program through all 7 phases.
 
 You can either:
 1. **Use this master prompt** for a single long LLM session (recommended for powerful models)
@@ -81,6 +86,7 @@ Phase 3: Conversion        → Convert to Java services and controllers
 Phase 4: UI Layer          → Create React components
 Phase 5: Testing           → Create comprehensive tests
 Phase 6: Review            → Review and refactor code
+Phase 7: Integration       → Consolidate to final-output and prepare deployment
 ```
 
 ---
@@ -199,7 +205,7 @@ Phase 6: Review            → Review and refactor code
 
 # FINAL CHECKLIST
 
-After completing all 6 phases, verify:
+After completing all 7 phases, verify:
 
 - [ ] Phase 1: Analysis complete and thorough
 - [ ] Phase 2: All database entities and repositories created
@@ -207,12 +213,16 @@ After completing all 6 phases, verify:
 - [ ] Phase 4: UI components functional and accessible
 - [ ] Phase 5: Tests comprehensive and passing
 - [ ] Phase 6: Code reviewed and quality verified
+- [ ] Phase 7: Code integrated to final-output and deployment ready
 
 - [ ] All documentation files created
 - [ ] All notes files explain decisions
 - [ ] No critical issues remaining
 - [ ] Code follows best practices
-- [ ] Ready for integration into final Spring Boot app
+- [ ] Maven build succeeds in final-output
+- [ ] All tests pass in final-output
+- [ ] Deployment guide complete
+- [ ] Ready for UAT/production deployment
 
 ---
 
@@ -247,7 +257,7 @@ MASTER_EOF
     cat <<HEADER
 # Complete Conversion Pipeline for RPGLE Program: $PROGRAM
 
-This is a master prompt for converting the entire RPGLE program through all 6 phases.
+This is a master prompt for converting the entire RPGLE program through all 7 phases.
 
 You can either:
 1. **Use this master prompt** for a single long LLM session (recommended for powerful models)
@@ -264,6 +274,7 @@ Phase 3: Conversion        → Convert to Java services and controllers
 Phase 4: UI Layer          → Create React components
 Phase 5: Testing           → Create comprehensive tests
 Phase 6: Review            → Review and refactor code
+Phase 7: Integration       → Consolidate to final-output and prepare deployment
 \`\`\`
 
 ---
@@ -406,12 +417,39 @@ CHECKPOINT5
 
 CHECKPOINT6
 
+    # Phase 7
+    echo "# PHASE 7: INTEGRATION & DEPLOYMENT PREPARATION"
+    echo ""
+    echo "**Prerequisites**: All phases 1-6 complete, Phase 6 review passed"
+    echo ""
+    tail -n +3 "$PIPELINE_DIR/07-integration/PROMPT.md"
+    echo ""
+    cat <<CHECKPOINT7
+**Checkpoint**: After completing Phase 7, you should have:
+- ✓ All code consolidated to /final-output
+- ✓ Maven build compiles successfully
+- ✓ All tests passing
+- ✓ Documentation package complete
+- ✓ Deployment guide created
+- ✓ Integration report complete
+
+**Outputs**:
+- \`/final-output/src/main/java/...\` (consolidated code)
+- \`/final-output/src/test/java/...\` (consolidated tests)
+- \`/final-output/docs/$PROGRAM/integration-report.md\`
+- \`/final-output/docs/$PROGRAM/deployment-guide.md\`
+- \`/final-output/docs/$PROGRAM/\` (all documentation)
+
+---
+
+CHECKPOINT7
+
     # Footer
     cat <<FOOTER
 
 # FINAL CHECKLIST
 
-After completing all 6 phases, verify:
+After completing all 7 phases, verify:
 
 - [ ] Phase 1: Analysis complete and thorough
 - [ ] Phase 2: All database entities and repositories created
@@ -419,12 +457,16 @@ After completing all 6 phases, verify:
 - [ ] Phase 4: UI components functional and accessible
 - [ ] Phase 5: Tests comprehensive and passing
 - [ ] Phase 6: Code reviewed and quality verified
+- [ ] Phase 7: Code integrated to final-output and deployment ready
 
 - [ ] All documentation files created
 - [ ] All notes files explain decisions
 - [ ] No critical issues remaining
 - [ ] Code follows best practices
-- [ ] Ready for integration into final Spring Boot app
+- [ ] Maven build succeeds in final-output
+- [ ] All tests pass in final-output
+- [ ] Deployment guide complete
+- [ ] Ready for UAT/production deployment
 
 ---
 
@@ -481,6 +523,7 @@ echo "  - Phase 3: work-in-progress/$PROGRAM/03-conversion/PROMPT.md"
 echo "  - Phase 4: work-in-progress/$PROGRAM/04-ui/PROMPT.md"
 echo "  - Phase 5: work-in-progress/$PROGRAM/05-testing/PROMPT.md"
 echo "  - Phase 6: work-in-progress/$PROGRAM/06-review/PROMPT.md"
+echo "  - Phase 7: work-in-progress/$PROGRAM/07-integration/PROMPT.md"
 echo ""
 echo "📋 To copy a specific phase prompt:"
 echo "  cat \"$PIPELINE_DIR/01-analysis/PROMPT.md\" | pbcopy"

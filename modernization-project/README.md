@@ -6,13 +6,14 @@ This project structure has been set up to support the AI-assisted conversion of 
 
 ```
 modernization-project/
-├── agents/                      # Configuration for 6 specialized AI agents
+├── agents/                      # Configuration for 7 specialized AI agents
 │   ├── 01-analysis-agent/       # Analyzes RPGLE programs
 │   ├── 02-database-agent/       # Creates JPA entities and repositories
 │   ├── 03-conversion-agent/     # Converts RPGLE to Java services
 │   ├── 04-ui-agent/             # Creates React UI components
 │   ├── 05-testing-agent/        # Creates test suites
-│   └── 06-review-agent/         # Reviews and refactors code
+│   ├── 06-review-agent/         # Reviews and refactors code
+│   └── 07-integration-agent/    # Integrates to final-output & creates deployment docs
 ├── common-patterns/             # Reusable patterns and knowledge base
 ├── source-rpgle/                # Place your RPGLE source files here
 │   ├── programs/                # RPGLE programs (.rpgle files)
@@ -43,7 +44,7 @@ cd scripts
 ```
 
 This will:
-- Create workspaces for all 6 phases
+- Create workspaces for all 7 phases
 - Copy templates and reference files
 - Generate LLM-agnostic prompts for each phase
 - Create a master prompt for the complete pipeline
@@ -72,6 +73,7 @@ cd scripts
 ./run-ui.sh PROGRAM_NAME            # Phase 4
 ./run-testing.sh PROGRAM_NAME       # Phase 5
 ./run-review.sh PROGRAM_NAME        # Phase 6
+./run-integration.sh PROGRAM_NAME   # Phase 7
 
 # Copy each phase prompt as needed
 cat work-in-progress/PROGRAM_NAME/01-analysis/PROMPT.md | pbcopy

@@ -9,7 +9,7 @@ This project uses an LLM-agnostic pipeline to convert RPGLE programs to modern J
 ✅ **LLM-Agnostic**: Works with Claude Code, ChatGPT, Copilot, or local models
 ✅ **Automated Setup**: Scripts create workspaces and generate prompts automatically
 ✅ **Flexible Execution**: Run as single session or phase-by-phase
-✅ **Comprehensive**: Covers analysis, database, conversion, UI, testing, and review
+✅ **Comprehensive**: Covers analysis, database, conversion, UI, testing, review, and integration
 ✅ **Documented**: All prompts are standalone, portable markdown files
 
 ## Quick Start
@@ -31,7 +31,7 @@ cd scripts
 ```
 
 This creates:
-- Workspace directories for all 6 phases
+- Workspace directories for all 7 phases
 - Individual prompt files for each phase
 - One master prompt for the complete pipeline
 - Template files and references
@@ -46,7 +46,7 @@ Best for: Powerful LLMs (Claude Opus/Sonnet, GPT-4, etc.) with large context win
 # Copy the master prompt
 cat work-in-progress/YOUR_PROGRAM/MASTER-PIPELINE-PROMPT.md | pbcopy
 
-# Paste into your LLM and let it work through all 6 phases
+# Paste into your LLM and let it work through all 7 phases
 ```
 
 **Pros:**
@@ -71,7 +71,7 @@ cat work-in-progress/YOUR_PROGRAM/01-analysis/PROMPT.md | pbcopy
 cat work-in-progress/YOUR_PROGRAM/02-database/PROMPT.md | pbcopy
 # → Paste into LLM, wait for completion
 
-# Repeat for phases 3-6...
+# Repeat for phases 3-7...
 ```
 
 **Pros:**
@@ -84,7 +84,7 @@ cat work-in-progress/YOUR_PROGRAM/02-database/PROMPT.md | pbcopy
 - More manual steps
 - Need to track progress across sessions
 
-## The 6 Phases
+## The 7 Phases
 
 ### Phase 1: Analysis
 - Reads RPGLE source code
@@ -139,6 +139,18 @@ cat work-in-progress/YOUR_PROGRAM/02-database/PROMPT.md | pbcopy
 **Output**:
 - `06-review/review-report.md`
 - `06-review/final-checklist.md`
+
+### Phase 7: Integration & Deployment
+- Consolidates all code to final-output
+- Verifies Maven build and tests
+- Creates deployment documentation
+- Prepares for production deployment
+
+**Output**:
+- `/final-output/src/main/java/...` (consolidated code)
+- `/final-output/src/test/java/...` (consolidated tests)
+- `/final-output/docs/{PROGRAM}/integration-report.md`
+- `/final-output/docs/{PROGRAM}/deployment-guide.md`
 
 ## LLM Compatibility
 
@@ -221,6 +233,9 @@ cd scripts
 
 # Just review
 ./run-review.sh YOUR_PROGRAM
+
+# Just integration
+./run-integration.sh YOUR_PROGRAM
 ```
 
 Each generates a `PROMPT.md` file in its phase directory.
@@ -237,7 +252,13 @@ work-in-progress/YOUR_PROGRAM/
 ├── 03-conversion/conversion-notes.md
 ├── 04-ui/ui-notes.md
 ├── 05-testing/testing-notes.md
-└── 06-review/review-report.md
+├── 06-review/review-report.md
+└── 07-integration/PROMPT.md
+
+final-output/docs/YOUR_PROGRAM/
+├── integration-report.md
+├── deployment-guide.md
+└── (all phase notes consolidated here)
 ```
 
 ### Across All Programs
@@ -293,10 +314,12 @@ Update these files:
 
 1. ✅ Run `./run-full-pipeline.sh` on your first program
 2. ✅ Choose single-session or phase-by-phase workflow
-3. ✅ Execute with your preferred LLM
-4. ✅ Review outputs and integrate into Spring Boot app
-5. ✅ Document lessons learned
-6. ✅ Repeat for remaining programs
+3. ✅ Execute phases 1-6 with your preferred LLM
+4. ✅ Run `./run-integration.sh` to consolidate to final-output
+5. ✅ Verify Maven build and tests in final-output
+6. ✅ Review deployment guide and prepare for UAT
+7. ✅ Document lessons learned
+8. ✅ Repeat for remaining programs
 
 ---
 

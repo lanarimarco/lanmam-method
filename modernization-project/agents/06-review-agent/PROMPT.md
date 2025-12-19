@@ -14,7 +14,6 @@ Create in `/work-in-progress/{PROGRAM}/06-review/`:
 1. `review-report.md` - Comprehensive review findings
 2. `refactoring-log.md` - Document all refactoring performed
 3. Refactored code (if improvements made)
-4. **Update project tracking**: Update `/documentation/progress-tracking/conversion-status.md` to mark program as complete
 
 ## Review Areas
 1. Code Quality
@@ -62,4 +61,3 @@ Create in `/work-in-progress/{PROGRAM}/06-review/`:
 - [ ] Test coverage adequate
 - [ ] Documentation complete
 - [ ] Ready for production
-- [ ] **Progress tracking updated** - Program marked complete in `/documentation/progress-tracking/conversion-status.md`
