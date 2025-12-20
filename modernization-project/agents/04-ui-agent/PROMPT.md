@@ -19,7 +19,7 @@ Create in `/work-in-progress/{PROGRAM}/04-ui/` by following `/common-patterns/re
 2. Type definitions (e.g., `types.ts`)
 3. CSS/styled components
 4. `ui-notes.md` - Document UI/UX decisions
-5. `README.md` - Overview, setup, usage instructions for integration agent
+5. `README.md` - Overview, setup, usage instructions for review and integration agent
 
 ## Process
 1. Review display file DDS

@@ -4,41 +4,21 @@
 Create comprehensive test suites to ensure Java code matches RPGLE behavior.
 
 ## Inputs Required
-1. Original RPGLE program from `/source-rpgle/programs/`
-2. Converted Java code from `/work-in-progress/{PROGRAM}/03-conversion/`
-3. Analysis document from `/work-in-progress/{PROGRAM}/01-analysis/`
-4. Test templates from this folder
+1. Project settings from `project-settings.md`
+2. Original RPGLE program from `/source-rpgle/programs/`
+3. Converted Java code from `/work-in-progress/{PROGRAM}/03-conversion/`
+4. Analysis document from `/work-in-progress/{PROGRAM}/01-analysis/`
+5. All common patterns from `/common-patterns/`
+6. Test templates from this folder
 
 ## Outputs to Produce
-Create in `/work-in-progress/{PROGRAM}/05-testing/`:
+Create in `/work-in-progress/{PROGRAM}/05-testing/` by following `/common-patterns/maven-project-structure.md`:
 1. Service unit tests (e.g., `CustomerInquiryServiceTest.java`)
 2. Controller integration tests (e.g., `CustomerInquiryControllerTest.java`)
-3. Repository tests if needed into `unit-tests`
-4. Test data setup scripts into `test-data`
+3. Repository tests if needed
+4. Test data setup scripts into test maven resource folder
 5. `test-results.md` - Document test coverage and results
-
-## IMPORTANT: Java Package Structure
-**Java packages MUST match the folder structure.**
-
-When you declare a package in Java:
-```java
-package com.example.myapp;
-```
-
-The file MUST be placed in the corresponding folder path:
-```
-unit-tests/com/example/myapp/YourTestClass.java
-```
-
-**Examples:**
-- Package: `com.smeup.erp.service` → File: `unit-tests/com/smeup/erp/service/CustomerServiceTest.java`
-- Package: `com.smeup.erp.controller` → File: `unit-tests/com/smeup/erp/controller/CustomerControllerTest.java`
-
-**Always:**
-1. Determine the full package name (e.g., `com.smeup.erp.service`)
-2. Create the corresponding folder structure under `unit-tests/` or `test-data/` or `integration-tests/`
-3. Place the `.java` file in the deepest package folder
-4. The folder path must exactly mirror the package declaration
+6. `README.md` - Overview, setup, usage instructions for review and integration agent
 
 ## Process
 1. Review analysis document for test scenarios

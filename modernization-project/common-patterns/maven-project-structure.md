@@ -37,10 +37,11 @@ project-root/
 │       │           └── erp/
 │       │               ├── controllers/
 │       │               ├── services/
-│       │               ├── repositories/
-│       │               └── testdata/
+│       │               └── repositories/
+│       │               
 │       └── resources/         # Test-specific resources
 │           └── application-test.yml
+|           └── test-data/
 └── pom.xml
 ```
 

@@ -45,9 +45,7 @@ if [ -d "$WORK_DIR" ]; then
     echo "✓ Cleaning existing workspace: $WORK_DIR"
     rm -rf "$WORK_DIR"
 fi
-mkdir -p "$WORK_DIR/unit-tests"
-mkdir -p "$WORK_DIR/integration-tests"
-mkdir -p "$WORK_DIR/test-data"
+mkdir -p "$WORK_DIR"
 
 # Copy templates
 echo "✓ Creating workspace: $WORK_DIR"
@@ -78,10 +76,4 @@ echo "2. Copy to clipboard (macOS):"
 echo "   cat \"$WORK_DIR/PROMPT.md\" | pbcopy"
 echo ""
 echo "3. Paste into your preferred LLM"
-echo ""
-echo "Expected Output:"
-echo "   $WORK_DIR/unit-tests/*.java"
-echo "   $WORK_DIR/integration-tests/*.java"
-echo "   $WORK_DIR/test-data/*"
-echo "   $WORK_DIR/testing-notes.md"
 echo ""
