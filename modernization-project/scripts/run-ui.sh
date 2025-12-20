@@ -45,9 +45,7 @@ if [ -d "$WORK_DIR" ]; then
     echo "✓ Cleaning existing workspace: $WORK_DIR"
     rm -rf "$WORK_DIR"
 fi
-mkdir -p "$WORK_DIR/components"
-mkdir -p "$WORK_DIR/types"
-mkdir -p "$WORK_DIR/styles"
+mkdir -p "$WORK_DIR"
 
 # Copy templates and guides
 echo "✓ Creating workspace: $WORK_DIR"
@@ -75,10 +73,4 @@ echo "1. Copy prompt to clipboard:"
 echo "   cat \"$WORK_DIR/PROMPT.md\" | pbcopy"
 echo ""
 echo "2. Paste into your preferred LLM"
-echo ""
-echo "Expected Outputs:"
-echo "   - $WORK_DIR/components/*.tsx"
-echo "   - $WORK_DIR/types/*.ts"
-echo "   - $WORK_DIR/styles/*"
-echo "   - $WORK_DIR/ui-notes.md"
 echo ""
