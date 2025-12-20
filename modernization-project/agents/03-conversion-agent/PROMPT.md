@@ -19,6 +19,7 @@ Create in `/work-in-progress/{PROGRAM}/03-conversion/` by following `/common-pat
 3. DTO classes (e.g., `CustomerInquiryDTO.java`)
 4. Exception classes if needed
 5. `conversion-notes.md` - Explain all decisions
+6. `README.md` - Overview, setup, usage instructions for integration agent
 
 
 
