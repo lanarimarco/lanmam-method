@@ -4,23 +4,16 @@
 Review and refactor converted code to ensure quality, best practices, and maintainability.
 
 ## Inputs Required
-1. Project settings from `project-settings.md`
-2. All converted code from `/work-in-progress/{PROGRAM}/03-conversion/`
-3. Test results from `/work-in-progress/{PROGRAM}/05-tests/`
-4. All common patterns from `/common-patterns/`
-5. Templates from conversion agent
-6. Quality standards: `quality-standards.md` (if exists)
-7. Refactoring patterns: `refactoring-patterns.md` (if exists)
+1. All converted code from `/work-in-progress/{PROGRAM}/03-conversion/`
+2. Test results from `/work-in-progress/{PROGRAM}/05-tests/`
+3. Quality standards: `quality-standards.md`
+4. Refactoring patterns: `refactoring-patterns.md`
 
 ## Outputs to Produce
 Create in `/work-in-progress/{PROGRAM}/06-review/`:
 1. `review-report.md` - Comprehensive review findings
 2. `refactoring-log.md` - Document all refactoring performed
-3. `refactored-code/` - Contains ONLY the artifacts that were modified during review:
-   - Refactored source code (only changed files, follow `/common-patterns/maven-project-structure.md`)
-   - Refactored tests that depend on changed code (update tests to match refactored code, follow `/common-patterns/maven-project-structure.md`)
-   - `README.md` - Updated README if changes affect documentation
-   - Include only files that were actually changed, not the entire codebase
+3. Refactored code (if improvements made) by following `/common-patterns/maven-project-structure.md`
 
 ## Review Areas
 1. Code Quality
@@ -57,9 +50,8 @@ Create in `/work-in-progress/{PROGRAM}/06-review/`:
 2. Run static analysis tools (if available)
 3. Identify code smells
 4. Suggest or implement improvements
-5. **Update dependent tests** - When refactoring code, update all tests that depend on the refactored code to match the new implementation
-6. Verify tests still pass after refactoring
-7. Document all changes and rationale
+5. Verify tests still pass after refactoring
+6. Document all changes and rationale
 
 ## Quality Checklist
 - [ ] Code follows Java/Spring conventions

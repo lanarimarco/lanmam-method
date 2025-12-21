@@ -59,8 +59,7 @@ if [ -d "$WORK_DIR" ]; then
     echo "✓ Cleaning existing workspace: $WORK_DIR"
     rm -rf "$WORK_DIR"
 fi
-mkdir -p "$WORK_DIR/refactored-code/src/main"
-mkdir -p "$WORK_DIR/refactored-code/src/test"
+mkdir -p "$WORK_DIR"
 
 # Copy templates
 echo "✓ Creating workspace: $WORK_DIR"
