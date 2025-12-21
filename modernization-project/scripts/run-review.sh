@@ -59,7 +59,8 @@ if [ -d "$WORK_DIR" ]; then
     echo "✓ Cleaning existing workspace: $WORK_DIR"
     rm -rf "$WORK_DIR"
 fi
-mkdir -p "$WORK_DIR"
+mkdir -p "$WORK_DIR/refactored-code/src/main"
+mkdir -p "$WORK_DIR/refactored-code/src/test"
 
 # Copy templates
 echo "✓ Creating workspace: $WORK_DIR"
@@ -89,9 +90,4 @@ echo "2. Copy to clipboard (macOS):"
 echo "   cat \"$WORK_DIR/PROMPT.md\" | pbcopy"
 echo ""
 echo "3. Paste into your preferred LLM"
-echo ""
-echo "Expected Output:"
-echo "   $WORK_DIR/review-report.md"
-echo "   $WORK_DIR/final-checklist.md"
-echo "   $WORK_DIR/refactored-code/ (if needed)"
 echo ""
