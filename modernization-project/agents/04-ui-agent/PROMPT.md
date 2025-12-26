@@ -14,30 +14,145 @@ Convert RPGLE 5250 display files to modern React web interfaces while preserving
 8. Templates from this agent folder
 
 ## Outputs to Produce
-Create in `/work-in-progress/{PROGRAM}/04-ui/` by following `/common-patterns/react-project-structure.md`:
-1. React component (e.g., `CustomerInquiryScreen.tsx`)
-2. Type definitions (e.g., `types.ts`)
-3. CSS/styled components
-4. `ui-notes.md` - Document UI/UX decisions
-5. `README.md` - Overview, setup, usage instructions for review and integration agent
+
+**IMPORTANT**: You are creating **program-specific components only**, NOT a full React application. The Integration Agent (Phase 7) will create the React application shell (App.tsx, index.tsx, index.html) and integrate your components into it.
+
+Create in `/work-in-progress/{PROGRAM}/04-ui/src/` following the structure conventions from `/common-patterns/react-project-structure.md`:
+
+### Required Outputs:
+
+1. **Page Component** (`pages/{ProgramName}/`):
+   - Main component file (e.g., `CustomerInquiry.tsx`)
+   - Component styles (e.g., `CustomerInquiry.css` or `.module.css`)
+   - Index file for clean exports (`index.ts`)
+
+2. **API Service** (`services/api/`):
+   - Service file (e.g., `customer.service.ts`)
+   - Index file (`index.ts`)
+
+3. **Type Definitions** (`types/`):
+   - Type/interface definitions (e.g., `customer.types.ts`)
+   - Index file (`index.ts`)
+
+4. **Documentation**:
+   - `ui-notes.md` - Document UI/UX decisions, component structure, and integration notes
+   - `README.md` - Component overview, props documentation, usage instructions
+
+### Optional Outputs (if needed):
+
+5. **Custom Hooks** (`hooks/`):
+   - Program-specific hooks (e.g., `useCustomerData.ts`)
+
+6. **Utility Functions** (`utils/`):
+   - Program-specific utilities (e.g., `customerValidation.ts`)
+
+7. **Shared Components** (`components/common/`):
+   - Only if creating reusable components for this program
+
+### Configuration Files (Reference Only):
+
+Create these files in `/work-in-progress/{PROGRAM}/04-ui/` (NOT in src/):
+- `dependencies-to-add.txt` - List any additional npm packages needed beyond base React
+- `integration-notes.md` - Notes for Integration Agent about routing, navigation, etc.
+
+**Example Structure**:
+```
+/work-in-progress/{PROGRAM}/04-ui/
+├── src/
+│   ├── pages/
+│   │   └── CustomerInquiry/
+│   │       ├── CustomerInquiry.tsx
+│   │       ├── CustomerInquiry.css
+│   │       └── index.ts
+│   ├── services/
+│   │   └── api/
+│   │       ├── customer.service.ts
+│   │       └── index.ts
+│   └── types/
+│       ├── customer.types.ts
+│       └── index.ts
+├── ui-notes.md
+├── README.md
+├── dependencies-to-add.txt (optional)
+└── integration-notes.md (optional)
+```
 
 ## Process
-1. Review display file DDS
-2. Map fields to React components
-3. Preserve business workflow (screen flow)
-4. Enhance UX while maintaining functionality
-5. Add responsive design
-6. Implement accessibility features
-7. Document any UX improvements
+
+1. **Analyze Display File**:
+   - Review display file DDS from `/source-rpgle/dds/display-files/`
+   - Identify all fields, indicators, function keys
+   - Understand screen flow and business logic
+
+2. **Design Component Structure**:
+   - Map DDS fields to React form inputs
+   - Identify reusable sub-components (if needed)
+   - Plan state management approach
+   - Design API integration points
+
+3. **Create Page Component**:
+   - Build main page component in `src/pages/{ProgramName}/`
+   - Implement form fields, buttons, displays
+   - Add client-side validation
+   - Preserve business workflow (screen flow)
+   - Enhance UX while maintaining functionality
+
+4. **Create API Service**:
+   - Build service layer in `src/services/api/`
+   - Map RPGLE operations to REST endpoints
+   - Handle request/response transformation
+   - Implement error handling
+
+5. **Define TypeScript Types**:
+   - Create interfaces matching DTOs from Phase 3
+   - Add form state types
+   - Define API response types
+
+6. **Add Styling**:
+   - Create component-specific CSS
+   - Implement responsive design
+   - Follow style guide conventions
+   - Ensure accessibility (WCAG compliant)
+
+7. **Document**:
+   - Write ui-notes.md with UI/UX decisions
+   - Create README.md with component usage
+   - Add integration-notes.md with routing suggestions
+   - List any additional dependencies needed
 
 ## Output Format
 Use TypeScript with React functional components and hooks
 
 ## Quality Checklist
-- [ ] All display file fields represented
-- [ ] Function keys mapped appropriately
-- [ ] Field validations implemented
+
+### Component Quality
+- [ ] All display file fields represented in React component
+- [ ] Function keys mapped to buttons/actions appropriately
+- [ ] Field validations implemented (client-side)
 - [ ] Error messages displayed properly
-- [ ] Responsive design implemented
-- [ ] Accessible (WCAG compliant)
-- [ ] Follows style guide
+- [ ] Loading states handled (spinners, disabled states)
+- [ ] Responsive design implemented (mobile, tablet, desktop)
+- [ ] Accessible (WCAG compliant - labels, ARIA, keyboard navigation)
+- [ ] Follows style guide and naming conventions
+
+### Code Quality
+- [ ] TypeScript types properly defined and exported
+- [ ] API service properly structured with error handling
+- [ ] No hardcoded values (use constants or env variables)
+- [ ] Clean exports using index.ts files
+- [ ] Props properly typed for components
+- [ ] State management is clear and minimal
+
+### Integration Readiness
+- [ ] Component is standalone and can be imported
+- [ ] No assumptions about App.tsx or routing structure
+- [ ] API service uses environment variable for base URL (REACT_APP_API_URL)
+- [ ] All dependencies documented in dependencies-to-add.txt
+- [ ] Integration notes provided for routing (suggested route path)
+- [ ] README.md explains how to integrate component
+
+### Documentation
+- [ ] ui-notes.md explains UI/UX decisions and DDS mappings
+- [ ] README.md provides component overview and usage
+- [ ] integration-notes.md suggests route path and navigation label
+- [ ] Any special setup or configuration documented

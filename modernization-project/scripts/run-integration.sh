@@ -111,36 +111,6 @@ EOF
 echo "✓ Prompt generated: $WORK_DIR/PROMPT.md"
 echo ""
 
-# Count artifacts to be integrated (informational)
-echo "========================================="
-echo "Artifacts Summary"
-echo "========================================="
-
-# Count entities
-ENTITY_COUNT=$(find "$DATABASE_DIR/entities" -name "*.java" 2>/dev/null | wc -l | tr -d ' ')
-echo "  Entities: $ENTITY_COUNT files"
-
-# Count repositories
-REPO_COUNT=$(find "$DATABASE_DIR/repositories" -name "*.java" 2>/dev/null | wc -l | tr -d ' ')
-echo "  Repositories: $REPO_COUNT files"
-
-# Count services
-SERVICE_COUNT=$(find "$CONVERSION_DIR/services" -name "*.java" 2>/dev/null | wc -l | tr -d ' ')
-echo "  Services: $SERVICE_COUNT files"
-
-# Count controllers
-CONTROLLER_COUNT=$(find "$CONVERSION_DIR/controllers" -name "*.java" 2>/dev/null | wc -l | tr -d ' ')
-echo "  Controllers: $CONTROLLER_COUNT files"
-
-# Count DTOs
-DTO_COUNT=$(find "$CONVERSION_DIR/dtos" -name "*.java" 2>/dev/null | wc -l | tr -d ' ')
-echo "  DTOs: $DTO_COUNT files"
-
-# Count tests
-TEST_COUNT=$(find "$TESTING_DIR" -name "*Test.java" 2>/dev/null | wc -l | tr -d ' ')
-echo "  Tests: $TEST_COUNT files"
-
-echo ""
 echo "========================================="
 echo "Setup Complete!"
 echo "========================================="
@@ -159,15 +129,3 @@ echo "   claude"
 echo "   # Then paste the prompt"
 echo ""
 echo "4. Paste into your preferred LLM and let it integrate"
-echo ""
-echo "Expected Outputs:"
-echo "  Code: $FINAL_OUTPUT_DIR/src/main/java/"
-echo "  Tests: $FINAL_OUTPUT_DIR/src/test/java/"
-echo "  Docs: $FINAL_OUTPUT_DIR/docs/$PROGRAM/"
-echo "  Report: $FINAL_OUTPUT_DIR/docs/$PROGRAM/integration-report.md"
-echo ""
-echo "After integration, verify with:"
-echo "  cd \"$FINAL_OUTPUT_DIR\""
-echo "  mvn clean compile"
-echo "  mvn test"
-echo ""

@@ -43,11 +43,56 @@
 - [ ] Environment-specific settings externalized
 - [ ] Logging configuration appropriate
 
-## UI Integration
-- [ ] UI deployment strategy chosen and documented
-- [ ] Static resources copied (if embedded)
-- [ ] UI deployment guide created (if separate)
-- [ ] API endpoint documentation complete
+## Frontend Integration
+
+### React Application Shell (First Program Only)
+- [ ] Check if /final-output/frontend/src/App.tsx exists
+- [ ] If first program: React shell created from templates
+- [ ] If first program: Directory structure created (components, pages, services, types, hooks, utils, styles)
+- [ ] If first program: package.json created with base dependencies
+- [ ] If first program: tsconfig.json configured with path aliases
+- [ ] If first program: .env.development and .env.production created
+- [ ] Shell creation documented in integration report
+
+### Program Component Integration (All Programs)
+- [ ] Program page components copied to /final-output/frontend/src/pages/
+- [ ] Program API services copied to /final-output/frontend/src/services/api/
+- [ ] Program type definitions copied to /final-output/frontend/src/types/
+- [ ] Custom hooks copied (if any)
+- [ ] Utility functions copied (if any)
+- [ ] No file conflicts or overwrites
+
+### App.tsx Updates
+- [ ] Import statement added for program page component
+- [ ] Route added in <Routes> with appropriate path
+- [ ] Navigation link added to header (if applicable)
+- [ ] Route path follows convention (e.g., /customer-inquiry)
+
+### Dependency Management
+- [ ] Checked dependencies-to-add.txt from UI phase
+- [ ] New dependencies added to package.json (if needed)
+- [ ] No version conflicts with existing dependencies
+- [ ] Dependencies documented in integration report
+
+### Build Verification
+- [ ] npm install executes successfully
+- [ ] No dependency resolution errors
+- [ ] npm run build completes without errors
+- [ ] Build artifacts generated in /build/
+- [ ] No TypeScript errors
+- [ ] No ESLint errors (warnings acceptable)
+
+### Configuration
+- [ ] REACT_APP_API_URL set in .env.development
+- [ ] REACT_APP_API_URL set in .env.production
+- [ ] Program-specific env variables added (if any)
+- [ ] No hardcoded API URLs in component code
+
+### Integration Notes
+- [ ] Reviewed integration-notes.md from UI phase
+- [ ] Route path follows suggested naming
+- [ ] Navigation placement appropriate
+- [ ] Any special integration requirements handled
 
 ## Documentation
 - [ ] integration-report.md created

@@ -1,3 +1,16 @@
-final-output/target/
+final-output/backend/target/
+final-output/frontend/node_modules/
+final-output/frontend/build/
+final-output/frontend/dist/
+final-output/frontend/.env
+final-output/frontend/.env.local
+final-output/frontend/.env.development
+final-output/frontend/.env.production
+final-output/frontend/.env.*.local
+final-output/frontend/coverage/
+final-output/frontend/npm-debug.log*
+final-output/frontend/yarn-debug.log*
+final-output/frontend/yarn-error.log*
+final-output/frontend/build/**/*.map
 work-in-progress/
 
