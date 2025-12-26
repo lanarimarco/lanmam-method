@@ -4,9 +4,10 @@
 Consolidate all reviewed artifacts from the conversion pipeline into the final production-ready application structure with Spring Boot backend and React frontend, and prepare for deployment.
 
 ## Inputs Required
-1. All outputs from phases 01-06 in `/work-in-progress/{PROGRAM}/`
-2. Review confirmation from `/work-in-progress/{PROGRAM}/06-review/review-report.md`
-3. Final output structure: `/final-output/backend/` and `/final-output/frontend/`
+1. Project settings from `project-settings.md`
+2. All outputs from phases 01-06 in `/work-in-progress/{PROGRAM}/`
+3. Review confirmation from `/work-in-progress/{PROGRAM}/06-review/review-report.md`
+4. Final output structure: `/final-output/backend/` and `/final-output/frontend/`
 
 ## Outputs to Produce
 1. **Consolidated Java codebase** in `/final-output/backend/src/`
@@ -99,23 +100,108 @@ Copy from `/work-in-progress/{PROGRAM}/05-testing/src/` to `/final-output/backen
    - Document any new dependencies added
 
 4. **Update Environment Files**:
-   - Verify `/final-output/frontend/.env.development` has: `REACT_APP_API_URL=http://localhost:8080/api`
-   - Verify `/final-output/frontend/.env.production` has correct production API URL
+   - Verify `/final-output/frontend/.env.development` has: `REACT_APP_API_URL=http://localhost:8080`
+   - Verify `/final-output/frontend/.env.production` has correct production API URL (without /api suffix)
+   - **CRITICAL**: Do NOT include `/api` in the URL - the service code adds it in API calls
    - Add any program-specific environment variables if needed
 
 ### Step 5: Backend Configuration Integration
+
+#### 5.1: Initial Backend Setup (First Program Only)
+
+**Check if backend structure exists**: Look for `/final-output/backend/pom.xml`
+
+**If NOT exists** (first program):
+
+1. **Create Spring Boot Main Application Class**:
+   - Create `/final-output/backend/src/main/java/{PACKAGE_PATH}/ModernizationApplication.java`
+   - Example package: `com.company.modernization` or `com.lanarimarco.modernization`
+   ```java
+   package {PACKAGE_NAME};
+
+   import org.springframework.boot.SpringApplication;
+   import org.springframework.boot.autoconfigure.SpringBootApplication;
+
+   @SpringBootApplication
+   public class ModernizationApplication {
+       public static void main(String[] args) {
+           SpringApplication.run(ModernizationApplication.class, args);
+       }
+   }
+   ```
+
+2. **Create WebConfig for CORS**:
+   - Create `/final-output/backend/src/main/java/{PACKAGE_PATH}/config/WebConfig.java`
+   ```java
+   package {PACKAGE_NAME}.config;
+
+   import org.springframework.beans.factory.annotation.Value;
+   import org.springframework.context.annotation.Configuration;
+   import org.springframework.web.servlet.config.annotation.CorsRegistry;
+   import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
+
+   @Configuration
+   public class WebConfig implements WebMvcConfigurer {
+
+       @Value("${cors.allowed-origins:http://localhost:3000}")
+       private String allowedOrigins;
+
+       @Override
+       public void addCorsMappings(CorsRegistry registry) {
+           registry.addMapping("/api/**")
+                   .allowedOrigins(allowedOrigins.split(","))
+                   .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS")
+                   .allowedHeaders("*")
+                   .allowCredentials(true)
+                   .maxAge(3600);
+       }
+   }
+   ```
+
+3. **Create pom.xml**:
+   - Create `/final-output/backend/pom.xml` with Spring Boot parent, dependencies (Web, Data JPA, Validation, DB2, H2, Test, Lombok)
+   - Group ID: `{COMPANY_GROUP}` (e.g., `com.lanarimarco`)
+   - Artifact ID: `modernization-backend`
+   - Version: `1.0.0`
+   - Java version: `17`
+
+4. **Create application.yml** configuration files (see step 5.2)
+
+**If EXISTS** (subsequent programs):
+- Skip initial setup, proceed to step 5.2
+
+#### 5.2: Application Configuration (All Programs)
+
 1. Review program-specific configurations from conversion notes
+
 2. Update `/final-output/backend/src/main/resources/application.yml` if needed:
    - Database connection properties
    - Program-specific settings
-   - REST endpoint configurations
    - Server port (default: 8080)
-   - Context path (default: /api)
-3. Create environment-specific configs:
-   - `application-dev.yml`
-   - `application-uat.yml`
-   - `application-prod.yml`
+   - **IMPORTANT**: Do NOT set `server.servlet.context-path` - controllers use `/api` prefix in `@RequestMapping`
+   - Logging configuration
+
+3. Create/update environment-specific configs:
+   - `application-dev.yml`:
+     - H2 in-memory database for development
+     - CORS allowed origins: `http://localhost:3000,http://localhost:5173`
+     - Debug logging enabled
+   - `application-uat.yml`:
+     - UAT database connection
+     - Passwords from environment variables
+   - `application-prod.yml`:
+     - Production database connection
+     - Connection pooling
+     - Reduced logging
+
 4. Document all configuration changes in integration report
+
+**CRITICAL API Architecture Notes**:
+- Controllers MUST use `@RequestMapping("/api/...")` prefix
+- Do NOT set `server.servlet.context-path=/api` in application.yml
+- Frontend .env files should have `REACT_APP_API_URL=http://localhost:8080` (NO /api)
+- Frontend service code concatenates `/api` in API calls: `${API_BASE_URL}/api/endpoint`
+- Example full URL: `http://localhost:8080` + `/api/customers/123` = `http://localhost:8080/api/customers/123`
 
 ### Step 6: Documentation Consolidation
 Create `/final-output/docs/{PROGRAM}/` with:
@@ -218,8 +304,16 @@ Create `/final-output/docs/{PROGRAM}/integration-report.md`:
 - [ ] Services (count: X files)
 - [ ] Controllers (count: X files)
 - [ ] DTOs (count: X files)
+- [ ] Exceptions (count: X files)
 - [ ] Tests (count: X files)
 - [ ] Configuration files
+  - [ ] ModernizationApplication.java (main class) - Created/Existing
+  - [ ] WebConfig.java (CORS configuration) - Created/Existing
+  - [ ] pom.xml - Created/Updated
+  - [ ] application.yml - Created/Updated
+  - [ ] application-dev.yml - Created/Updated
+  - [ ] application-uat.yml - Created/Updated
+  - [ ] application-prod.yml - Created/Updated
 
 ### Frontend
 - [ ] React Application Shell (App.tsx, index.tsx, public/index.html) - Created/Reused
@@ -253,7 +347,23 @@ Document where each frontend artifact was copied from → to
 List any naming conflicts, package conflicts, or merge issues
 
 ## Backend Configuration Changes
-List any changes made to application.yml or other config files
+
+### Initial Backend Setup (if first program)
+- [ ] ModernizationApplication.java created with package: {PACKAGE_NAME}
+- [ ] WebConfig.java created for CORS configuration
+- [ ] pom.xml created with:
+  - Spring Boot version: {VERSION}
+  - Java version: {VERSION}
+  - Dependencies: Web, Data JPA, Validation, DB2, H2, Test, Lombok
+- [ ] application.yml created with default configuration
+- [ ] Environment-specific YML files created (dev, uat, prod)
+
+### Configuration Updates
+List any changes made to application.yml or other config files:
+- Database connection settings
+- CORS allowed origins (in application-dev.yml)
+- Logging levels
+- **Note**: Context path NOT set - controllers use `/api` prefix in @RequestMapping
 
 ## Frontend Configuration Changes
 
@@ -266,7 +376,9 @@ List any changes made to application.yml or other config files
 - [ ] Program components copied to correct locations
 - [ ] Route added to App.tsx
 - [ ] Navigation link added (if applicable)
-- [ ] REACT_APP_API_URL configured in .env files
+- [ ] REACT_APP_API_URL configured in .env files:
+  - `.env.development`: `http://localhost:8080` (NO /api suffix)
+  - `.env.production`: Production URL (NO /api suffix)
 - [ ] Program-specific dependencies added to package.json
 - [ ] Environment variables configured
 
@@ -326,6 +438,11 @@ Use `integration-checklist.md` in this folder to verify:
 - [ ] Review report shows green status
 
 ### Backend Integration
+- [ ] Initial backend setup complete (first program):
+  - [ ] ModernizationApplication.java created
+  - [ ] WebConfig.java created for CORS
+  - [ ] pom.xml created with all dependencies
+  - [ ] application.yml files created (default, dev, uat, prod)
 - [ ] All backend source files copied to correct packages
 - [ ] No duplicate classes between programs
 - [ ] Package names match file locations
@@ -333,8 +450,8 @@ Use `integration-checklist.md` in this folder to verify:
 - [ ] All backend tests passing (or failures documented)
 - [ ] Configuration properly externalized
 - [ ] No hardcoded values in Java code
-- [ ] pom.xml properly configured with dependencies
-- [ ] Spring Boot application properties configured
+- [ ] Controllers use `/api` prefix in @RequestMapping (NOT context-path)
+- [ ] CORS configuration in WebConfig.java and application-dev.yml
 
 ### Frontend Integration
 - [ ] React application shell created (first program) or verified (subsequent programs)
@@ -343,10 +460,13 @@ Use `integration-checklist.md` in this folder to verify:
 - [ ] Route added to App.tsx for the program
 - [ ] Navigation link added to App.tsx header (if applicable)
 - [ ] package.json properly configured with base + program-specific dependencies
-- [ ] API endpoint environment variables configured (.env.development, .env.production)
+- [ ] API endpoint environment variables configured:
+  - [ ] .env.development: `REACT_APP_API_URL=http://localhost:8080` (NO /api suffix)
+  - [ ] .env.production: Production URL (NO /api suffix)
 - [ ] Frontend builds successfully without errors (`npm install && npm run build`)
 - [ ] TypeScript types properly configured
-- [ ] No hardcoded API URLs in code
+- [ ] No hardcoded API URLs in code (uses process.env.REACT_APP_API_URL)
+- [ ] Service code concatenates `/api` in API calls, NOT in .env
 - [ ] Build assets generated successfully
 
 ### Documentation
@@ -370,24 +490,26 @@ The final output follows this structure:
 /final-output/
 ├── backend/                              # Java Spring Boot Application
 │   ├── src/
-│   │   ├── main/java/com/company/modernization/
-│   │   │   ├── entity/                  # JPA Entities
-│   │   │   ├── repository/              # Spring Data Repositories
-│   │   │   ├── service/                 # Business Logic
-│   │   │   ├── controller/              # REST Controllers
-│   │   │   ├── dto/                     # Data Transfer Objects
-│   │   │   └── config/                  # Configuration
+│   │   ├── main/java/{PACKAGE_PATH}/   # e.g., com/company/modernization
+│   │   │   ├── ModernizationApplication.java  # Main Spring Boot class
+│   │   │   ├── entities/                # JPA Entities
+│   │   │   ├── repositories/            # Spring Data Repositories
+│   │   │   ├── services/                # Business Logic
+│   │   │   ├── controllers/             # REST Controllers
+│   │   │   ├── dtos/                    # Data Transfer Objects
+│   │   │   ├── exceptions/              # Custom Exceptions
+│   │   │   └── config/                  # Configuration (WebConfig, etc.)
 │   │   ├── resources/
 │   │   │   ├── application.yml          # Default configuration
 │   │   │   ├── application-dev.yml      # Development profile
 │   │   │   ├── application-uat.yml      # UAT profile
 │   │   │   ├── application-prod.yml     # Production profile
 │   │   │   └── static/                  # Static assets (optional)
-│   │   └── test/java/com/company/modernization/
+│   │   └── test/java/{PACKAGE_PATH}/   # Test classes
 │   ├── pom.xml                          # Maven configuration
-│   ├── Dockerfile                       # Docker image for backend
+│   ├── Dockerfile                       # Docker image for backend (optional)
 │   └── target/                          # Build output
-│       └── modernization-app-1.0.0.jar
+│       └── modernization-backend.jar
 │
 ├── frontend/                            # React Application
 │   ├── src/
@@ -428,18 +550,27 @@ The final output follows this structure:
 **Java packages MUST match folder structure.**
 
 When copying files, preserve the full package path:
-- If source file has: `package com.smeup.erp.services;`
-- Target must be: `backend/src/main/java/com/smeup/erp/services/FileName.java`
+- If source file has: `package com.company.modernization.services;`
+- Target must be: `backend/src/main/java/com/company/modernization/services/FileName.java`
+
+**Package Naming**:
+- Use consistent base package across all programs (e.g., `com.company.modernization`)
+- Subpackages: `entities`, `repositories`, `services`, `controllers`, `dtos`, `exceptions`, `config`
 
 ### Frontend Configuration
 **React environment variables** must be set for API communication:
 
-In `frontend/.env.production`:
+In `frontend/.env.development`:
 ```bash
-REACT_APP_API_URL=http://localhost:8080/api
+REACT_APP_API_URL=http://localhost:8080
 ```
 
-This URL will be used by frontend services to call the backend.
+In `frontend/.env.production`:
+```bash
+REACT_APP_API_URL=https://api.production.company.com
+```
+
+**CRITICAL**: Do NOT include `/api` suffix in these URLs. The frontend service code concatenates `/api` in API calls (e.g., `${API_BASE_URL}/api/customers/${id}`).
 
 ### Handling Refactored Code
 - If Phase 6 created refactored versions, use those instead of Phase 3 originals
@@ -452,24 +583,63 @@ This URL will be used by frontend services to call the backend.
 - Consider shared DTOs vs program-specific DTOs
 - Document any cross-program dependencies
 
+### Common Integration Pitfalls
+
+**1. API URL Configuration Error**:
+- ❌ WRONG: `REACT_APP_API_URL=http://localhost:8080/api`
+- ✅ CORRECT: `REACT_APP_API_URL=http://localhost:8080`
+- **Reason**: Service code adds `/api`, so .env should NOT include it
+
+**2. Context Path Misconfiguration**:
+- ❌ WRONG: Setting `server.servlet.context-path=/api` in application.yml
+- ✅ CORRECT: Controllers use `@RequestMapping("/api/...")`, NO context-path
+- **Reason**: Context-path would create double `/api/api/...` paths
+
+**3. Missing CORS Configuration**:
+- ❌ WRONG: No WebConfig.java, frontend can't connect to backend
+- ✅ CORRECT: WebConfig.java with CORS mappings for `/api/**`
+- **Reason**: Browser blocks cross-origin requests without CORS headers
+
+**4. Missing Main Application Class**:
+- ❌ WRONG: No ModernizationApplication.java, Spring Boot won't start
+- ✅ CORRECT: Create ModernizationApplication.java with @SpringBootApplication
+- **Reason**: Spring Boot needs an entry point
+
+**5. Package Name Inconsistencies**:
+- ❌ WRONG: Different packages per program (com.app1, com.app2)
+- ✅ CORRECT: Consistent base package (com.company.modernization) across all programs
+- **Reason**: Enables component scanning and reduces configuration
+
 ### Error Handling
 If integration fails:
 1. Document the failure in integration report
 2. Do NOT copy partial/broken code
 3. Create issue in `/documentation/progress-tracking/issues-log.md`
 4. Recommend remediation steps
+5. Check the "Common Integration Pitfalls" section above for known issues
 
 ## Success Criteria
 Integration is successful when:
-1. All backend files copied without conflicts
-2. React application shell created (first program) or verified (subsequent programs)
-3. All frontend program components copied and integrated without conflicts
-4. Route for program added to App.tsx successfully
-5. Maven build (backend) completes successfully
-6. npm install (frontend) completes successfully
-7. npm build (frontend) completes successfully without errors
-8. All backend tests pass (or failures are acceptable and documented)
-9. Documentation package is complete
-10. Deployment guide is clear and actionable
-11. Integration report shows green checklist
-12. Both frontend and backend are ready for human review and UAT deployment
+1. **Backend initial setup** (first program only):
+   - ModernizationApplication.java created
+   - WebConfig.java created with CORS configuration
+   - pom.xml created with all dependencies
+   - application.yml files created (default, dev, uat, prod)
+2. All backend files copied without conflicts
+3. React application shell created (first program) or verified (subsequent programs)
+4. All frontend program components copied and integrated without conflicts
+5. Route for program added to App.tsx successfully
+6. **API configuration correct**:
+   - Controllers use `/api` prefix in @RequestMapping
+   - NO context-path set in application.yml
+   - .env files have base URL WITHOUT /api suffix
+   - Service code concatenates /api in API calls
+7. Maven build (backend) compiles successfully
+8. Maven test (backend) passes (or failures documented)
+9. npm install (frontend) completes successfully
+10. npm build (frontend) completes successfully without errors
+11. All tests pass (or failures are acceptable and documented)
+12. Documentation package is complete
+13. Deployment guide is clear and actionable
+14. Integration report shows green checklist
+15. Both frontend and backend are ready for human review and UAT deployment
