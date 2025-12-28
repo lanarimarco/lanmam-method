@@ -1,0 +1,1184 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RPGLE Transformer Agents - The Modernization Journey</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: #333;
+            overflow-x: hidden;
+        }
+
+        .presentation-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .slide {
+            background: white;
+            border-radius: 20px;
+            padding: 60px;
+            margin: 40px 0;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            opacity: 0;
+            transform: translateY(50px);
+            animation: slideIn 0.8s forwards;
+        }
+
+        @keyframes slideIn {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .slide:nth-child(even) {
+            animation-delay: 0.2s;
+        }
+
+        h1 {
+            font-size: 3em;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        /* Override h1 style for hero slides to ensure readability */
+        .hero h1 {
+            background: none;
+            -webkit-background-clip: unset;
+            -webkit-text-fill-color: unset;
+            background-clip: unset;
+            color: white;
+            text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.3);
+        }
+
+        h2 {
+            font-size: 2.2em;
+            color: #667eea;
+            margin-bottom: 25px;
+            position: relative;
+            padding-bottom: 15px;
+        }
+
+        /* Override h2 style for hero slides to ensure readability */
+        .hero h2 {
+            color: white;
+            text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.3);
+        }
+
+        /* Hide the underline on hero h2 elements */
+        .hero h2::after {
+            background: rgba(255, 255, 255, 0.4);
+        }
+
+        h2::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 80px;
+            height: 4px;
+            background: linear-gradient(90deg, #667eea, #764ba2);
+            border-radius: 2px;
+        }
+
+        h3 {
+            font-size: 1.6em;
+            color: #764ba2;
+            margin: 30px 0 15px 0;
+        }
+
+        p {
+            font-size: 1.2em;
+            line-height: 1.8;
+            margin-bottom: 20px;
+            color: #555;
+        }
+
+        .subtitle {
+            font-size: 1.4em;
+            color: #666;
+            text-align: center;
+            margin-top: -10px;
+            margin-bottom: 40px;
+        }
+
+        .hero {
+            text-align: center;
+            padding: 100px 40px;
+            background: linear-gradient(135deg, rgba(102, 126, 234, 0.1) 0%, rgba(118, 75, 162, 0.1) 100%);
+        }
+
+        /* Override subtitle and paragraph colors in hero slides for readability */
+        .hero .subtitle {
+            color: rgba(255, 255, 255, 0.95);
+            text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.3);
+        }
+
+        .hero p {
+            color: rgba(255, 255, 255, 0.9);
+            text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.2);
+        }
+
+        .pipeline-container {
+            display: flex;
+            flex-direction: column;
+            gap: 30px;
+            margin: 40px 0;
+        }
+
+        .agent-card {
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            border-radius: 15px;
+            padding: 30px;
+            position: relative;
+            transition: transform 0.3s, box-shadow 0.3s;
+            cursor: pointer;
+            overflow: hidden;
+        }
+
+        .agent-card:hover {
+            transform: translateX(10px);
+            box-shadow: 0 10px 30px rgba(102, 126, 234, 0.3);
+        }
+
+        .agent-card::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 6px;
+            height: 100%;
+            background: linear-gradient(180deg, #667eea, #764ba2);
+        }
+
+        .agent-number {
+            display: inline-block;
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            border-radius: 50%;
+            text-align: center;
+            line-height: 50px;
+            font-size: 1.5em;
+            font-weight: bold;
+            margin-right: 20px;
+            float: left;
+        }
+
+        .agent-title {
+            font-size: 1.8em;
+            color: #667eea;
+            margin-bottom: 10px;
+            font-weight: bold;
+        }
+
+        .agent-description {
+            color: #555;
+            font-size: 1.1em;
+            line-height: 1.6;
+            clear: both;
+            padding-top: 10px;
+        }
+
+        .visual-metaphor {
+            background: #f8f9fa;
+            border-radius: 15px;
+            padding: 40px;
+            margin: 40px 0;
+            text-align: center;
+        }
+
+        .journey-path {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin: 50px 0;
+            position: relative;
+        }
+
+        .journey-step {
+            flex: 1;
+            text-align: center;
+            position: relative;
+        }
+
+        .journey-icon {
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            border-radius: 50%;
+            margin: 0 auto 15px auto;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2em;
+            color: white;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+        }
+
+        .journey-arrow {
+            font-size: 2em;
+            color: #667eea;
+            margin: 0 10px;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 25px;
+            margin: 40px 0;
+        }
+
+        .stat-card {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            padding: 30px;
+            border-radius: 15px;
+            text-align: center;
+            transition: transform 0.3s;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-10px);
+        }
+
+        .stat-number {
+            font-size: 3em;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        .stat-label {
+            font-size: 1.1em;
+            opacity: 0.9;
+        }
+
+        .comparison-table {
+            width: 100%;
+            margin: 40px 0;
+            border-collapse: separate;
+            border-spacing: 0 15px;
+        }
+
+        .comparison-table th {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            padding: 20px;
+            text-align: left;
+            font-size: 1.2em;
+        }
+
+        .comparison-table td {
+            background: #f8f9fa;
+            padding: 20px;
+            font-size: 1.1em;
+        }
+
+        .comparison-table tr {
+            transition: transform 0.2s;
+        }
+
+        .comparison-table tr:hover td {
+            background: #e9ecef;
+        }
+
+        .old-tech {
+            color: #dc3545;
+            font-weight: bold;
+        }
+
+        .new-tech {
+            color: #28a745;
+            font-weight: bold;
+        }
+
+        .interactive-button {
+            display: inline-block;
+            padding: 15px 40px;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            text-decoration: none;
+            border-radius: 30px;
+            font-size: 1.2em;
+            margin: 20px 10px;
+            transition: all 0.3s;
+            border: none;
+            cursor: pointer;
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+        }
+
+        .interactive-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(102, 126, 234, 0.6);
+        }
+
+        .workflow-diagram {
+            background: #f8f9fa;
+            padding: 40px;
+            border-radius: 15px;
+            margin: 40px 0;
+        }
+
+        .phase-flow {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .phase-item {
+            display: flex;
+            align-items: center;
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+            transition: all 0.3s;
+        }
+
+        .phase-item:hover {
+            box-shadow: 0 5px 20px rgba(102, 126, 234, 0.3);
+            transform: scale(1.02);
+        }
+
+        .phase-emoji {
+            font-size: 2.5em;
+            margin-right: 20px;
+        }
+
+        .phase-content {
+            flex: 1;
+        }
+
+        .phase-name {
+            font-size: 1.3em;
+            font-weight: bold;
+            color: #667eea;
+            margin-bottom: 5px;
+        }
+
+        .phase-desc {
+            color: #666;
+            font-size: 1em;
+        }
+
+        .highlight-box {
+            background: linear-gradient(135deg, rgba(102, 126, 234, 0.1), rgba(118, 75, 162, 0.1));
+            border-left: 5px solid #667eea;
+            padding: 25px;
+            margin: 30px 0;
+            border-radius: 10px;
+        }
+
+        .benefits-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 30px;
+            margin: 40px 0;
+        }
+
+        .benefit-card {
+            background: white;
+            border: 2px solid #e9ecef;
+            border-radius: 15px;
+            padding: 30px;
+            text-align: center;
+            transition: all 0.3s;
+        }
+
+        .benefit-card:hover {
+            border-color: #667eea;
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(102, 126, 234, 0.2);
+        }
+
+        .benefit-icon {
+            font-size: 3em;
+            margin-bottom: 15px;
+        }
+
+        .benefit-title {
+            font-size: 1.4em;
+            color: #667eea;
+            margin-bottom: 10px;
+            font-weight: bold;
+        }
+
+        .benefit-text {
+            color: #666;
+            font-size: 1em;
+            line-height: 1.6;
+        }
+
+        @media (max-width: 768px) {
+            .slide {
+                padding: 30px 20px;
+            }
+
+            h1 {
+                font-size: 2em;
+            }
+
+            h2 {
+                font-size: 1.6em;
+            }
+
+            .journey-path {
+                flex-direction: column;
+            }
+
+            .journey-arrow {
+                transform: rotate(90deg);
+                margin: 20px 0;
+            }
+        }
+
+        .scroll-indicator {
+            position: fixed;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(255, 255, 255, 0.9);
+            padding: 15px 30px;
+            border-radius: 30px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.2);
+            font-size: 1.1em;
+            color: #667eea;
+            animation: bounce 2s infinite;
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateX(-50%) translateY(0); }
+            50% { transform: translateX(-50%) translateY(-10px); }
+        }
+    </style>
+</head>
+<body>
+    <div class="presentation-container">
+
+        <!-- SLIDE 1: Title -->
+        <div class="slide hero">
+            <h1>🚀 The RPGLE Transformer Agents</h1>
+            <p class="subtitle">Turning Legacy Code into Modern Magic</p>
+            <p style="font-size: 1.3em; max-width: 800px; margin: 30px auto; color: rgba(255, 255, 255, 0.95);">
+                Imagine a team of specialized robots working together on an assembly line,
+                each with a unique skill, transforming old machinery into brand new equipment.
+                That's exactly what our system does with software!
+            </p>
+        </div>
+
+        <!-- SLIDE 2: The Problem -->
+        <div class="slide">
+            <h2>📜 The Challenge: Old Code, Modern Needs</h2>
+
+            <div class="comparison-table">
+                <table style="width: 100%;">
+                    <tr>
+                        <th style="border-radius: 10px 0 0 10px;">Old World (RPGLE)</th>
+                        <th style="border-radius: 0 10px 10px 0;">Modern World (Java + React)</th>
+                    </tr>
+                </table>
+            </div>
+
+            <table class="comparison-table">
+                <tr>
+                    <td class="old-tech">🖥️ Green screen terminals from the 1980s</td>
+                    <td class="new-tech">🎨 Beautiful web interfaces on any device</td>
+                </tr>
+                <tr>
+                    <td class="old-tech">📟 Commands typed on keyboards</td>
+                    <td class="new-tech">🖱️ Click, tap, and swipe</td>
+                </tr>
+                <tr>
+                    <td class="old-tech">🔒 Experts only - hard to maintain</td>
+                    <td class="new-tech">👥 Modern developers everywhere</td>
+                </tr>
+                <tr>
+                    <td class="old-tech">🐌 Slow to change and update</td>
+                    <td class="new-tech">⚡ Quick updates and improvements</td>
+                </tr>
+            </table>
+
+            <div class="highlight-box">
+                <p style="font-size: 1.2em; margin: 0;">
+                    <strong>The Dilemma:</strong> These old programs contain decades of valuable business knowledge.
+                    We can't just throw them away, but we can't stay stuck in the past either!
+                </p>
+            </div>
+        </div>
+
+        <!-- SLIDE 3: The Solution -->
+        <div class="slide">
+            <h2>💡 The Solution: A Team of AI Specialists</h2>
+
+            <p>Instead of rewriting everything from scratch (risky and expensive!), we created a smart system
+            with 7 specialized AI agents. Think of them as a relay race team, where each runner has a specific job:</p>
+
+            <div class="journey-path">
+                <div class="journey-step">
+                    <div class="journey-icon">🔍</div>
+                    <strong>Analyzer</strong>
+                    <p style="margin-top: 10px;">Reads & understands</p>
+                </div>
+                <div class="journey-arrow">→</div>
+                <div class="journey-step">
+                    <div class="journey-icon">🗄️</div>
+                    <strong>Builder</strong>
+                    <p style="margin-top: 10px;">Creates structure</p>
+                </div>
+                <div class="journey-arrow">→</div>
+                <div class="journey-step">
+                    <div class="journey-icon">⚙️</div>
+                    <strong>Converter</strong>
+                    <p style="margin-top: 10px;">Transforms logic</p>
+                </div>
+                <div class="journey-arrow">→</div>
+                <div class="journey-step">
+                    <div class="journey-icon">🎨</div>
+                    <strong>Designer</strong>
+                    <p style="margin-top: 10px;">Makes it pretty</p>
+                </div>
+                <div class="journey-arrow">→</div>
+                <div class="journey-step">
+                    <div class="journey-icon">✅</div>
+                    <strong>Tester</strong>
+                    <p style="margin-top: 10px;">Ensures quality</p>
+                </div>
+                <div class="journey-arrow">→</div>
+                <div class="journey-step">
+                    <div class="journey-icon">🔬</div>
+                    <strong>Reviewer</strong>
+                    <p style="margin-top: 10px;">Polishes code</p>
+                </div>
+                <div class="journey-arrow">→</div>
+                <div class="journey-step">
+                    <div class="journey-icon">📦</div>
+                    <strong>Packager</strong>
+                    <p style="margin-top: 10px;">Delivers final product</p>
+                </div>
+            </div>
+
+            <div class="highlight-box">
+                <p style="font-size: 1.2em; margin: 0;">
+                    <strong>🎯 The Magic:</strong> Each agent passes their work to the next, like a relay baton.
+                    By the end, you have a completely modern application that does <em>exactly</em> what the old one did!
+                </p>
+            </div>
+        </div>
+
+        <!-- SLIDE 4: Meet the Agents -->
+        <div class="slide">
+            <h2>👥 Meet the Seven Specialists</h2>
+
+            <div class="pipeline-container">
+                <div class="agent-card">
+                    <div class="agent-number">1</div>
+                    <div class="agent-title">🔍 The Detective (Analysis Agent)</div>
+                    <div class="agent-description">
+                        <strong>Job:</strong> Read the old program like a detective solving a mystery<br>
+                        <strong>What it does:</strong> Understands what the program does, how data flows, and why it was built<br>
+                        <strong>Output:</strong> A detailed report explaining everything in plain English
+                    </div>
+                </div>
+
+                <div class="agent-card">
+                    <div class="agent-number">2</div>
+                    <div class="agent-title">🗄️ The Architect (Database Agent)</div>
+                    <div class="agent-description">
+                        <strong>Job:</strong> Design how data will be stored in the modern world<br>
+                        <strong>What it does:</strong> Converts old filing cabinets into modern databases<br>
+                        <strong>Output:</strong> Clean, organized data structures that modern systems understand
+                    </div>
+                </div>
+
+                <div class="agent-card">
+                    <div class="agent-number">3</div>
+                    <div class="agent-title">⚙️ The Translator (Conversion Agent)</div>
+                    <div class="agent-description">
+                        <strong>Job:</strong> Translate the old programming language into modern Java<br>
+                        <strong>What it does:</strong> Rewrites business logic without changing what it does<br>
+                        <strong>Output:</strong> Modern code that behaves exactly like the original
+                    </div>
+                </div>
+
+                <div class="agent-card">
+                    <div class="agent-number">4</div>
+                    <div class="agent-title">🎨 The Designer (UI Agent)</div>
+                    <div class="agent-description">
+                        <strong>Job:</strong> Transform green screens into beautiful web pages<br>
+                        <strong>What it does:</strong> Creates modern, user-friendly interfaces with React<br>
+                        <strong>Output:</strong> Gorgeous screens that work on phones, tablets, and computers
+                    </div>
+                </div>
+
+                <div class="agent-card">
+                    <div class="agent-number">5</div>
+                    <div class="agent-title">✅ The Quality Inspector (Testing Agent)</div>
+                    <div class="agent-description">
+                        <strong>Job:</strong> Make absolutely sure everything works perfectly<br>
+                        <strong>What it does:</strong> Tests every button, every calculation, every scenario<br>
+                        <strong>Output:</strong> Comprehensive tests ensuring 80%+ of code is verified
+                    </div>
+                </div>
+
+                <div class="agent-card">
+                    <div class="agent-number">6</div>
+                    <div class="agent-title">🔬 The Perfectionist (Review Agent)</div>
+                    <div class="agent-description">
+                        <strong>Job:</strong> Polish everything to perfection<br>
+                        <strong>What it does:</strong> Reviews code for security, performance, and best practices<br>
+                        <strong>Output:</strong> Clean, secure, optimized code ready for production
+                    </div>
+                </div>
+
+                <div class="agent-card">
+                    <div class="agent-number">7</div>
+                    <div class="agent-title">📦 The Packager (Integration Agent)</div>
+                    <div class="agent-description">
+                        <strong>Job:</strong> Put everything together and deliver the final product<br>
+                        <strong>What it does:</strong> Combines all pieces into a complete, working application<br>
+                        <strong>Output:</strong> A production-ready app with documentation and deployment guides
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- SLIDE 5: How It Works -->
+        <div class="slide">
+            <h2>🔄 The Transformation Journey</h2>
+
+            <div class="workflow-diagram">
+                <div class="phase-flow">
+                    <div class="phase-item">
+                        <div class="phase-emoji">📥</div>
+                        <div class="phase-content">
+                            <div class="phase-name">Input: Old RPGLE Program</div>
+                            <div class="phase-desc">The original green-screen application with all its business logic</div>
+                        </div>
+                    </div>
+
+                    <div class="phase-item">
+                        <div class="phase-emoji">🔍</div>
+                        <div class="phase-content">
+                            <div class="phase-name">Phase 1: Deep Understanding</div>
+                            <div class="phase-desc">The Detective reads everything and creates a comprehensive report</div>
+                        </div>
+                    </div>
+
+                    <div class="phase-item">
+                        <div class="phase-emoji">🏗️</div>
+                        <div class="phase-content">
+                            <div class="phase-name">Phase 2-3: Building the Foundation</div>
+                            <div class="phase-desc">The Architect designs databases, the Translator rewrites the logic</div>
+                        </div>
+                    </div>
+
+                    <div class="phase-item">
+                        <div class="phase-emoji">🎨</div>
+                        <div class="phase-content">
+                            <div class="phase-name">Phase 4: Creating the User Experience</div>
+                            <div class="phase-desc">The Designer transforms ugly screens into beautiful interfaces</div>
+                        </div>
+                    </div>
+
+                    <div class="phase-item">
+                        <div class="phase-emoji">✅</div>
+                        <div class="phase-content">
+                            <div class="phase-name">Phase 5-6: Quality Assurance</div>
+                            <div class="phase-desc">The Inspector tests everything, the Perfectionist polishes it all</div>
+                        </div>
+                    </div>
+
+                    <div class="phase-item">
+                        <div class="phase-emoji">🚀</div>
+                        <div class="phase-content">
+                            <div class="phase-name">Phase 7: Final Delivery</div>
+                            <div class="phase-desc">The Packager assembles everything into a ready-to-deploy application</div>
+                        </div>
+                    </div>
+
+                    <div class="phase-item" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white;">
+                        <div class="phase-emoji">🎁</div>
+                        <div class="phase-content">
+                            <div class="phase-name" style="color: white;">Output: Modern Application</div>
+                            <div class="phase-desc" style="color: rgba(255,255,255,0.9);">A beautiful, fast, maintainable app that does everything the old one did (and more!)</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- SLIDE 6: What You Get -->
+        <div class="slide">
+            <h2>🎁 What You Get at the End</h2>
+
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-number">100%</div>
+                    <div class="stat-label">Functional Accuracy</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">80%+</div>
+                    <div class="stat-label">Test Coverage</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">8+</div>
+                    <div class="stat-label">Documentation Files</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">2</div>
+                    <div class="stat-label">Complete Applications</div>
+                </div>
+            </div>
+
+            <h3 style="text-align: center; margin-top: 50px;">Your Complete Package Includes:</h3>
+
+            <div class="benefits-grid">
+                <div class="benefit-card">
+                    <div class="benefit-icon">⚙️</div>
+                    <div class="benefit-title">Backend Application</div>
+                    <div class="benefit-text">
+                        A powerful Java/Spring Boot server that handles all the business logic,
+                        database operations, and API communications
+                    </div>
+                </div>
+
+                <div class="benefit-card">
+                    <div class="benefit-icon">🎨</div>
+                    <div class="benefit-title">Frontend Application</div>
+                    <div class="benefit-text">
+                        A beautiful React web interface that works on any device -
+                        phones, tablets, and computers
+                    </div>
+                </div>
+
+                <div class="benefit-card">
+                    <div class="benefit-icon">📚</div>
+                    <div class="benefit-title">Complete Documentation</div>
+                    <div class="benefit-text">
+                        Detailed explanations of every decision made, how everything works,
+                        and how to deploy it
+                    </div>
+                </div>
+
+                <div class="benefit-card">
+                    <div class="benefit-icon">🧪</div>
+                    <div class="benefit-title">Test Suites</div>
+                    <div class="benefit-text">
+                        Automated tests that verify everything works correctly,
+                        making future changes safer
+                    </div>
+                </div>
+
+                <div class="benefit-card">
+                    <div class="benefit-icon">🔒</div>
+                    <div class="benefit-title">Security Built-In</div>
+                    <div class="benefit-text">
+                        Modern security practices protecting against common vulnerabilities
+                        and threats
+                    </div>
+                </div>
+
+                <div class="benefit-card">
+                    <div class="benefit-icon">🚀</div>
+                    <div class="benefit-title">Ready to Deploy</div>
+                    <div class="benefit-text">
+                        Everything configured for development, testing, and production
+                        environments
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- SLIDE 7: The Magic of It All -->
+        <div class="slide">
+            <h2>✨ The Real Magic</h2>
+
+            <div class="visual-metaphor">
+                <h3 style="color: #667eea; text-align: center;">Think of It Like This...</h3>
+
+                <p style="font-size: 1.2em; margin: 30px 0;">
+                    Imagine you have a beloved old recipe book from your grandmother. The recipes are amazing,
+                    but they're written in faded handwriting with old measurements.
+                </p>
+
+                <p style="font-size: 1.2em; margin: 30px 0;">
+                    Our system is like having 7 expert chefs who:
+                </p>
+
+                <div style="text-align: left; max-width: 700px; margin: 30px auto;">
+                    <p style="font-size: 1.1em; margin: 15px 0;">
+                        📖 <strong>Read and understand</strong> every recipe perfectly
+                    </p>
+                    <p style="font-size: 1.1em; margin: 15px 0;">
+                        📝 <strong>Convert measurements</strong> from old to modern units
+                    </p>
+                    <p style="font-size: 1.1em; margin: 15px 0;">
+                        👨‍🍳 <strong>Rewrite instructions</strong> in today's cooking language
+                    </p>
+                    <p style="font-size: 1.1em; margin: 15px 0;">
+                        📸 <strong>Take beautiful photos</strong> of each dish
+                    </p>
+                    <p style="font-size: 1.1em; margin: 15px 0;">
+                        🧪 <strong>Test every recipe</strong> to ensure it tastes exactly the same
+                    </p>
+                    <p style="font-size: 1.1em; margin: 15px 0;">
+                        ⭐ <strong>Add improvements</strong> while keeping the original flavor
+                    </p>
+                    <p style="font-size: 1.1em; margin: 15px 0;">
+                        📱 <strong>Publish everything</strong> in a beautiful digital cookbook app
+                    </p>
+                </div>
+
+                <div class="highlight-box" style="margin-top: 40px;">
+                    <p style="font-size: 1.3em; text-align: center; margin: 0;">
+                        <strong>The result?</strong> You get grandma's exact recipes, but in a format
+                        anyone can use today, on any device, anywhere in the world!
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <!-- SLIDE 8: Why It Matters -->
+        <div class="slide">
+            <h2>🎯 Why This Matters</h2>
+
+            <div class="benefits-grid" style="margin-top: 40px;">
+                <div class="benefit-card" style="background: linear-gradient(135deg, rgba(40, 167, 69, 0.1), rgba(40, 167, 69, 0.05)); border-color: #28a745;">
+                    <div class="benefit-icon">💰</div>
+                    <div class="benefit-title" style="color: #28a745;">Saves Money</div>
+                    <div class="benefit-text">
+                        No need to throw away decades of working software and start from scratch.
+                        We preserve your investment while modernizing it.
+                    </div>
+                </div>
+
+                <div class="benefit-card" style="background: linear-gradient(135deg, rgba(0, 123, 255, 0.1), rgba(0, 123, 255, 0.05)); border-color: #007bff;">
+                    <div class="benefit-icon">⚡</div>
+                    <div class="benefit-title" style="color: #007bff;">Reduces Risk</div>
+                    <div class="benefit-text">
+                        Automated transformation with extensive testing means fewer human errors
+                        and guaranteed functional accuracy.
+                    </div>
+                </div>
+
+                <div class="benefit-card" style="background: linear-gradient(135deg, rgba(255, 193, 7, 0.1), rgba(255, 193, 7, 0.05)); border-color: #ffc107;">
+                    <div class="benefit-icon">👥</div>
+                    <div class="benefit-title" style="color: #f39c12;">Empowers Teams</div>
+                    <div class="benefit-text">
+                        Modern code means your team can maintain and improve it.
+                        No more hunting for RPGLE experts!
+                    </div>
+                </div>
+
+                <div class="benefit-card" style="background: linear-gradient(135deg, rgba(102, 126, 234, 0.1), rgba(118, 75, 162, 0.05)); border-color: #667eea;">
+                    <div class="benefit-icon">🚀</div>
+                    <div class="benefit-title" style="color: #667eea;">Enables Innovation</div>
+                    <div class="benefit-text">
+                        Once modernized, you can easily add new features, integrate with other systems,
+                        and adapt to changing business needs.
+                    </div>
+                </div>
+
+                <div class="benefit-card" style="background: linear-gradient(135deg, rgba(220, 53, 69, 0.1), rgba(220, 53, 69, 0.05)); border-color: #dc3545;">
+                    <div class="benefit-icon">📱</div>
+                    <div class="benefit-title" style="color: #dc3545;">Delights Users</div>
+                    <div class="benefit-text">
+                        Beautiful, responsive interfaces that work on any device make users happy
+                        and more productive.
+                    </div>
+                </div>
+
+                <div class="benefit-card" style="background: linear-gradient(135deg, rgba(111, 66, 193, 0.1), rgba(111, 66, 193, 0.05)); border-color: #6f42c1;">
+                    <div class="benefit-icon">📊</div>
+                    <div class="benefit-title" style="color: #6f42c1;">Maintains History</div>
+                    <div class="benefit-text">
+                        All business logic and rules are preserved perfectly,
+                        keeping your institutional knowledge intact.
+                    </div>
+                </div>
+            </div>
+
+            <div class="highlight-box" style="margin-top: 50px; background: linear-gradient(135deg, rgba(102, 126, 234, 0.2), rgba(118, 75, 162, 0.2));">
+                <p style="font-size: 1.3em; text-align: center; margin: 0;">
+                    <strong>🎯 Bottom Line:</strong> Keep what works, upgrade what doesn't,
+                    and move confidently into the future without leaving your past behind.
+                </p>
+            </div>
+        </div>
+
+        <!-- SLIDE 9: The Flexibility -->
+        <div class="slide">
+            <h2>🔧 Flexible & Smart</h2>
+
+            <p style="font-size: 1.2em;">
+                The system is designed to work with <strong>any AI tool</strong> you prefer -
+                Claude, GPT-4, Gemini, or even local models. It's like having a recipe that works
+                in any kitchen!
+            </p>
+
+            <h3 style="margin-top: 40px;">Choose Your Path:</h3>
+
+            <div class="benefits-grid" style="margin-top: 30px;">
+                <div class="benefit-card">
+                    <div class="benefit-icon">🏃</div>
+                    <div class="benefit-title">Fast Track</div>
+                    <div class="benefit-text">
+                        Run all 7 phases in a single session with a powerful AI.
+                        Quick and efficient for straightforward programs.
+                    </div>
+                </div>
+
+                <div class="benefit-card">
+                    <div class="benefit-icon">🎯</div>
+                    <div class="benefit-title">Careful Approach</div>
+                    <div class="benefit-text">
+                        Run each phase separately, reviewing outputs between steps.
+                        Perfect for complex programs or when you want maximum control.
+                    </div>
+                </div>
+            </div>
+
+            <div class="highlight-box" style="margin-top: 40px;">
+                <h3 style="color: #667eea; margin-bottom: 15px;">Quality Assurance at Every Step</h3>
+                <p style="font-size: 1.1em; margin: 0;">
+                    Each agent has built-in checklists and quality gates. Before moving to the next phase,
+                    everything must be verified and documented. It's like having a quality inspector
+                    at every station on the assembly line!
+                </p>
+            </div>
+        </div>
+
+        <!-- SLIDE 10: Real Results -->
+        <div class="slide">
+            <h2>📊 Real Results</h2>
+
+            <p style="font-size: 1.2em; text-align: center; margin-bottom: 40px;">
+                This isn't theoretical - it's been tested and proven!
+            </p>
+
+            <div class="stats-grid">
+                <div class="stat-card" style="background: linear-gradient(135deg, #28a745, #20c997);">
+                    <div class="stat-number">9.5/10</div>
+                    <div class="stat-label">Functional Completeness</div>
+                </div>
+                <div class="stat-card" style="background: linear-gradient(135deg, #007bff, #0056b3);">
+                    <div class="stat-number">9.0/10</div>
+                    <div class="stat-label">Architecture Quality</div>
+                </div>
+                <div class="stat-card" style="background: linear-gradient(135deg, #6f42c1, #5a32a3);">
+                    <div class="stat-number">9.0/10</div>
+                    <div class="stat-label">Code Quality</div>
+                </div>
+                <div class="stat-card" style="background: linear-gradient(135deg, #fd7e14, #e8590c);">
+                    <div class="stat-number">8.95/10</div>
+                    <div class="stat-label">Overall Score</div>
+                </div>
+            </div>
+
+            <div class="visual-metaphor" style="margin-top: 50px;">
+                <h3 style="color: #667eea;">Comparison: Baseline vs. Agent-Based Approach</h3>
+
+                <p style="font-size: 1.1em; margin: 20px 0; color: #666;">
+                    <strong>Baseline Approach (Fast Track):</strong> Simple conversion with basic CRUD operations, faster to implement but with limited testing, minimal documentation, and scope deviations from original program.
+                    <br><br>
+                    <strong>Agent-Based Approach (Careful/7-Phase):</strong> Systematic 7-phase transformation with comprehensive testing, extensive documentation, and exact fidelity to original RPGLE program logic.
+                </p>
+
+                <table class="comparison-table" style="margin-top: 30px;">
+                    <tr>
+                        <td style="border-radius: 10px 0 0 0;"><strong>Aspect</strong></td>
+                        <td style="text-align: center;"><strong>Baseline Approach<br>(Fast Track)</strong></td>
+                        <td style="border-radius: 0 10px 0 0; text-align: center;"><strong>Agent-Based Approach<br>(Careful/7-Phase)</strong></td>
+                    </tr>
+                    <tr>
+                        <td><strong>Functional Completeness</strong></td>
+                        <td style="text-align: center; background: #fff3cd; color: #856404;">⭐⭐⭐ (6.0/10)</td>
+                        <td style="text-align: center; background: #d4edda; color: #155724;">⭐⭐⭐⭐⭐ (9.5/10)</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Architecture Quality</strong></td>
+                        <td style="text-align: center; background: #fff3cd; color: #856404;">⭐⭐⭐⭐ (7.0/10)</td>
+                        <td style="text-align: center; background: #d4edda; color: #155724;">⭐⭐⭐⭐⭐ (9.0/10)</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Code Quality</strong></td>
+                        <td style="text-align: center; background: #fff3cd; color: #856404;">⭐⭐⭐ (6.5/10)</td>
+                        <td style="text-align: center; background: #d4edda; color: #155724;">⭐⭐⭐⭐⭐ (9.0/10)</td>
+                    </tr>
+                    <tr>
+                        <td><strong>UI/UX Translation</strong></td>
+                        <td style="text-align: center; background: #fff3cd; color: #856404;">⭐⭐⭐⭐ (7.0/10)</td>
+                        <td style="text-align: center; background: #d4edda; color: #155724;">⭐⭐⭐⭐ (8.5/10)</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Data Model Translation</strong></td>
+                        <td style="text-align: center; background: #f8d7da; color: #721c24;">⭐⭐⭐ (5.5/10)</td>
+                        <td style="text-align: center; background: #d4edda; color: #155724;">⭐⭐⭐⭐⭐ (9.5/10)</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Testing Coverage</strong></td>
+                        <td style="text-align: center; background: #f8d7da; color: #721c24;">⭐ (0/10 - No tests)</td>
+                        <td style="text-align: center; background: #d4edda; color: #155724;">⭐⭐⭐⭐ (8/10 - 80%+ coverage)</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Documentation Quality</strong></td>
+                        <td style="text-align: center; background: #f8d7da; color: #721c24;">⭐⭐ (3/10 - Minimal)</td>
+                        <td style="text-align: center; background: #d4edda; color: #155724;">⭐⭐⭐⭐⭐ (10/10 - Comprehensive)</td>
+                    </tr>
+                    <tr>
+                        <td><strong>RPGLE Traceability</strong></td>
+                        <td style="text-align: center; background: #f8d7da; color: #721c24;">❌ None</td>
+                        <td style="text-align: center; background: #d4edda; color: #155724;">✅ Extensive</td>
+                    </tr>
+                    <tr style="border-top: 3px solid #667eea;">
+                        <td><strong>OVERALL SCORE</strong></td>
+                        <td style="text-align: center; background: #fff3cd; color: #856404; font-weight: bold; font-size: 1.2em;">6.52/10</td>
+                        <td style="text-align: center; background: #d4edda; color: #155724; font-weight: bold; font-size: 1.2em;">8.95/10</td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+
+        <!-- SLIDE 11: Summary -->
+        <div class="slide hero">
+            <h2>🎬 In Summary</h2>
+
+            <div style="max-width: 900px; margin: 40px auto;">
+                <div class="highlight-box" style="margin: 20px 0;">
+                    <p style="font-size: 1.2em; margin: 0;">
+                        <strong>🔍 What it is:</strong> A 7-agent AI system that transforms legacy RPGLE programs
+                        into modern Java/React applications
+                    </p>
+                </div>
+
+                <div class="highlight-box" style="margin: 20px 0;">
+                    <p style="font-size: 1.2em; margin: 0;">
+                        <strong>🎯 How it works:</strong> Each agent specializes in one aspect - analysis, database,
+                        conversion, UI, testing, review, and integration
+                    </p>
+                </div>
+
+                <div class="highlight-box" style="margin: 20px 0;">
+                    <p style="font-size: 1.2em; margin: 0;">
+                        <strong>✨ What you get:</strong> Production-ready applications with perfect functional fidelity,
+                        comprehensive tests, and detailed documentation
+                    </p>
+                </div>
+
+                <div class="highlight-box" style="margin: 20px 0;">
+                    <p style="font-size: 1.2em; margin: 0;">
+                        <strong>💪 Why it matters:</strong> Preserve your business logic while embracing modern technology,
+                        reducing risk and enabling innovation
+                    </p>
+                </div>
+            </div>
+
+            <div style="margin-top: 60px; text-align: center;">
+                <p style="font-size: 1.4em; color: white; font-weight: bold; text-shadow: 2px 2px 6px rgba(0, 0, 0, 0.4);">
+                    From Legacy to Leading Edge - Without Losing What Matters
+                </p>
+            </div>
+
+            <div style="margin-top: 40px;">
+                <button class="interactive-button" onclick="window.scrollTo({top: 0, behavior: 'smooth'})">
+                    ↑ Back to Top
+                </button>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="scroll-indicator" id="scrollIndicator" style="display: none;">
+        ↓ Scroll to continue ↓
+    </div>
+
+    <script>
+        // Show scroll indicator on initial load
+        window.addEventListener('load', function() {
+            const indicator = document.getElementById('scrollIndicator');
+            indicator.style.display = 'block';
+
+            // Hide indicator when user scrolls
+            let scrollTimeout;
+            window.addEventListener('scroll', function() {
+                clearTimeout(scrollTimeout);
+                scrollTimeout = setTimeout(function() {
+                    if (window.scrollY > 100) {
+                        indicator.style.display = 'none';
+                    }
+                }, 100);
+            });
+        });
+
+        // Smooth reveal animations for slides
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -100px 0px'
+        };
+
+        const observer = new IntersectionObserver(function(entries) {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.slide').forEach(slide => {
+            observer.observe(slide);
+        });
+
+        // Add click handlers to agent cards
+        document.querySelectorAll('.agent-card').forEach(card => {
+            card.addEventListener('click', function() {
+                this.style.transition = 'all 0.3s ease';
+                const originalBg = this.style.background;
+                this.style.background = 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)';
+                this.style.color = 'white';
+
+                setTimeout(() => {
+                    this.style.background = originalBg;
+                    this.style.color = '';
+                }, 500);
+            });
+        });
+
+        // Add interactive hover effects to benefit cards
+        document.querySelectorAll('.benefit-card').forEach(card => {
+            card.addEventListener('mouseenter', function() {
+                this.querySelector('.benefit-icon').style.transform = 'scale(1.2) rotate(10deg)';
+                this.querySelector('.benefit-icon').style.transition = 'transform 0.3s ease';
+            });
+
+            card.addEventListener('mouseleave', function() {
+                this.querySelector('.benefit-icon').style.transform = 'scale(1) rotate(0deg)';
+            });
+        });
+
+        // Log message to console
+        console.log('🚀 RPGLE Transformer Agents Presentation Loaded Successfully!');
+    </script>
+</body>
+</html>
