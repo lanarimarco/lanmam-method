@@ -1,0 +1,27 @@
+# UAT Profile Configuration
+
+spring:
+  datasource:
+    url: ${DB_URL:jdbc:db2://uat-db-server:50000/UATDB}
+    driver-class-name: com.ibm.db2.jcc.DB2Driver
+    username: ${DB_USERNAME}
+    password: ${DB_PASSWORD}
+    hikari:
+      maximum-pool-size: 10
+      minimum-idle: 2
+      connection-timeout: 30000
+
+  jpa:
+    database-platform: org.hibernate.dialect.DB2Dialect
+    hibernate:
+      ddl-auto: validate
+    show-sql: false
+
+# CORS Configuration for UAT
+cors:
+  allowed-origins: ${CORS_ORIGINS:https://uat.yourcompany.com}
+
+logging:
+  level:
+    com.lanarimarco.modernization: INFO
+    org.springframework.web: INFO

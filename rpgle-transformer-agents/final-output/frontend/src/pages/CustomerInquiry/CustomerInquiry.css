@@ -1,0 +1,276 @@
+/**
+ * Customer Inquiry Styles (CUST001)
+ *
+ * Styles for the Customer Inquiry component
+ * Based on style guide and modern web design principles
+ */
+
+/* Main Container */
+.customer-inquiry {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 20px;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  color: #212529;
+}
+
+/* Page Header */
+.page-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 30px;
+  padding-bottom: 15px;
+  border-bottom: 2px solid #0066cc;
+}
+
+.program-name {
+  font-size: 1rem;
+  font-weight: bold;
+  color: #0066cc;
+  margin: 0;
+}
+
+.page-title {
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: #212529;
+  margin: 0;
+}
+
+/* Prompt Section (Customer Number Entry) */
+.prompt-section {
+  background-color: #f8f9fa;
+  padding: 30px;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.search-form {
+  max-width: 500px;
+  margin: 0 auto;
+}
+
+/* Form Elements */
+.form-group {
+  margin-bottom: 20px;
+}
+
+.form-label {
+  display: inline-block;
+  min-width: 150px;
+  font-weight: 500;
+  margin-right: 10px;
+  color: #212529;
+}
+
+.form-input {
+  width: 200px;
+  height: 32px;
+  padding: 6px 12px;
+  border: 1px solid #ced4da;
+  border-radius: 4px;
+  font-size: 1rem;
+  font-family: 'Courier New', monospace;
+  transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+}
+
+.form-input:focus {
+  outline: none;
+  border-color: #0066cc;
+  box-shadow: 0 0 0 0.2rem rgba(0, 102, 204, 0.25);
+}
+
+.form-input:disabled {
+  background-color: #e9ecef;
+  cursor: not-allowed;
+}
+
+/* Error Message */
+.error-message {
+  background-color: #f8d7da;
+  border: 1px solid #f5c6cb;
+  border-radius: 4px;
+  padding: 12px;
+  margin-bottom: 20px;
+  color: #721c24;
+}
+
+.error-message strong {
+  font-weight: bold;
+  margin-right: 5px;
+}
+
+/* Buttons */
+.button-group {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.btn {
+  height: 36px;
+  padding: 8px 16px;
+  border: none;
+  border-radius: 4px;
+  font-size: 1rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color 0.15s ease-in-out, transform 0.1s ease-in-out;
+}
+
+.btn:hover:not(:disabled) {
+  transform: translateY(-1px);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.btn:active:not(:disabled) {
+  transform: translateY(0);
+}
+
+.btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.btn-primary {
+  background-color: #0066cc;
+  color: white;
+}
+
+.btn-primary:hover:not(:disabled) {
+  background-color: #0052a3;
+}
+
+.btn-secondary {
+  background-color: #6c757d;
+  color: white;
+}
+
+.btn-secondary:hover:not(:disabled) {
+  background-color: #545b62;
+}
+
+/* Function Keys Help Text */
+.function-keys {
+  margin-top: 15px;
+  padding-top: 15px;
+  border-top: 1px solid #dee2e6;
+  color: #0066cc;
+  font-size: 0.875rem;
+  text-align: center;
+}
+
+/* Detail Section (Customer Information Display) */
+.detail-section {
+  background-color: #ffffff;
+  padding: 30px;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.customer-info {
+  margin-bottom: 30px;
+}
+
+/* Information Rows */
+.info-row {
+  display: flex;
+  padding: 12px 0;
+  border-bottom: 1px solid #e9ecef;
+}
+
+.info-row:last-child {
+  border-bottom: none;
+}
+
+.info-label {
+  min-width: 150px;
+  font-weight: 500;
+  color: #495057;
+}
+
+.info-value {
+  flex: 1;
+  color: #212529;
+  font-family: 'Courier New', monospace;
+}
+
+.info-value.balance {
+  font-weight: bold;
+  color: #28a745;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .customer-inquiry {
+    padding: 10px;
+  }
+
+  .page-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+  }
+
+  .prompt-section,
+  .detail-section {
+    padding: 20px;
+  }
+
+  .form-label,
+  .info-label {
+    min-width: 120px;
+  }
+
+  .form-input {
+    width: 100%;
+    max-width: 200px;
+  }
+
+  .button-group {
+    flex-direction: column;
+  }
+
+  .btn {
+    width: 100%;
+  }
+
+  .info-row {
+    flex-direction: column;
+    gap: 5px;
+  }
+
+  .info-label {
+    font-weight: 600;
+  }
+}
+
+/* Loading State */
+.btn:disabled.btn-primary {
+  background-color: #7da8d8;
+}
+
+/* Accessibility */
+.form-input:focus-visible {
+  outline: 2px solid #0066cc;
+  outline-offset: 2px;
+}
+
+.btn:focus-visible {
+  outline: 2px solid #0066cc;
+  outline-offset: 2px;
+}
+
+/* Print Styles */
+@media print {
+  .button-group,
+  .function-keys {
+    display: none;
+  }
+
+  .detail-section {
+    box-shadow: none;
+    border: 1px solid #dee2e6;
+  }
+}

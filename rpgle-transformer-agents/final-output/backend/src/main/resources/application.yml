@@ -1,0 +1,22 @@
+# Default Application Configuration
+# RPGLE Modernization Backend
+
+spring:
+  application:
+    name: modernization-backend
+
+  profiles:
+    active: dev
+
+  jpa:
+    open-in-view: false
+    show-sql: false
+
+server:
+  port: 8080
+  # NOTE: Do NOT set context-path - controllers use /api prefix in @RequestMapping
+
+logging:
+  level:
+    root: INFO
+    com.lanarimarco.modernization: INFO
