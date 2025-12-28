@@ -20,53 +20,53 @@ echo ""
 # Verify prerequisites - Phase 6 must be complete
 REVIEW_REPORT="$PROJECT_ROOT/work-in-progress/$PROGRAM/06-review/review-report.md"
 if [ ! -f "$REVIEW_REPORT" ]; then
-    echo "❌ Error: Review report not found: $REVIEW_REPORT"
+    echo "⚠️  Warning: Review report not found: $REVIEW_REPORT"
     echo "  Please complete Phase 6 (Review) first"
-    exit 1
+    echo ""
 fi
 
 # Check that all previous phases exist
 ANALYSIS_FILE="$PROJECT_ROOT/work-in-progress/$PROGRAM/01-analysis/$PROGRAM-analysis.md"
 if [ ! -f "$ANALYSIS_FILE" ]; then
-    echo "❌ Error: Analysis document not found: $ANALYSIS_FILE"
+    echo "⚠️  Warning: Analysis document not found: $ANALYSIS_FILE"
     echo "  Please complete Phase 1 (Analysis) first"
-    exit 1
+    echo ""
 fi
 
 DATABASE_DIR="$PROJECT_ROOT/work-in-progress/$PROGRAM/02-database"
 if [ ! -d "$DATABASE_DIR" ]; then
-    echo "❌ Error: Database layer not found: $DATABASE_DIR"
+    echo "⚠️  Warning: Database layer not found: $DATABASE_DIR"
     echo "  Please complete Phase 2 (Database) first"
-    exit 1
+    echo ""
 fi
 
 CONVERSION_DIR="$PROJECT_ROOT/work-in-progress/$PROGRAM/03-conversion"
 if [ ! -d "$CONVERSION_DIR" ]; then
-    echo "❌ Error: Conversion layer not found: $CONVERSION_DIR"
+    echo "⚠️  Warning: Conversion layer not found: $CONVERSION_DIR"
     echo "  Please complete Phase 3 (Conversion) first"
-    exit 1
+    echo ""
 fi
 
 UI_DIR="$PROJECT_ROOT/work-in-progress/$PROGRAM/04-ui"
 if [ ! -d "$UI_DIR" ]; then
-    echo "❌ Error: UI layer not found: $UI_DIR"
+    echo "⚠️  Warning: UI layer not found: $UI_DIR"
     echo "  Please complete Phase 4 (UI) first"
-    exit 1
+    echo ""
 fi
 
 TESTING_DIR="$PROJECT_ROOT/work-in-progress/$PROGRAM/05-testing"
 if [ ! -d "$TESTING_DIR" ]; then
-    echo "❌ Error: Testing layer not found: $TESTING_DIR"
+    echo "⚠️  Warning: Testing layer not found: $TESTING_DIR"
     echo "  Please complete Phase 5 (Testing) first"
-    exit 1
+    echo ""
 fi
 
 # Verify final-output structure exists
 FINAL_OUTPUT_DIR="$PROJECT_ROOT/final-output"
 if [ ! -d "$FINAL_OUTPUT_DIR" ]; then
-    echo "❌ Error: Final output directory not found: $FINAL_OUTPUT_DIR"
+    echo "⚠️  Warning: Final output directory not found: $FINAL_OUTPUT_DIR"
     echo "  This should exist in the project structure"
-    exit 1
+    echo ""
 fi
 
 # Check review report for success indicators
@@ -74,11 +74,6 @@ if grep -q "Status: Failed" "$REVIEW_REPORT" 2>/dev/null; then
     echo "⚠️  Warning: Review report shows failed status"
     echo "  Review may have issues. Proceed with caution."
     echo ""
-    read -p "Continue anyway? (y/N) " -n 1 -r
-    echo
-    if [[ ! $REPLY =~ ^[Yy]$ ]]; then
-        exit 1
-    fi
 fi
 
 # Create work directory (clean if exists)

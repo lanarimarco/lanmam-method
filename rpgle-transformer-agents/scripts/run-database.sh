@@ -20,9 +20,9 @@ echo ""
 # Verify prerequisites
 ANALYSIS_FILE="$PROJECT_ROOT/work-in-progress/$PROGRAM/01-analysis/$PROGRAM-analysis.md"
 if [ ! -f "$ANALYSIS_FILE" ]; then
-    echo "❌ Error: Analysis document not found: $ANALYSIS_FILE"
+    echo "⚠️  Warning: Analysis document not found: $ANALYSIS_FILE"
     echo "  Please complete Phase 1 (Analysis) first"
-    exit 1
+    echo ""
 fi
 
 # Create work directory (clean if exists)

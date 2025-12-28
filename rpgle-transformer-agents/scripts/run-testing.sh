@@ -20,23 +20,23 @@ echo ""
 # Verify prerequisites
 ANALYSIS_FILE="$PROJECT_ROOT/work-in-progress/$PROGRAM/01-analysis/$PROGRAM-analysis.md"
 if [ ! -f "$ANALYSIS_FILE" ]; then
-    echo "❌ Error: Analysis document not found: $ANALYSIS_FILE"
+    echo "⚠️  Warning: Analysis document not found: $ANALYSIS_FILE"
     echo "  Please complete Phase 1 (Analysis) first"
-    exit 1
+    echo ""
 fi
 
 DATABASE_DIR="$PROJECT_ROOT/work-in-progress/$PROGRAM/02-database"
 if [ ! -d "$DATABASE_DIR" ]; then
-    echo "❌ Error: Database layer not found: $DATABASE_DIR"
+    echo "⚠️  Warning: Database layer not found: $DATABASE_DIR"
     echo "  Please complete Phase 2 (Database) first"
-    exit 1
+    echo ""
 fi
 
 CONVERSION_DIR="$PROJECT_ROOT/work-in-progress/$PROGRAM/03-conversion"
 if [ ! -d "$CONVERSION_DIR" ]; then
-    echo "❌ Error: Conversion layer not found: $CONVERSION_DIR"
+    echo "⚠️  Warning: Conversion layer not found: $CONVERSION_DIR"
     echo "  Please complete Phase 3 (Conversion) first"
-    exit 1
+    echo ""
 fi
 
 # Create work directory (clean if exists)

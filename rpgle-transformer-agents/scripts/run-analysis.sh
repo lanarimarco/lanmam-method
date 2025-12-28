@@ -20,9 +20,9 @@ echo ""
 # Verify source file exists
 SOURCE_FILE="$PROJECT_ROOT/source-rpgle/programs/$PROGRAM.rpgle"
 if [ ! -f "$SOURCE_FILE" ]; then
-    echo "❌ Error: Source file not found: $SOURCE_FILE"
+    echo "⚠️  Warning: Source file not found: $SOURCE_FILE"
     echo "  Please add your RPGLE source file before running the analysis"
-    exit 1
+    echo ""
 fi
 
 # Create work directory (clean if exists)

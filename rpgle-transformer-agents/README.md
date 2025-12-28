@@ -5,7 +5,7 @@ AI-assisted modernization framework for converting RPGLE programs to modern Java
 ## Project Structure
 
 ```
-modernization-project/
+rpgle-transformer-agents/
 ├── agents/                      # Configuration for 7 specialized AI agents
 │   ├── 01-analysis-agent/       # Analyzes RPGLE programs
 │   │   ├── PROMPT.md            # Analysis phase prompt template
