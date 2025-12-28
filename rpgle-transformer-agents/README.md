@@ -30,17 +30,16 @@ rpgle-transformer-agents/
 │   │   └── review-checklist.md
 │   └── 07-integration-agent/    # Integrates and deploys code
 │       ├── PROMPT.md            # Integration phase prompt template
-│       ├── templates/           # React app shell templates
-│       │   ├── App.tsx.template
-│       │   ├── index.tsx.template
-│       │   ├── index.html.template
-│       │   ├── package.json.template
-│       │   ├── tsconfig.json.template
-│       │   ├── globals.css.template
-│       │   └── .env.template
+│       ├── App.tsx.template     # React app shell templates
+│       ├── index.tsx.template
+│       ├── index.html.template
+│       ├── package.json.template
+│       ├── tsconfig.json.template
+│       ├── globals.css.template
+│       ├── .env.template
 │       ├── deployment-guide-template.md
 │       └── integration-checklist.md
-├── scripts/                     # Automation scripts (1116 lines total)
+├── scripts/                     # Automation scripts (1111 lines total)
 │   ├── run-full-pipeline.sh    # Complete 7-phase setup (540 lines)
 │   ├── run-analysis.sh         # Phase 1 setup (68 lines)
 │   ├── run-database.sh         # Phase 2 setup (64 lines)
@@ -48,7 +47,7 @@ rpgle-transformer-agents/
 │   ├── run-ui.sh               # Phase 4 setup (76 lines)
 │   ├── run-testing.sh          # Phase 5 setup (79 lines)
 │   ├── run-review.sh           # Phase 6 setup (92 lines)
-│   └── run-integration.sh      # Phase 7 setup (130 lines)
+│   └── run-integration.sh      # Phase 7 setup (125 lines)
 ├── source-rpgle/                # Your RPGLE source files
 │   ├── programs/                # RPGLE programs (.rpgle files)
 │   ├── dds/                     # DDS files
@@ -61,7 +60,7 @@ rpgle-transformer-agents/
 │   ├── dds/                     # Test DDS files
 │   ├── test-workflow.sh         # Automated test workflow
 │   └── README.md                # Testing guide and validation checklist
-├── work-in-progress/            # Active conversion workspaces (created per program)
+├── work-in-progress/            # Active conversion workspaces (created dynamically by scripts)
 │   └── {PROGRAM}/               # Individual program workspace
 │       ├── 01-analysis/         # Analysis phase outputs
 │       ├── 02-database/         # Database layer code
@@ -489,7 +488,7 @@ Variables can be referenced in prompts using `{VARIABLE_NAME}` syntax.
 ---
 
 **Created**: 2025-12-15
-**Updated**: 2025-12-26
+**Updated**: 2025-12-28
 **Purpose**: AI-assisted RPGLE to Java modernization framework
 **Target**: 50 RPGLE programs
 **Approach**: Multi-phase agent-based conversion
