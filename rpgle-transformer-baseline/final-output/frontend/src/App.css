@@ -1,0 +1,59 @@
+.App {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background-color: #1e1e1e;
+  color: #ffffff;
+  font-family: 'Courier New', monospace;
+}
+
+.App-header {
+  background-color: #0a0a0a;
+  padding: 1rem 2rem;
+  border-bottom: 2px solid #00ff00;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.App-header h1 {
+  font-size: 1.5rem;
+  color: #00ff00;
+  font-weight: bold;
+}
+
+.header-info {
+  display: flex;
+  gap: 2rem;
+  color: #00ff00;
+}
+
+.App-main {
+  flex: 1;
+  padding: 2rem;
+  max-width: 800px;
+  width: 100%;
+  margin: 0 auto;
+}
+
+.App-footer {
+  background-color: #0a0a0a;
+  padding: 0.75rem 2rem;
+  border-top: 2px solid #00ff00;
+  display: flex;
+  gap: 2rem;
+  color: #00bfff;
+  font-size: 0.9rem;
+}
+
+@media (max-width: 768px) {
+  .App-header {
+    flex-direction: column;
+    gap: 1rem;
+    align-items: flex-start;
+  }
+
+  .App-main {
+    padding: 1rem;
+  }
+}

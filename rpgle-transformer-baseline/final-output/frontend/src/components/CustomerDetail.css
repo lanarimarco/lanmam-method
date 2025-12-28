@@ -1,0 +1,93 @@
+.customer-detail {
+  padding: 2rem 0;
+}
+
+.detail-container {
+  background-color: #2a2a2a;
+  padding: 2rem;
+  border-radius: 8px;
+  border: 2px solid #00ff00;
+}
+
+.detail-title {
+  color: #00ff00;
+  margin-bottom: 2rem;
+  font-size: 1.5rem;
+  text-align: center;
+  border-bottom: 2px solid #00ff00;
+  padding-bottom: 1rem;
+}
+
+.detail-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  margin-bottom: 2rem;
+}
+
+.detail-row {
+  display: grid;
+  grid-template-columns: 200px 1fr;
+  gap: 1rem;
+  padding: 0.75rem;
+  background-color: #1e1e1e;
+  border-radius: 4px;
+  border: 1px solid #333;
+}
+
+.detail-row.highlight {
+  background-color: #2a3a2a;
+  border-color: #00ff00;
+}
+
+.detail-row label {
+  color: #00ff00;
+  font-weight: bold;
+}
+
+.detail-value {
+  color: #ffffff;
+}
+
+.detail-value.balance {
+  color: #00ffff;
+  font-weight: bold;
+  font-size: 1.1rem;
+}
+
+.button-container {
+  display: flex;
+  justify-content: center;
+  margin-top: 2rem;
+}
+
+.back-button {
+  background-color: #00ff00;
+  color: #000000;
+  border: none;
+  padding: 0.75rem 2rem;
+  font-family: 'Courier New', monospace;
+  font-size: 1rem;
+  font-weight: bold;
+  cursor: pointer;
+  border-radius: 4px;
+  transition: all 0.3s ease;
+}
+
+.back-button:hover {
+  background-color: #00ffff;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0, 255, 255, 0.3);
+}
+
+@media (max-width: 768px) {
+  .detail-row {
+    grid-template-columns: 1fr;
+    gap: 0.5rem;
+  }
+
+  .detail-row label {
+    padding-bottom: 0.25rem;
+    border-bottom: 1px solid #333;
+  }
+}
