@@ -11,8 +11,8 @@
 
 This report provides a comprehensive comparison of two approaches for converting the RPGLE program CUST001 (Customer Inquiry) to a modern React + Java REST API architecture:
 
-1. **Agent-Based Approach** ([rpgle-transformer-agents](rpgle-transformer-agents/final-output))
-2. **Baseline Approach** ([rpgle-transformer-baseline](rpgle-transformer-baseline/final-output))
+1. **Agent-Based Approach** ([rpgle-transformer-agents](../rpgle-transformer-agents/final-output/))
+2. **Baseline Approach** ([rpgle-transformer-baseline](../rpgle-transformer-baseline/final-output))
 
 ### Key Findings
 
@@ -85,7 +85,7 @@ The agent-based approach demonstrates superior fidelity to the original RPGLE pr
 
 **Strengths**:
 - ✅ Complete business logic preservation - all validation rules correctly translated
-- ✅ Exact RPGLE validation: customer number = 0 check ([CustomerInquiryService.java:74-78](rpgle-transformer-agents/final-output/backend/src/main/java/com/lanarimarco/modernization/services/CustomerInquiryService.java#L74-L78))
+- ✅ Exact RPGLE validation: customer number = 0 check ([CustomerInquiryService.java:74-78](../rpgle-transformer-agents/final-output/backend/src/main/java/com/lanarimarco/modernization/services/CustomerInquiryService.java#L74-L78))
 - ✅ Additional validation: negative customer number check (enhancement beyond original)
 - ✅ Error messages match RPGLE exactly: "Customer number required", "Customer not found"
 - ✅ All 8 customer fields displayed (matches DETAIL screen fields exactly)
@@ -96,7 +96,7 @@ The agent-based approach demonstrates superior fidelity to the original RPGLE pr
 **Gaps**:
 - Minor: No explicit handling for maximum customer number (99999 limit), though database constraint would catch this
 
-**Evidence**: The service validation at [CustomerInquiryService.java:74-85](rpgle-transformer-agents/final-output/backend/src/main/java/com/lanarimarco/modernization/services/CustomerInquiryService.java#L74-L85) directly mirrors RPGLE logic:
+**Evidence**: The service validation at [CustomerInquiryService.java:74-85](../rpgle-transformer-agents/final-output/backend/src/main/java/com/lanarimarco/modernization/services/CustomerInquiryService.java#L74-L85) directly mirrors RPGLE logic:
 ```java
 // RPGLE: If PCUSTNO = 0
 if (customerNumber == null || customerNumber == 0) {
@@ -135,9 +135,9 @@ Frontend: Single CustomerInquiry component (cohesive, single responsibility)
 - ✅ **Excellent readability**: Clear naming, consistent formatting
 - ✅ **Extensive documentation**: Every class/method has detailed JavaDoc comments
 - ✅ **RPGLE traceability**: Comments link modern code to original RPGLE lines
-  - Example: "Maps to RPGLE logic:" comments throughout [CustomerInquiryService.java](rpgle-transformer-agents/final-output/backend/src/main/java/com/lanarimarco/modernization/services/CustomerInquiryService.java)
+  - Example: "Maps to RPGLE logic:" comments throughout [CustomerInquiryService.java](../rpgle-transformer-agents/final-output/backend/src/main/java/com/lanarimarco/modernization/services/CustomerInquiryService.java)
 - ✅ **DRY principle**: No code duplication
-- ✅ **TypeScript**: Full type safety in frontend ([customer.types.ts](rpgle-transformer-agents/final-output/frontend/src/types/customer.types.ts))
+- ✅ **TypeScript**: Full type safety in frontend ([customer.types.ts](../rpgle-transformer-agents/final-output/frontend/src/types/customer.types.ts))
 - ✅ **Lombok usage**: Reduces boilerplate (@Builder, @Getter, @Setter)
 - ✅ **Proper error handling**: Try-catch blocks, custom exceptions, user-friendly messages
 - ✅ **Security considerations**: Input validation, parameterized queries via JPA
@@ -149,7 +149,7 @@ Frontend: Single CustomerInquiry component (cohesive, single responsibility)
 - Documentation files: 8 MD files
 - TypeScript strict mode: Enabled
 
-**Example of Code Quality** ([CustomerInquiryController.java:32-46](rpgle-transformer-agents/final-output/backend/src/main/java/com/lanarimarco/modernization/controllers/CustomerInquiryController.java#L32-L46)):
+**Example of Code Quality** ([CustomerInquiryController.java:32-46](../rpgle-transformer-agents/final-output/backend/src/main/java/com/lanarimarco/modernization/controllers/CustomerInquiryController.java#L32-L46)):
 ```java
 /**
  * Get customer by customer number
@@ -190,7 +190,7 @@ public ResponseEntity<CustomerDTO> getCustomer(@PathVariable Integer customerNum
 - No exact terminal green-screen aesthetic (deliberate modernization)
 - Date/time display not shown in header (RPGLE showed TIME and DATE)
 
-**UI Code Quality** ([CustomerInquiry.tsx:47-86](rpgle-transformer-agents/final-output/frontend/src/pages/CustomerInquiry/CustomerInquiry.tsx#L47-L86)):
+**UI Code Quality** ([CustomerInquiry.tsx:47-86](../rpgle-transformer-agents/final-output/frontend/src/pages/CustomerInquiry/CustomerInquiry.tsx#L47-L86)):
 - Clear state management with TypeScript types
 - Well-commented code linking to RPGLE logic
 - Proper event handling and form validation
@@ -209,7 +209,7 @@ public ResponseEntity<CustomerDTO> getCustomer(@PathVariable Integer customerNum
 - ✅ **Completeness**: Includes ALL fields from CUSTMAST (even unused ones like creditLimit, lastOrderDate)
 - ✅ **Documentation**: JavaDoc comments note which fields are not used by CUST001
 
-**Data Model Evidence** ([Customer.java:26-104](rpgle-transformer-agents/final-output/backend/src/main/java/com/lanarimarco/modernization/entities/Customer.java#L26-L104)):
+**Data Model Evidence** ([Customer.java:26-104](../rpgle-transformer-agents/final-output/backend/src/main/java/com/lanarimarco/modernization/entities/Customer.java#L26-L104)):
 ```java
 @Entity
 @Table(name = "CUSTMAST")
@@ -228,7 +228,7 @@ public class Customer implements Serializable {
 ```
 
 **Migration Path**:
-- Clear documentation in [database-notes.md](rpgle-transformer-agents/final-output/docs/CUST001/database-notes.md)
+- Clear documentation in [database-notes.md](../rpgle-transformer-agents/final-output/docs/CUST001/database-notes.md)
 - DDL scripts would map directly from DDS
 
 ---
@@ -254,10 +254,10 @@ public class Customer implements Serializable {
 - ❌ **No negative number validation**: Missing validation that agent-based included
 
 **Gap Examples**:
-1. **Extra endpoints** ([CustomerController.java:30-58](rpgle-transformer-baseline/final-output/backend/src/main/java/com/smeup/customerinquiry/controller/CustomerController.java#L30-L58)):
+1. **Extra endpoints** ([CustomerController.java:30-58](../rpgle-transformer-baseline/final-output/backend/src/main/java/com/smeup/customerinquiry/controller/CustomerController.java#L30-L58)):
    - The original RPGLE was read-only inquiry only
    - Baseline adds POST, PUT, DELETE operations beyond scope
-2. **DTO over-exposure** ([CustomerService.java:74-86](rpgle-transformer-baseline/final-output/backend/src/main/java/com/smeup/customerinquiry/service/CustomerService.java#L74-L86)):
+2. **DTO over-exposure** ([CustomerService.java:74-86](../rpgle-transformer-baseline/final-output/backend/src/main/java/com/smeup/customerinquiry/service/CustomerService.java#L74-L86)):
    - Returns creditLimit and lastOrderDate fields not shown by CUST001
 
 **Score Justification**: While functional as a customer management system, this is a different application than CUST001. The original was deliberately inquiry-only.
@@ -299,8 +299,8 @@ public class Customer implements Serializable {
 - ❌ **Bean validation not used**: Entity has @NotNull, @Size annotations but service doesn't validate
 
 **Code Quality Issues**:
-1. [CustomerService.java](rpgle-transformer-baseline/final-output/backend/src/main/java/com/smeup/customerinquiry/service/CustomerService.java) has no validation - relies on database constraints
-2. [CustomerSearch.js](rpgle-transformer-baseline/final-output/frontend/src/components/CustomerSearch.js) is JavaScript, not TypeScript (no compile-time type checking)
+1. [CustomerService.java](../rpgle-transformer-baseline/final-output/backend/src/main/java/com/smeup/customerinquiry/service/CustomerService.java) has no validation - relies on database constraints
+2. [CustomerSearch.js](../rpgle-transformer-baseline/final-output/frontend/src/components/CustomerSearch.js) is JavaScript, not TypeScript (no compile-time type checking)
 3. No inline documentation explaining RPGLE → modern mapping
 
 ### D. UI/UX Translation: 7.0/10
@@ -320,7 +320,7 @@ public class Customer implements Serializable {
 - ⚠️ **Date formatting**: Formats lastOrderDate as locale date (RPGLE didn't display this field at all)
 
 **UI Fidelity Issues**:
-1. [CustomerDetail.js:84-96](rpgle-transformer-baseline/final-output/frontend/src/components/CustomerDetail.js#L84-L96) conditionally displays creditLimit and lastOrderDate - these weren't in CUST001 DETAIL screen
+1. [CustomerDetail.js:84-96](../rpgle-transformer-baseline/final-output/frontend/src/components/CustomerDetail.js#L84-L96) conditionally displays creditLimit and lastOrderDate - these weren't in CUST001 DETAIL screen
 2. Field order differs from RPGLE display file sequence
 
 ### E. Data Model Translation: 5.5/10
@@ -343,11 +343,11 @@ public class Customer implements Serializable {
 - ⚠️ **Bean validation in wrong layer**: Validation annotations in entity rather than DTO/request object
 
 **Data Model Issues**:
-1. [Customer.java:13-17](rpgle-transformer-baseline/final-output/backend/src/main/java/com/smeup/customerinquiry/model/Customer.java#L13-L17):
+1. [Customer.java:13-17](../rpgle-transformer-baseline/final-output/backend/src/main/java/com/smeup/customerinquiry/model/Customer.java#L13-L17):
    ```java
    @Table(name = "customer_master") // Should be "CUSTMAST"
    ```
-2. Column naming ([Customer.java:20-58](rpgle-transformer-baseline/final-output/backend/src/main/java/com/smeup/customerinquiry/model/Customer.java#L20-L58)):
+2. Column naming ([Customer.java:20-58](../rpgle-transformer-baseline/final-output/backend/src/main/java/com/smeup/customerinquiry/model/Customer.java#L20-L58)):
    ```java
    @Column(name = "customer_number") // Should be "CUSTNO"
    @Column(name = "address_line1")   // Should be "ADDR1"
@@ -937,7 +937,7 @@ const formatZipCode = (zip: number): string => {
 #### 2. Testing: 8/10
 **Test Coverage**: Backend unit tests only
 
-**Backend Tests** ([CustomerInquiryServiceTest.java](rpgle-transformer-agents/final-output/backend/src/test/java/com/lanarimarco/modernization/services/CustomerInquiryServiceTest.java)):
+**Backend Tests** ([CustomerInquiryServiceTest.java](../rpgle-transformer-agents/final-output/backend/src/test/java/com/lanarimarco/modernization/services/CustomerInquiryServiceTest.java)):
 - ✅ Valid customer retrieval
 - ✅ Null customer number validation
 - ✅ Zero customer number validation
@@ -967,14 +967,14 @@ const formatZipCode = (zip: number): string => {
 **Documentation Quality**: Exceptional
 
 **Available Documentation**:
-1. [analysis.md](rpgle-transformer-agents/final-output/docs/CUST001/analysis.md) (199 lines) - Comprehensive program analysis
-2. [conversion-notes.md](rpgle-transformer-agents/final-output/docs/CUST001/conversion-notes.md) - RPGLE → Java mapping guide
-3. [database-notes.md](rpgle-transformer-agents/final-output/docs/CUST001/database-notes.md) - Database schema documentation
-4. [ui-notes.md](rpgle-transformer-agents/final-output/docs/CUST001/ui-notes.md) - Frontend implementation details
-5. [testing-notes.md](rpgle-transformer-agents/final-output/docs/CUST001/testing-notes.md) - Test scenarios and coverage
-6. [integration-report.md](rpgle-transformer-agents/final-output/docs/CUST001/integration-report.md) - Integration documentation
-7. [review-report.md](rpgle-transformer-agents/final-output/docs/CUST001/review-report.md) - Code review findings
-8. [deployment-guide.md](rpgle-transformer-agents/final-output/docs/CUST001/deployment-guide.md) - Deployment instructions
+1. [analysis.md](../rpgle-transformer-agents/final-output/docs/CUST001/analysis.md) (199 lines) - Comprehensive program analysis
+2. [conversion-notes.md](../rpgle-transformer-agents/final-output/docs/CUST001/conversion-notes.md) - RPGLE → Java mapping guide
+3. [database-notes.md](../rpgle-transformer-agents/final-output/docs/CUST001/database-notes.md) - Database schema documentation
+4. [ui-notes.md](../rpgle-transformer-agents/final-output/docs/CUST001/ui-notes.md) - Frontend implementation details
+5. [testing-notes.md](../rpgle-transformer-agents/final-output/docs/CUST001/testing-notes.md) - Test scenarios and coverage
+6. [integration-report.md](../rpgle-transformer-agents/final-output/docs/CUST001/integration-report.md) - Integration documentation
+7. [review-report.md](../rpgle-transformer-agents/final-output/docs/CUST001/review-report.md) - Code review findings
+8. [deployment-guide.md](../rpgle-transformer-agents/final-output/docs/CUST001/deployment-guide.md) - Deployment instructions
 
 **Inline Documentation**:
 - Every class has JavaDoc
@@ -1079,7 +1079,7 @@ const formatZipCode = (zip: number): string => {
 **Documentation Quality**: Minimal
 
 **Available Documentation**:
-1. [README.md](rpgle-transformer-baseline/final-output/README.md) (454 lines) - Setup and usage guide
+1. [README.md](../rpgle-transformer-baseline/final-output/README.md) (454 lines) - Setup and usage guide
 2. TRANSFORMATION-SUMMARY.md - Brief summary
 
 **Documentation Gaps**:
