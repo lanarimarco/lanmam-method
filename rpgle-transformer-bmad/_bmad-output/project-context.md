@@ -102,7 +102,7 @@ Every generated file MUST include inline comments referencing original RPGLE/DDS
 /**
  * Customer entity mapped from DDS Physical File: CUSTMAST
  * Original fields: CUSTID, CUSTNM, CUSTAD1, CUSTAD2
- * Source: source-rpgle/physical-files/CUSTMAST.pf
+ * Source: source-rpgle/dds/physical-files/CUSTMAST.dds
  */
 ```
 

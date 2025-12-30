@@ -299,12 +299,12 @@ Developers can transform RPGLE + DDS files into a working Spring Boot REST API w
 ### Story 2.1: Create Customer Entity from DDS Physical File
 
 As a **developer**,
-I want **a JPA Customer entity generated from CUSTMAST.pf DDS physical file**,
+I want **a JPA Customer entity generated from CUSTMAST.dds DDS physical file**,
 So that **I have a database model that maps to the original AS/400 data structure**.
 
 **Acceptance Criteria:**
 
-**Given** CUSTMAST.pf DDS physical file exists in source-rpgle/physical-files/
+**Given** CUSTMAST.dds DDS physical file exists in source-rpgle/dds/physical-files/
 **When** I analyze the DDS file and generate the JPA entity
 **Then** a `Customer.java` entity class is created in backend/src/main/java/com/smeup/entity/
 **And** `@Table(name = "CUSTMAST")` annotation uses the DDS physical file name
@@ -421,7 +421,7 @@ So that **the frontend has type-safe models matching the original display fields
 
 **Acceptance Criteria:**
 
-**Given** CUSTDSP.dds exists in source-rpgle/programs/
+**Given** CUSTDSP.dds exists in source-rpgle/dds/display-files/
 **When** I analyze the display file and generate types
 **Then** `frontend/src/features/customers/customer.types.ts` is created
 **And** `Customer` interface includes all display fields (readable names)
@@ -653,7 +653,7 @@ So that **I can understand how legacy data structures map to modern code**.
 **Given** transformation is complete
 **When** I create the data mapping document
 **Then** `docs/transformations/CUST001/data-mapping.md` is created
-**And** CUSTMAST.pf fields are mapped to Customer entity fields
+**And** CUSTMAST.dds fields are mapped to Customer entity fields
 **And** CUSTDSP.dds fields are mapped to React component props
 **And** table shows: DDS Field -> SQL Column -> Java Field -> TypeScript Field
 **And** any data type transformations are explained
