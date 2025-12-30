@@ -45,7 +45,7 @@ development_status:
   1-1-initialize-spring-boot-backend-project: done
   1-2-initialize-react-frontend-project: done
   1-3-configure-development-environment: done
-  1-4-configure-testing-infrastructure: backlog
+  1-4-configure-testing-infrastructure: review
   1-5-configure-code-quality-tools: backlog
   epic-1-retrospective: optional
 
