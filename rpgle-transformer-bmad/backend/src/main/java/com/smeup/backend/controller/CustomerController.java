@@ -1,7 +1,9 @@
 package com.smeup.backend.controller;
 
 import com.smeup.backend.dto.ApiResponse;
+import com.smeup.backend.dto.CustomerDTO;
 import com.smeup.backend.entity.Customer;
+import com.smeup.backend.mapper.CustomerMapper;
 import com.smeup.backend.service.CustomerService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -21,9 +23,11 @@ import org.springframework.web.bind.annotation.RestController;
 public class CustomerController {
 
     private final CustomerService customerService;
+    private final CustomerMapper customerMapper;
 
-    public CustomerController(CustomerService customerService) {
+    public CustomerController(CustomerService customerService, CustomerMapper customerMapper) {
         this.customerService = customerService;
+        this.customerMapper = customerMapper;
     }
 
     /**
@@ -36,8 +40,9 @@ public class CustomerController {
      * @return The customer details wrapped in ApiResponse.
      */
     @GetMapping("/{customerId}")
-    public ResponseEntity<ApiResponse<Customer>> getCustomerById(@PathVariable Long customerId) {
+    public ResponseEntity<ApiResponse<CustomerDTO>> getCustomerById(@PathVariable Long customerId) {
         Customer customer = customerService.findCustomerById(customerId);
-        return ResponseEntity.ok(new ApiResponse<>(customer));
+        CustomerDTO customerDTO = customerMapper.toDTO(customer);
+        return ResponseEntity.ok(new ApiResponse<>(customerDTO));
     }
 }
