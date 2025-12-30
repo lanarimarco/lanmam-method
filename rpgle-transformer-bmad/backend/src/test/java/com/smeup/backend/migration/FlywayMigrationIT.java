@@ -7,9 +7,6 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestMethodOrder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.test.annotation.DirtiesContext;
-import org.springframework.test.context.DynamicPropertyRegistry;
-import org.springframework.test.context.DynamicPropertySource;
 
 import java.math.BigDecimal;
 import java.util.List;
@@ -20,12 +17,14 @@ import static org.assertj.core.api.Assertions.assertThat;
 /**
  * Integration tests for Flyway migrations.
  *
- * These tests verify that:
- * 1. Flyway migrations execute successfully with real PostgreSQL
- * 2. CUSTMAST table is created with correct structure
- * 3. Column types match DDS specifications
+ * <p>These tests verify that:
+ * <ol>
+ *   <li>Flyway migrations execute successfully with real PostgreSQL</li>
+ *   <li>CUSTMAST table is created with correct structure</li>
+ *   <li>Column types match DDS specifications</li>
+ * </ol>
  *
- * Original DDS File: source-rpgle/dds/physical-files/CUSTMAST.dds
+ * <p>Original DDS File: source-rpgle/dds/physical-files/CUSTMAST.dds
  */
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 class FlywayMigrationIT extends AbstractIntegrationTest {

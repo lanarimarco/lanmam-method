@@ -2,8 +2,6 @@
 
 Status: done
 
-> **Known Issue:** Integration tests pass individually but fail when run together with `mvn verify` due to Spring context caching between test classes. See [Completion Notes](#completion-notes-list) for details.
-
 <!-- Note: Validation is optional. Run validate-create-story for quality check before dev-story. -->
 
 ## Story
@@ -313,14 +311,14 @@ N/A
 
 4. **Integration Tests Use Testcontainers**: Integration tests (FlywayMigrationIT) use Testcontainers with real PostgreSQL. All 6 integration tests pass when run individually.
 
-5. **Known Issue - Context Caching** (needs resolution in future story):
+5. **Known Issue - Context Caching** (RESOLVED in Story 2-3):
    - **Problem**: When running all integration tests together (`mvn verify`), FlywayMigrationIT fails with JDBC connection timeout errors
-   - **Root Cause**: Each test class creates its own PostgreSQL container via `@Container static`, but Spring context caching causes the second test class to try connecting to the first container which may be shutting down
-   - **Workaround**: Run tests individually: `mvn failsafe:integration-test -Dit.test=FlywayMigrationIT`
-   - **Potential Fixes**:
-     - Use `@DirtiesContext` to reset context between test classes
-     - Share a single container across all IT tests using a test configuration class
-     - Use `@TestInstance(Lifecycle.PER_CLASS)` with shared container setup
+   - **Root Cause**: `@Container` + `@Testcontainers` stops container after each test class, but Spring caches context pointing to dead container
+   - **Resolution**: Implemented Singleton Container Pattern in Story 2-3:
+     - Removed `@Testcontainers` and `@Container` annotations
+     - Container started in static block, stays running for entire test suite
+     - All 11 ITs now pass when run together with `mvn verify`
+   - **Reference**: [Testcontainers Spring Boot Setup](https://maciejwalkowiak.com/blog/testcontainers-spring-boot-setup/)
 
 ### Change Log
 | Date | Change | By |
