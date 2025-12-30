@@ -26,7 +26,7 @@ workflow_status:
   research: skipped
   product-brief: _bmad-output/planning-artifacts/product-brief-rpgle-transformer-bmad-2025-12-29.md
   prd: _bmad-output/planning-artifacts/prd.md
-  create-ux-design: conditional
+  create-ux-design: skipped
   create-architecture: _bmad-output/planning-artifacts/architecture.md
   create-epics-and-stories: _bmad-output/planning-artifacts/epics.md
   test-design: skipped
