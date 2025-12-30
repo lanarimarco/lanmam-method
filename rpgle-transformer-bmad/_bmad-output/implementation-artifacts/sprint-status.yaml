@@ -1,0 +1,100 @@
+# generated: 2025-12-30
+# project: rpgle-transformer-bmad
+# project_key: rpgle-transformer
+# tracking_system: file-system
+# story_location: _bmad-output/implementation-artifacts
+
+# STATUS DEFINITIONS:
+# ==================
+# Epic Status:
+#   - backlog: Epic not yet started
+#   - in-progress: Epic actively being worked on
+#   - done: All stories in epic completed
+#
+# Epic Status Transitions:
+#   - backlog → in-progress: Automatically when first story is created (via create-story)
+#   - in-progress → done: Manually when all stories reach 'done' status
+#
+# Story Status:
+#   - backlog: Story only exists in epic file
+#   - ready-for-dev: Story file created in stories folder
+#   - in-progress: Developer actively working on implementation
+#   - review: Ready for code review (via Dev's code-review workflow)
+#   - done: Story completed
+#
+# Retrospective Status:
+#   - optional: Can be completed but not required
+#   - done: Retrospective has been completed
+#
+# WORKFLOW NOTES:
+# ===============
+# - Epic transitions to 'in-progress' automatically when first story is created
+# - Stories can be worked in parallel if team capacity allows
+# - SM typically creates next story after previous one is 'done' to incorporate learnings
+# - Dev moves story to 'review', then runs code-review (fresh context, different LLM recommended)
+
+generated: 2025-12-30
+project: rpgle-transformer-bmad
+project_key: rpgle-transformer
+tracking_system: file-system
+story_location: _bmad-output/implementation-artifacts
+
+development_status:
+  # Epic 1: Project Foundation & Development Environment
+  epic-1: in-progress
+  1-1-initialize-spring-boot-backend-project: done
+  1-2-initialize-react-frontend-project: backlog
+  1-3-configure-development-environment: backlog
+  1-4-configure-testing-infrastructure: backlog
+  1-5-configure-code-quality-tools: backlog
+  epic-1-retrospective: optional
+
+  # Epic 2: CUST001 Backend Transformation
+  epic-2: backlog
+  2-1-create-customer-entity-from-dds-physical-file: backlog
+  2-2-create-flyway-migration-for-custmast-table: backlog
+  2-3-create-customer-repository: backlog
+  2-4-create-customer-service-with-business-logic: backlog
+  2-5-create-customer-rest-controller: backlog
+  2-6-create-customer-dto-and-mapper: backlog
+  epic-2-retrospective: optional
+
+  # Epic 3: CUST001 Frontend Transformation
+  epic-3: backlog
+  3-1-create-api-client-for-customer-endpoints: backlog
+  3-2-create-customer-types-from-dds-display-file: backlog
+  3-3-create-customer-search-form-component: backlog
+  3-4-create-customer-detail-display-component: backlog
+  3-5-create-customer-inquiry-page-with-react-query: backlog
+  3-6-style-customer-components-with-tailwind-css: backlog
+  epic-3-retrospective: optional
+
+  # Epic 4: Automated Testing & Validation
+  epic-4: backlog
+  4-1-create-backend-unit-tests-for-customer-service: backlog
+  4-2-create-backend-integration-tests-with-testcontainers: backlog
+  4-3-create-backend-controller-tests: backlog
+  4-4-create-frontend-component-tests-with-vitest: backlog
+  4-5-create-e2e-tests-with-playwright: backlog
+  4-6-create-functional-equivalence-validation-test: backlog
+  epic-4-retrospective: optional
+
+  # Epic 5: Transformation Documentation & Developer Workflow
+  epic-5: backlog
+  5-1-create-cust001-transformation-analysis-document: backlog
+  5-2-document-business-logic-mapping: backlog
+  5-3-document-dds-to-modern-stack-mapping: backlog
+  5-4-create-inline-code-documentation-standards: backlog
+  5-5-create-developer-transformation-workflow-guide: backlog
+  5-6-create-transformation-validation-checklist: backlog
+  epic-5-retrospective: optional
+
+  # Epic 6: Migration Scaling & Pattern Library
+  epic-6: backlog
+  6-1-create-transformation-progress-tracking-structure: backlog
+  6-2-create-velocity-metrics-tracking: backlog
+  6-3-create-quality-gate-tracking: backlog
+  6-4-create-rpgle-pattern-reference-library: backlog
+  6-5-create-ai-prompt-templates-for-transformation: backlog
+  6-6-create-example-transformation-reference: backlog
+  epic-6-retrospective: optional
