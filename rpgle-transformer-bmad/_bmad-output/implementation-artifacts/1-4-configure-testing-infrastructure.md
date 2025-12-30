@@ -1,6 +1,6 @@
 # Story 1.4: Configure Testing Infrastructure
 
-Status: review
+Status: done
 
 <!-- Note: Validation is optional. Run validate-create-story for quality check before dev-story. -->
 
@@ -134,6 +134,7 @@ Claude Opus 4.5 (claude-opus-4-5-20251101)
 |------|--------|-----|
 | 2025-12-30 | Story created | PM Agent (Claude Opus 4.5) |
 | 2025-12-30 | Implemented Testing Infrastructure | Dev Agent (Claude Opus 4.5) |
+| 2025-12-30 | Verified by Code Review | Code Review (Automated) |
 
 ### File List
 
