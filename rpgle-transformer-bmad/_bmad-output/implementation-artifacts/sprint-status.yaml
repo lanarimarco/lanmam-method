@@ -55,7 +55,7 @@ development_status:
   2-2-create-flyway-migration-for-custmast-table: done
   2-3-create-customer-repository: done
   2-4-create-customer-service-with-business-logic: done
-  2-5-create-customer-rest-controller: ready-for-dev
+  2-5-create-customer-rest-controller: review
   2-6-create-customer-dto-and-mapper: backlog
   epic-2-retrospective: optional
 
