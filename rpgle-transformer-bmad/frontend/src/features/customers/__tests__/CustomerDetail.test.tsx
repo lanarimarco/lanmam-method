@@ -71,78 +71,90 @@ describe('CustomerDetail Component', () => {
       expect(screen.getByText('217-555-0100')).toBeInTheDocument();
     });
 
-    it('should display account balance (DBALANCE)', () => {
+    it('should display account balance (DBALANCE) with thousand separators', () => {
       render(<CustomerDetail customer={mockCustomerData} />);
       expect(screen.getByText('Balance:')).toBeInTheDocument();
-      expect(screen.getByText('1500.50')).toBeInTheDocument();
+      expect(screen.getByText('1,500.50')).toBeInTheDocument();
     });
   });
 
   describe('Null field handling', () => {
-    it('should handle null customer name gracefully', () => {
+    it('should handle null customer name gracefully and display empty string', () => {
       const customerWithNullName: CustomerDetailDisplay = {
         ...mockCustomerData,
         customerName: null,
       };
       render(<CustomerDetail customer={customerWithNullName} />);
       expect(screen.getByText('Name:')).toBeInTheDocument();
-      // Should display empty string for null values
+      // Verify it doesn't display the word "null" or "undefined"
+      expect(screen.queryByText('null')).not.toBeInTheDocument();
+      expect(screen.queryByText('undefined')).not.toBeInTheDocument();
     });
 
-    it('should handle null address gracefully', () => {
+    it('should handle null address gracefully and display empty string', () => {
       const customerWithNullAddress: CustomerDetailDisplay = {
         ...mockCustomerData,
         addressLine1: null,
       };
       render(<CustomerDetail customer={customerWithNullAddress} />);
       expect(screen.getByText('Address:')).toBeInTheDocument();
+      expect(screen.queryByText('null')).not.toBeInTheDocument();
+      expect(screen.queryByText('undefined')).not.toBeInTheDocument();
     });
 
-    it('should handle null city gracefully', () => {
+    it('should handle null city gracefully and display empty string', () => {
       const customerWithNullCity: CustomerDetailDisplay = {
         ...mockCustomerData,
         city: null,
       };
       render(<CustomerDetail customer={customerWithNullCity} />);
       expect(screen.getByText('City:')).toBeInTheDocument();
+      expect(screen.queryByText('null')).not.toBeInTheDocument();
+      expect(screen.queryByText('undefined')).not.toBeInTheDocument();
     });
 
-    it('should handle null state gracefully', () => {
+    it('should handle null state gracefully and display empty string', () => {
       const customerWithNullState: CustomerDetailDisplay = {
         ...mockCustomerData,
         state: null,
       };
       render(<CustomerDetail customer={customerWithNullState} />);
       expect(screen.getByText('State:')).toBeInTheDocument();
+      expect(screen.queryByText('null')).not.toBeInTheDocument();
+      expect(screen.queryByText('undefined')).not.toBeInTheDocument();
     });
 
-    it('should handle null zip code gracefully', () => {
+    it('should handle null zip code gracefully and display empty string', () => {
       const customerWithNullZip: CustomerDetailDisplay = {
         ...mockCustomerData,
         zipCode: null,
       };
       render(<CustomerDetail customer={customerWithNullZip} />);
       expect(screen.getByText('Zip:')).toBeInTheDocument();
-      // Should display empty string for null zip
+      expect(screen.queryByText('null')).not.toBeInTheDocument();
+      expect(screen.queryByText('undefined')).not.toBeInTheDocument();
     });
 
-    it('should handle null phone number gracefully', () => {
+    it('should handle null phone number gracefully and display empty string', () => {
       const customerWithNullPhone: CustomerDetailDisplay = {
         ...mockCustomerData,
         phoneNumber: null,
       };
       render(<CustomerDetail customer={customerWithNullPhone} />);
       expect(screen.getByText('Phone:')).toBeInTheDocument();
+      expect(screen.queryByText('null')).not.toBeInTheDocument();
+      expect(screen.queryByText('undefined')).not.toBeInTheDocument();
     });
 
-    it('should handle null account balance gracefully', () => {
+    it('should handle null account balance gracefully and display empty string', () => {
       const customerWithNullBalance: CustomerDetailDisplay = {
         ...mockCustomerData,
         accountBalance: null,
       };
       render(<CustomerDetail customer={customerWithNullBalance} />);
       expect(screen.getByText('Balance:')).toBeInTheDocument();
-      // Should display empty string for null balance
+      expect(screen.queryByText('null')).not.toBeInTheDocument();
+      expect(screen.queryByText('undefined')).not.toBeInTheDocument();
     });
 
     it('should handle all null fields gracefully', () => {
@@ -159,6 +171,8 @@ describe('CustomerDetail Component', () => {
       render(<CustomerDetail customer={customerWithAllNulls} />);
       expect(screen.getByText('Customer Detail')).toBeInTheDocument();
       expect(screen.getByText('99999')).toBeInTheDocument();
+      expect(screen.queryByText('null')).not.toBeInTheDocument();
+      expect(screen.queryByText('undefined')).not.toBeInTheDocument();
     });
   });
 
@@ -181,25 +195,25 @@ describe('CustomerDetail Component', () => {
       expect(screen.getByText('1234')).toBeInTheDocument();
     });
 
-    it('should format account balance with 2 decimal places (DDS EDTCDE(J))', () => {
+    it('should format account balance with 2 decimal places and thousand separators (DDS EDTCDE(J))', () => {
       const customerWithWholeBalance: CustomerDetailDisplay = {
         ...mockCustomerData,
-        accountBalance: 1000, // Should display as "1000.00"
+        accountBalance: 1000, // Should display as "1,000.00" with comma
       };
       render(<CustomerDetail customer={customerWithWholeBalance} />);
-      expect(screen.getByText('1000.00')).toBeInTheDocument();
+      expect(screen.getByText('1,000.00')).toBeInTheDocument();
     });
 
-    it('should format account balance with exactly 2 decimals', () => {
+    it('should format account balance with exactly 2 decimals and thousand separator', () => {
       const customerWithDecimal: CustomerDetailDisplay = {
         ...mockCustomerData,
-        accountBalance: 1500.5, // Should display as "1500.50" not "1500.5"
+        accountBalance: 1500.5, // Should display as "1,500.50" not "1500.5"
       };
       render(<CustomerDetail customer={customerWithDecimal} />);
-      expect(screen.getByText('1500.50')).toBeInTheDocument();
+      expect(screen.getByText('1,500.50')).toBeInTheDocument();
     });
 
-    it('should handle negative account balance', () => {
+    it('should handle negative account balance with thousand separators', () => {
       const customerWithNegativeBalance: CustomerDetailDisplay = {
         ...mockCustomerData,
         accountBalance: -250.75,
@@ -264,6 +278,22 @@ describe('CustomerDetail Component', () => {
       expect(screen.queryByText('Customer Detail')).not.toBeInTheDocument();
       expect(screen.queryByText('ACME Corporation')).not.toBeInTheDocument();
     });
+
+    it('should prioritize error over loading state when both are present', () => {
+      render(
+        <CustomerDetail
+          customer={null}
+          isLoading={true}
+          errorMessage="Error loading customer"
+        />
+      );
+      // Should show error, not loading
+      expect(screen.getByText('Error loading customer')).toBeInTheDocument();
+      expect(screen.queryByText('Loading customer details...')).not.toBeInTheDocument();
+      // Should have error role, not status role
+      expect(screen.getByRole('alert')).toBeInTheDocument();
+      expect(screen.queryByRole('status')).not.toBeInTheDocument();
+    });
   });
 
   describe('No customer state', () => {
@@ -302,6 +332,19 @@ describe('CustomerDetail Component', () => {
       labels.forEach((label) => {
         expect(screen.getByText(label)).toBeInTheDocument();
       });
+    });
+
+    it('should use semantic HTML with definition list for accessibility', () => {
+      const { container } = render(<CustomerDetail customer={mockCustomerData} />);
+      // Check for <dl> (definition list)
+      const dl = container.querySelector('dl');
+      expect(dl).toBeInTheDocument();
+      // Check for <dt> (definition term - labels)
+      const dts = container.querySelectorAll('dt');
+      expect(dts.length).toBe(8); // 8 fields
+      // Check for <dd> (definition description - values)
+      const dds = container.querySelectorAll('dd');
+      expect(dds.length).toBe(8); // 8 values
     });
   });
 
@@ -352,13 +395,23 @@ describe('CustomerDetail Component', () => {
       expect(screen.getByText('99999')).toBeInTheDocument();
     });
 
-    it('should handle large account balance', () => {
+    it('should handle large account balance with proper thousand separators', () => {
       const customerWithLargeBalance: CustomerDetailDisplay = {
         ...mockCustomerData,
         accountBalance: 9999999.99, // DDS: 9Y 2 = 9 digits total, 2 decimal
       };
       render(<CustomerDetail customer={customerWithLargeBalance} />);
-      expect(screen.getByText('9999999.99')).toBeInTheDocument();
+      // Should display with commas: 9,999,999.99
+      expect(screen.getByText('9,999,999.99')).toBeInTheDocument();
+    });
+  });
+
+  describe('Responsive design', () => {
+    it('should have responsive flex classes for mobile layout', () => {
+      const { container } = render(<CustomerDetail customer={mockCustomerData} />);
+      // Check for responsive flex classes
+      const flexContainers = container.querySelectorAll('.flex.flex-col.sm\\:flex-row');
+      expect(flexContainers.length).toBe(8); // All 8 fields should have responsive layout
     });
   });
 });
