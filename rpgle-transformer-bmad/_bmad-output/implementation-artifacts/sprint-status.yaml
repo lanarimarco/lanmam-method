@@ -65,7 +65,7 @@ development_status:
   3-2-create-customer-types-from-dds-display-file: done
   3-3-create-customer-search-form-component: done
   3-4-create-customer-detail-display-component: done
-  3-5-create-customer-inquiry-page-with-react-query: review
+  3-5-create-customer-inquiry-page-with-react-query: done
   3-6-style-customer-components-with-tailwind-css: backlog
   epic-3-retrospective: optional
 
