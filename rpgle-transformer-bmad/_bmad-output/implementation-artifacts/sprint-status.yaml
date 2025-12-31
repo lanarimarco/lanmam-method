@@ -56,7 +56,7 @@ development_status:
   2-3-create-customer-repository: done
   2-4-create-customer-service-with-business-logic: done
   2-5-create-customer-rest-controller: done
-  2-6-create-customer-dto-and-mapper: review
+  2-6-create-customer-dto-and-mapper: done
   epic-2-retrospective: optional
 
   # Epic 3: CUST001 Frontend Transformation

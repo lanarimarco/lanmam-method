@@ -4,14 +4,16 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import com.smeup.backend.AbstractIntegrationTest;
 import com.smeup.backend.dto.ApiResponse;
+import com.smeup.backend.dto.CustomerDTO;
 import com.smeup.backend.entity.Customer;
 import com.smeup.backend.repository.CustomerRepository;
 import java.math.BigDecimal;
-import java.util.LinkedHashMap;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.web.server.LocalServerPort;
+import org.springframework.core.ParameterizedTypeReference;
+import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ProblemDetail;
 import org.springframework.http.ResponseEntity;
@@ -61,18 +63,22 @@ class CustomerControllerTest extends AbstractIntegrationTest {
         customerRepository.save(customer);
 
         // When
-        ResponseEntity<ApiResponse> response = restTemplate.getForEntity(
-                getBaseUrl() + "/1", ApiResponse.class);
+        ResponseEntity<ApiResponse<CustomerDTO>> response = restTemplate.exchange(
+                getBaseUrl() + "/1",
+                HttpMethod.GET,
+                null,
+                new ParameterizedTypeReference<ApiResponse<CustomerDTO>>() {
+                });
 
         // Then
         assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
         assertThat(response.getBody()).isNotNull();
 
-        // Validate "data" wrapper
-        @SuppressWarnings("unchecked")
-        LinkedHashMap<String, Object> data = (LinkedHashMap<String, Object>) response.getBody().getData();
-        assertThat(data.get("customerId")).isEqualTo(1);
-        assertThat(data.get("customerName")).isEqualTo("Test Customer");
+        // Validate "data" wrapper with strict types
+        CustomerDTO dto = response.getBody().getData();
+        assertThat(dto).isNotNull();
+        assertThat(dto.customerId()).isEqualTo(1L);
+        assertThat(dto.customerName()).isEqualTo("Test Customer");
 
         // Validate "meta" wrapper exists
         assertThat(response.getBody().getMeta()).isNotNull();

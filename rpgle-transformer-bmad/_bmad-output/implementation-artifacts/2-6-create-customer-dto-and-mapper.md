@@ -38,3 +38,4 @@ Currently, the `CustomerController` returns the `Customer` JPA Entity directly. 
 
 ## Change Log
 - 2025-12-30: Implemented Story 2.6. Created `CustomerDTO` record, `CustomerMapper` component, and `CustomerMapperTest`. Refactored `CustomerController` to use DTOs. Verified all tests pass.
+- 2025-12-30: Addressed Code Review findings. Refactored `CustomerControllerTest` to use strict typing. Added DDS traceability documentation to `CustomerDTO`.
