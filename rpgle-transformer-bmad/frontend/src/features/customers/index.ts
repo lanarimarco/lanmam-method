@@ -30,3 +30,6 @@ export {
 
 export { CustomerSearch } from './CustomerSearch';
 export type { CustomerSearchProps } from './CustomerSearch';
+
+export { CustomerDetail } from './CustomerDetail';
+export type { CustomerDetailProps } from './CustomerDetail';
