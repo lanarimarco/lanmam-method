@@ -1,25 +1,45 @@
-import { render, screen, fireEvent } from '@testing-library/react';
+/**
+ * Unit tests for App component
+ *
+ * Tests React Router configuration and navigation structure.
+ */
+
+import { render, screen } from '@testing-library/react';
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import App from './App';
 import { describe, it, expect } from 'vitest';
 
 describe('App Component', () => {
-  it('renders logos', () => {
-    render(<App />);
-    const viteLogo = screen.getByAltText('Vite logo');
-    const reactLogo = screen.getByAltText('React logo');
+  const renderApp = () => {
+    const queryClient = new QueryClient({
+      defaultOptions: {
+        queries: {
+          retry: 0,
+        },
+      },
+    });
 
-    expect(viteLogo).toBeInTheDocument();
-    expect(reactLogo).toBeInTheDocument();
+    return render(
+      <QueryClientProvider client={queryClient}>
+        <App />
+      </QueryClientProvider>
+    );
+  };
+
+  it('renders home page with title', () => {
+    renderApp();
+    expect(screen.getByRole('heading', { name: /rpgle transformer/i })).toBeInTheDocument();
   });
 
-  it('increments count on button click', () => {
-    render(<App />);
-    const button = screen.getByRole('button', { name: /count is 0/i });
+  it('renders link to customer inquiry', () => {
+    renderApp();
+    const customerLink = screen.getByRole('link', { name: /customer inquiry/i });
+    expect(customerLink).toBeInTheDocument();
+    expect(customerLink).toHaveAttribute('href', '/customers');
+  });
 
-    expect(button).toBeInTheDocument();
-
-    fireEvent.click(button);
-
-    expect(screen.getByRole('button', { name: /count is 1/i })).toBeInTheDocument();
+  it('renders tagline', () => {
+    renderApp();
+    expect(screen.getByText(/modern transformation of legacy rpgle applications/i)).toBeInTheDocument();
   });
 });
