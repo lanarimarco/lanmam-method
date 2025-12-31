@@ -137,10 +137,10 @@ export interface CustomerDetailDisplay {
  */
 export const CustomerPromptFormDataSchema = z.object({
   /**
-   * Customer Number - must be positive integer
+   * Customer Number - must be positive integer, max 5 digits
    * DDS Field: PCUSTNO (5Y 0) - numeric 5 digits
    */
-  customerNumber: z.number().int().positive().describe('Customer Number for lookup'),
+  customerNumber: z.number().int().positive().max(99999).describe('Customer Number for lookup'),
 
   /**
    * Error message - optional string

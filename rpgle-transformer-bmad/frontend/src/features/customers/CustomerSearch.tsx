@@ -100,6 +100,7 @@ export function CustomerSearch({
           <input
             id="customerNumber"
             type="number"
+            max={99999}
             {...register('customerNumber', { valueAsNumber: true })}
             disabled={isLoading}
             className="border border-gray-300 rounded px-3 py-2 w-full max-w-xs focus:outline-none focus:ring-2 focus:ring-blue-500 disabled:bg-gray-100"

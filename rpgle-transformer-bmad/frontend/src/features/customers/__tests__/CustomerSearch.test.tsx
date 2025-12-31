@@ -145,6 +145,36 @@ describe('CustomerSearch', () => {
       await screen.findByText(/Expected number, received nan/i);
       expect(mockOnSearch).not.toHaveBeenCalled();
     });
+
+    it('should prevent submission with number exceeding 5 digits', async () => {
+      const user = userEvent.setup();
+      const mockOnSearch = vi.fn();
+      render(<CustomerSearch onSearch={mockOnSearch} />);
+
+      const input = screen.getByPlaceholderText(/Enter customer number/i);
+      await user.type(input, '100000');
+
+      const submitButton = screen.getByRole('button', { name: /Search/i });
+      await user.click(submitButton);
+
+      // onSearch should not be called with 6-digit number (exceeds DDS 5Y 0 max)
+      expect(mockOnSearch).not.toHaveBeenCalled();
+    });
+
+    it('should prevent submission with decimal number', async () => {
+      const user = userEvent.setup();
+      const mockOnSearch = vi.fn();
+      render(<CustomerSearch onSearch={mockOnSearch} />);
+
+      const input = screen.getByPlaceholderText(/Enter customer number/i);
+      await user.type(input, '123.45');
+
+      const submitButton = screen.getByRole('button', { name: /Search/i });
+      await user.click(submitButton);
+
+      // onSearch should not be called with decimal (DDS 5Y 0 requires integer)
+      expect(mockOnSearch).not.toHaveBeenCalled();
+    });
   });
 
   describe('User Interactions', () => {
