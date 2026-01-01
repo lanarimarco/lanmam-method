@@ -28,50 +28,50 @@ so that **I can validate React components render and behave correctly**.
 
 ## Tasks / Subtasks
 
-- [ ] Task 1: Set up Vitest and React Testing Library if not configured (AC: 1, 2, 3)
-  - [ ] Verify Vitest is installed and configured in package.json
-  - [ ] Verify @testing-library/react is installed
-  - [ ] Verify @testing-library/user-event is installed
-  - [ ] Create vitest.config.ts if needed
+- [x] Task 1: Set up Vitest and React Testing Library if not configured (AC: 1, 2, 3)
+  - [x] Verify Vitest is installed and configured in package.json
+  - [x] Verify @testing-library/react is installed
+  - [x] Verify @testing-library/user-event is installed
+  - [x] Create vitest.config.ts if needed
 
-- [ ] Task 2: Create CustomerSearch component tests (AC: 1, 4, 5)
-  - [ ] Create frontend/src/components/CustomerSearch.test.tsx
-  - [ ] Test component renders search form correctly
-  - [ ] Test form validation (customer number required, numeric)
-  - [ ] Test form submission triggers search handler
-  - [ ] Mock API calls for search functionality
-  - [ ] Test loading state during search
-  - [ ] Test error state for API failures
-  - [ ] Test success state with search results
+- [x] Task 2: Create CustomerSearch component tests (AC: 1, 4, 5)
+  - [x] Create frontend/src/components/CustomerSearch.test.tsx
+  - [x] Test component renders search form correctly
+  - [x] Test form validation (customer number required, numeric)
+  - [x] Test form submission triggers search handler
+  - [x] Mock API calls for search functionality
+  - [x] Test loading state during search
+  - [x] Test error state for API failures
+  - [x] Test success state with search results
 
-- [ ] Task 3: Create CustomerDetail component tests (AC: 2, 4, 5)
-  - [ ] Create frontend/src/components/CustomerDetail.test.tsx
-  - [ ] Test component renders with customer data
-  - [ ] Test all customer fields are displayed correctly
-  - [ ] Test component handles missing/null data gracefully
-  - [ ] Mock API calls for fetching customer details
-  - [ ] Test loading state during data fetch
-  - [ ] Test error state for API failures
+- [x] Task 3: Create CustomerDetail component tests (AC: 2, 4, 5)
+  - [x] Create frontend/src/components/CustomerDetail.test.tsx
+  - [x] Test component renders with customer data
+  - [x] Test all customer fields are displayed correctly
+  - [x] Test component handles missing/null data gracefully
+  - [x] Mock API calls for fetching customer details
+  - [x] Test loading state during data fetch
+  - [x] Test error state for API failures
 
-- [ ] Task 4: Create CustomerInquiry page tests (AC: 3, 4, 5)
-  - [ ] Create frontend/src/pages/CustomerInquiry.test.tsx
-  - [ ] Test full page workflow: search → select → display details
-  - [ ] Test integration between search and detail components
-  - [ ] Mock all API interactions
-  - [ ] Test error handling and user feedback
-  - [ ] Test loading states across page workflow
+- [x] Task 4: Create CustomerInquiry page tests (AC: 3, 4, 5)
+  - [x] Create frontend/src/pages/CustomerInquiry.test.tsx
+  - [x] Test full page workflow: search → select → display details
+  - [x] Test integration between search and detail components
+  - [x] Mock all API interactions
+  - [x] Test error handling and user feedback
+  - [x] Test loading states across page workflow
 
-- [ ] Task 5: Set up MSW for API mocking (AC: 4)
-  - [ ] Install MSW (Mock Service Worker) if not present
-  - [ ] Create frontend/src/mocks/handlers.ts for customer API mocks
-  - [ ] Create frontend/src/mocks/server.ts for test setup
-  - [ ] Configure MSW to intercept customer API calls in tests
+- [x] Task 5: Set up MSW for API mocking (AC: 4)
+  - [x] Install MSW (Mock Service Worker) if not present
+  - [x] Create frontend/src/mocks/handlers.ts for customer API mocks
+  - [x] Create frontend/src/mocks/server.ts for test setup
+  - [x] Configure MSW to intercept customer API calls in tests
 
-- [ ] Task 6: Run tests and verify coverage (AC: 6)
-  - [ ] Run `npm test` - all component tests pass
-  - [ ] Run `npm run test:coverage` to check coverage
-  - [ ] Verify customer components have >= 80% coverage
-  - [ ] Add additional tests if coverage is below threshold
+- [x] Task 6: Run tests and verify coverage (AC: 6)
+  - [x] Run `npm test` - all component tests pass
+  - [x] Run `npm run test:coverage` to check coverage
+  - [x] Verify customer components have >= 80% coverage
+  - [x] Add additional tests if coverage is below threshold
 
 ## Dev Notes
 
