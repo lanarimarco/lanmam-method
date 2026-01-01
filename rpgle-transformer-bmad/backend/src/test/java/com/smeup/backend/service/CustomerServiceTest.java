@@ -2,6 +2,7 @@ package com.smeup.backend.service;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
+import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -41,7 +42,7 @@ class CustomerServiceTest {
         // Then
         assertThat(result).isNotNull();
         assertThat(result.getCustomerName()).isEqualTo("Test Customer");
-        verify(customerRepository).findByCustomerId(12345L);
+        verify(customerRepository, times(1)).findByCustomerId(12345L);
     }
 
     @Test
@@ -54,7 +55,7 @@ class CustomerServiceTest {
         assertThatThrownBy(() -> customerService.findCustomerById(99999L))
                 .isInstanceOf(CustomerNotFoundException.class)
                 .hasMessageContaining("Customer not found with ID: 99999");
-        verify(customerRepository).findByCustomerId(99999L);
+        verify(customerRepository, times(1)).findByCustomerId(99999L);
     }
 
     @Test
@@ -75,6 +76,21 @@ class CustomerServiceTest {
                 .hasMessageContaining("Customer ID must be a positive number");
 
         assertThatThrownBy(() -> customerService.findCustomerById(-1L))
+                .isInstanceOf(InvalidCustomerIdException.class)
+                .hasMessageContaining("Customer ID must be a positive number");
+    }
+
+    @Test
+    @DisplayName("findCustomerById should throw InvalidCustomerIdException when ID exceeds DDS field size (RPGLE: 5P 0 max is 99999)")
+    void shouldThrowWhenIdExceedsDdsFieldSize() {
+        // RPGLE DDS Physical File CUSTMAST: CUSTID field is 5P 0 (5 digits, 0 decimals)
+        // Maximum value: 99999
+        // Java Long allows much larger values - must validate for RPGLE compatibility
+        assertThatThrownBy(() -> customerService.findCustomerById(100000L))
+                .isInstanceOf(InvalidCustomerIdException.class)
+                .hasMessageContaining("Customer ID must be a positive number");
+
+        assertThatThrownBy(() -> customerService.findCustomerById(Long.MAX_VALUE))
                 .isInstanceOf(InvalidCustomerIdException.class)
                 .hasMessageContaining("Customer ID must be a positive number");
     }

@@ -68,9 +68,13 @@ public class CustomerService {
      * C     CUSTNO    IFEQ      *ZEROS
      * C               MOVEL     'ERR001'      MSGID
      * </pre>
+     *
+     * <p>
+     * DDS Field Constraint: CUSTID is defined as 5P 0 (5 digits, 0 decimals)
+     * Maximum value: 99999
      */
     private void validateCustomerId(Long customerId) {
-        if (customerId == null || customerId <= 0) {
+        if (customerId == null || customerId <= 0 || customerId > 99999) {
             throw new InvalidCustomerIdException("Customer ID must be a positive number");
         }
     }
