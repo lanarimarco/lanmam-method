@@ -76,7 +76,7 @@ development_status:
   4-3-create-backend-controller-tests: done
   4-4-create-frontend-component-tests-with-vitest: done
   4-5-create-e2e-tests-with-playwright: blocked
-  4-6-create-functional-equivalence-validation-test: backlog
+  4-6-create-functional-equivalence-validation-test: review
   epic-4-retrospective: optional
 
   # Epic 5: Transformation Documentation & Developer Workflow

@@ -86,6 +86,13 @@
 			<artifactId>postgresql</artifactId>
 			<scope>test</scope>
 		</dependency>
+		<!-- Jackson CSV for equivalence test data loading (Story 4.6) -->
+		<dependency>
+			<groupId>com.fasterxml.jackson.dataformat</groupId>
+			<artifactId>jackson-dataformat-csv</artifactId>
+			<version>2.18.2</version>
+			<scope>test</scope>
+		</dependency>
 	</dependencies>
 
 	<build>
