@@ -75,7 +75,7 @@ development_status:
   4-2-create-backend-integration-tests-with-testcontainers: done
   4-3-create-backend-controller-tests: done
   4-4-create-frontend-component-tests-with-vitest: done
-  4-5-create-e2e-tests-with-playwright: review
+  4-5-create-e2e-tests-with-playwright: blocked
   4-6-create-functional-equivalence-validation-test: backlog
   epic-4-retrospective: optional
 

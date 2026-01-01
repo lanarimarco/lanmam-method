@@ -1,6 +1,6 @@
 # Story 4.5: Create E2E Tests with Playwright
 
-Status: ready-for-dev
+Status: blocked
 
 <!-- Note: Validation is optional. Run validate-create-story for quality check before dev-story. -->
 
@@ -21,49 +21,49 @@ So that **I can validate the full user journey works correctly**.
 
 ## Tasks / Subtasks
 
-- [ ] Task 1: Set up Playwright in frontend project (AC: 1, 6)
-  - [ ] Install Playwright dependencies (`npm install -D @playwright/test`)
+- [x] Task 1: Set up Playwright in frontend project (AC: 1, 6)
+  - [x] Install Playwright dependencies (`npm install -D @playwright/test`)
   - [ ] Run `npx playwright install` to install browsers
-  - [ ] Create `playwright.config.ts` with test configuration
-  - [ ] Configure Playwright to run against `http://localhost:5173` (Vite dev server)
-  - [ ] Add npm script `"test:e2e": "playwright test"` to package.json
+  - [x] Create `playwright.config.ts` with test configuration
+  - [x] Configure Playwright to run against `http://localhost:5173` (Vite dev server)
+  - [x] Add npm script `"test:e2e": "playwright test"` to package.json
 
-- [ ] Task 2: Create Docker Compose setup for E2E testing (AC: 6)
-  - [ ] Verify `docker-compose.yml` includes backend and database services
+- [~] Task 2: Create Docker Compose setup for E2E testing (AC: 6)
+  - [x] Verify `docker-compose.yml` includes backend and database services
   - [ ] Create script to start backend and frontend for E2E tests
-  - [ ] Verify backend runs on `http://localhost:8080`
-  - [ ] Verify frontend runs on `http://localhost:5173`
-  - [ ] Document E2E test setup in README
+  - [x] Verify backend runs on `http://localhost:8080`
+  - [x] Verify frontend runs on `http://localhost:5173`
+  - [x] Document E2E test setup in README
 
-- [ ] Task 3: Create customer inquiry E2E test - Happy Path (AC: 2, 3, 4)
-  - [ ] Create `frontend/e2e/customer-inquiry.spec.ts`
-  - [ ] Test navigates to `/customers` page
-  - [ ] Test enters valid customer number (e.g., "1001") in search form
-  - [ ] Test clicks submit button (or presses Enter)
-  - [ ] Test waits for customer details to appear
-  - [ ] Test verifies customer name is displayed
-  - [ ] Test verifies customer address is displayed
-  - [ ] Test verifies all expected fields are visible
+- [~] Task 3: Create customer inquiry E2E test - Happy Path (AC: 2, 3, 4)
+  - [x] Create `frontend/e2e/customer-inquiry.spec.ts`
+  - [~] Test navigates to `/customers` page
+  - [~] Test enters valid customer number (e.g., "1001") in search form
+  - [~] Test clicks submit button (or presses Enter)
+  - [~] Test waits for customer details to appear
+  - [~] Test verifies customer name is displayed
+  - [~] Test verifies customer address is displayed
+  - [~] Test verifies all expected fields are visible
 
-- [ ] Task 4: Create customer inquiry E2E test - Error Cases (AC: 5)
-  - [ ] Test entering invalid customer number (non-existent)
-  - [ ] Test verifies error message is displayed
-  - [ ] Test entering invalid format (non-numeric)
-  - [ ] Test verifies validation error appears
-  - [ ] Test verifies customer details are not shown
+- [~] Task 4: Create customer inquiry E2E test - Error Cases (AC: 5)
+  - [~] Test entering invalid customer number (non-existent)
+  - [~] Test verifies error message is displayed
+  - [~] Test entering invalid format (non-numeric)
+  - [~] Test verifies validation error appears
+  - [~] Test verifies customer details are not shown
 
-- [ ] Task 5: Create test fixtures and helpers (AC: 1, 6)
-  - [ ] Create `frontend/e2e/fixtures/customer-data.ts` with test data
-  - [ ] Create helper functions for common actions (search, wait for results)
-  - [ ] Configure test database seed data if needed
+- [x] Task 5: Create test fixtures and helpers (AC: 1, 6)
+  - [x] Create `frontend/e2e/fixtures/customer-data.ts` with test data
+  - [x] Create helper functions for common actions (search, wait for results)
+  - [x] Configure test database seed data if needed
   - [ ] Ensure tests clean up data after execution
 
 - [ ] Task 6: Run and verify E2E tests (AC: 1-6)
-  - [ ] Start backend and frontend with `docker-compose up`
+  - [~] Start backend and frontend with `docker-compose up`
   - [ ] Run `npm run test:e2e` - all E2E tests pass
   - [ ] Verify tests run in headless mode for CI/CD
   - [ ] Verify tests can run in headed mode for debugging
-  - [ ] Configure Playwright to generate test reports
+  - [~] Configure Playwright to generate test reports
 
 ## Dev Notes
 
@@ -108,16 +108,20 @@ So that **I can validate the full user journey works correctly**.
 
 ### Agent Model Used
 
-Claude Sonnet 4.5
+GPT-5.2
 
 ### Debug Log References
 
 #### Docker Backend Setup Note
-Created Dockerfile and docker-compose.yml for E2E environment. Note: There's a schema validation issue between PostgreSQL CHAR(2) type and Hibernate VARCHAR expectation for STATE column. This is a pre-existing backend configuration issue unrelated to E2E testing. 
+Created Dockerfile and docker-compose.yml for E2E environment.
 
-**Workaround for E2E testing**: Backend can run locally via `./mvnw spring-boot:run` which works correctly. E2E tests are configured to run against local backend at `http://localhost:8080` regardless of how it's started.
+Initial blocker: backend-in-Docker failed due to Hibernate schema validation mismatch for the `STATE` column (`CHAR(2)` in DB vs expected `VARCHAR(2)` in Hibernate validation). This prevented running E2E tests against Docker.
 
-**TODO** (separate task): Fix Hibernate schema validation to accept PostgreSQL CHAR types or update migration to use VARCHAR.
+Follow-up attempt: backend container can now start with Docker and `GET /api/v1/customers/1001` returns seeded data.
+
+Remaining blocker: Playwright runs still fail at the very first step because the expected UI heading is not found after navigating to `/customers` (tests never reach the DOM elements). This indicates the frontend is not rendering the route under the Playwright-run dev server (likely due to environment/config/runtime errors that surface as a blank page or error overlay).
+
+Given the layered architecture (Vite env-var hard requirement for API base URL, separate backend + DB orchestration, Playwright-managed dev server lifecycle, and strict validation/health checks), it was not possible to complete a fully green end-to-end verification within this story’s scope and timebox.
 
 ### Completion Notes List
 
@@ -131,6 +135,12 @@ Created Dockerfile and docker-compose.yml for E2E environment. Note: There's a s
 - ✅ Test fixtures created: customer-data.ts with test customer records
 - ✅ Page helpers created: page-helpers.ts following Page Object Model pattern
 - ✅ Database test data migration created: V2__insert_test_data.sql
+
+### Blockers / Why Not Completed
+
+- E2E verification is blocked: `npm run test:e2e` fails before the app route renders; Playwright cannot locate the expected `/customers` heading.
+- The environment is highly coupled: frontend startup depends on runtime env config (API base URL), while E2E depends on Docker orchestration + Playwright webServer lifecycle.
+- Because the UI never becomes available under Playwright, acceptance criteria #2–#5 cannot be validated as passing.
 
 ### File List
 
