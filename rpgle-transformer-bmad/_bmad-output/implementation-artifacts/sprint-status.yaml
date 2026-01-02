@@ -83,7 +83,7 @@ development_status:
   epic-5: in-progress
   5-1-create-cust001-transformation-analysis-document: done
   5-2-document-business-logic-mapping: done
-  5-3-document-dds-to-modern-stack-mapping: backlog
+  5-3-document-dds-to-modern-stack-mapping: done
   5-4-create-inline-code-documentation-standards: backlog
   5-5-create-developer-transformation-workflow-guide: backlog
   5-6-create-transformation-validation-checklist: backlog
