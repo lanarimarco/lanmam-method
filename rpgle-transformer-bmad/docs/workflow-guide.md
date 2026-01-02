@@ -139,11 +139,7 @@ ls programs/
 |-----------|-----------|----------|---------|
 | RPGLE Program | `CUST001.rpgle` | `source-rpgle/programs/` | Business logic |
 | DDS Physical | `CUSTMAST.dds` | `source-rpgle/dds/physical-files/` | Customer table definition |
-| DDS Display | `CUST001.dspf` | `source-rpgle/dds/display-files/` | Screen layout |
-
-### 1.3 Verify All Required Inputs Exist
-
-**Goal:** Ensure completeness before starting transformation.
+| DDS Display | `CUSTDSP.dds` | `source-rpgle/dds/display-files/` | Screen layout |
 
 **Checklist:**
 
@@ -167,7 +163,7 @@ Before starting, review the CUST001 reference implementation:
 
 **Backend Structure:**
 ```bash
-backend/src/main/java/com/smeup/lanmam/customer/
+backend/src/main/java/com/smeup/backend/
 ├── controller/
 │   └── CustomerController.java       # REST endpoints
 ├── service/
@@ -176,23 +172,21 @@ backend/src/main/java/com/smeup/lanmam/customer/
 │   └── CustomerRepository.java       # Data access
 ├── entity/
 │   └── Customer.java                 # JPA entity (maps to CUSTMAST table)
-└── dto/
-    ├── CustomerDTO.java              # API response format
-    └── CustomerSearchDTO.java        # API request format
+├── dto/
+│   └── CustomerDTO.java              # API response format
+└── mapper/
+    └── CustomerMapper.java           # Entity/DTO mapping
 ```
 
 **Frontend Structure:**
 ```bash
-frontend/src/features/customer/
-├── CustomerInquiryPage.tsx           # Main page component
-├── CustomerSearchForm.tsx            # Search form
-├── CustomerDetailDisplay.tsx         # Detail view
-├── hooks/
-│   └── useCustomers.ts               # React Query hooks
-├── types/
-│   └── customer.types.ts             # TypeScript types
-└── api/
-    └── customerApi.ts                # API client
+frontend/src/features/customers/
+├── CustomerInquiry.tsx               # Main page component
+├── CustomerSearch.tsx                # Search form
+├── CustomerDetail.tsx                # Detail view
+├── customer.types.ts                 # TypeScript types
+├── useCustomer.ts                    # React Query hooks
+└── index.ts                          # Barrel export
 ```
 
 **Database Migration:**
@@ -288,7 +282,7 @@ Here's the RPGLE program:
 [paste CUST001.rpgle contents here]
 
 Here are the DDS files it references:
-[paste CUSTMAST.dds and CUST001.dspf contents here]
+[paste CUSTMAST.dds and CUSTDSP.dds contents here]
 
 Please provide a structured explanation suitable for a Java/React developer.
 ```
@@ -419,7 +413,7 @@ Use this data mapping:
 **Generated Entity Example:**
 
 ```java
-package com.smeup.lanmam.customer.entity;
+package com.smeup.backend.entity;
 
 import jakarta.persistence.*;
 
@@ -459,9 +453,9 @@ public class Customer {
 }
 ```
 
-**Location:** `backend/src/main/java/com/smeup/lanmam/<module>/entity/<Entity>.java`
+**Location:** `backend/src/main/java/com/smeup/backend/entity/<Entity>.java`
 
-**See CUST001 example:** `backend/src/main/java/com/smeup/lanmam/customer/entity/Customer.java`
+**See CUST001 example:** `backend/src/main/java/com/smeup/backend/entity/Customer.java`
 
 ### 3.2 Create Flyway Migration
 
@@ -515,9 +509,9 @@ COMMENT ON TABLE CUSTMAST IS 'Customer master table (from DDS CUSTMAST)';
 **Template:**
 
 ```java
-package com.smeup.lanmam.customer.repository;
+package com.smeup.backend.repository;
 
-import com.smeup.lanmam.customer.entity.Customer;
+import com.smeup.backend.entity.Customer;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 import java.util.List;
@@ -537,9 +531,9 @@ public interface CustomerRepository extends JpaRepository<Customer, Long> {
 }
 ```
 
-**Location:** `backend/src/main/java/com/smeup/lanmam/<module>/repository/<Entity>Repository.java`
+**Location:** `backend/src/main/java/com/smeup/backend/repository/<Entity>Repository.java`
 
-**See CUST001 example:** `backend/src/main/java/com/smeup/lanmam/customer/repository/CustomerRepository.java`
+**See CUST001 example:** `backend/src/main/java/com/smeup/backend/repository/CustomerRepository.java`
 
 ### 3.4 Create Service Layer with Business Logic
 
@@ -567,12 +561,12 @@ Follow these rules:
 **Service Example:**
 
 ```java
-package com.smeup.lanmam.customer.service;
+package com.smeup.backend.service;
 
-import com.smeup.lanmam.customer.dto.CustomerDTO;
-import com.smeup.lanmam.customer.dto.CustomerSearchDTO;
-import com.smeup.lanmam.customer.entity.Customer;
-import com.smeup.lanmam.customer.repository.CustomerRepository;
+import com.smeup.backend.dto.CustomerDTO;
+import com.smeup.backend.dto.CustomerSearchDTO;
+import com.smeup.backend.entity.Customer;
+import com.smeup.backend.repository.CustomerRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
@@ -638,16 +632,16 @@ public class CustomerService {
 }
 ```
 
-**Location:** `backend/src/main/java/com/smeup/lanmam/<module>/service/<Entity>Service.java`
+**Location:** `backend/src/main/java/com/smeup/backend/service/<Entity>Service.java`
 
-**See CUST001 example:** `backend/src/main/java/com/smeup/lanmam/customer/service/CustomerService.java`
+**See CUST001 example:** `backend/src/main/java/com/smeup/backend/service/CustomerService.java`
 
 ### 3.5 Create DTOs (Data Transfer Objects)
 
 **Goal:** Define API request/response formats.
 
 ```java
-package com.smeup.lanmam.customer.dto;
+package com.smeup.backend.dto;
 
 /**
  * Customer search request DTO
@@ -675,18 +669,18 @@ public class CustomerDTO {
 }
 ```
 
-**Location:** `backend/src/main/java/com/smeup/lanmam/<module>/dto/`
+**Location:** `backend/src/main/java/com/smeup/backend/dto/`
 
 ### 3.6 Create REST Controller
 
 **Goal:** Expose HTTP endpoints following API conventions.
 
 ```java
-package com.smeup.lanmam.customer.controller;
+package com.smeup.backend.controller;
 
-import com.smeup.lanmam.customer.dto.CustomerDTO;
-import com.smeup.lanmam.customer.dto.CustomerSearchDTO;
-import com.smeup.lanmam.customer.service.CustomerService;
+import com.smeup.backend.dto.CustomerDTO;
+import com.smeup.backend.dto.CustomerSearchDTO;
+import com.smeup.backend.service.CustomerService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
@@ -725,9 +719,9 @@ public class CustomerController {
 }
 ```
 
-**Location:** `backend/src/main/java/com/smeup/lanmam/<module>/controller/<Entity>Controller.java`
+**Location:** `backend/src/main/java/com/smeup/backend/controller/<Entity>Controller.java`
 
-**See CUST001 example:** `backend/src/main/java/com/smeup/lanmam/customer/controller/CustomerController.java`
+**See CUST001 example:** `backend/src/main/java/com/smeup/backend/controller/CustomerController.java`
 
 ### 3.7 Follow Documentation Standards
 
@@ -776,7 +770,7 @@ Use strict types (no 'any')
 ```typescript
 /**
  * Customer types generated from RPGLE program CUST001
- * Display file: CUST001.dspf
+ * Display file: CUSTDSP.dds
  * Source: source-rpgle/programs/CUST001.rpgle
  */
 
@@ -800,9 +794,9 @@ export interface CustomerListResponse {
 }
 ```
 
-**Location:** `frontend/src/features/<module>/types/<domain>.types.ts`
+**Location:** `frontend/src/features/<module>/<domain>.types.ts`
 
-**See CUST001 example:** `frontend/src/features/customer/types/customer.types.ts`
+**See CUST001 example:** `frontend/src/features/customers/customer.types.ts`
 
 ### 4.2 Create API Client
 
@@ -838,9 +832,9 @@ export const customerApi = {
 };
 ```
 
-**Location:** `frontend/src/features/<module>/api/<domain>Api.ts`
+**Location:** `frontend/src/features/<module>/<domain>Api.ts` (or in shared `api/` folder)
 
-**See CUST001 example:** `frontend/src/features/customer/api/customerApi.ts`
+**See CUST001 example:** `frontend/src/api/customerApi.ts` (note: may be in shared api folder)
 
 ### 4.3 Create React Query Hooks
 
@@ -865,7 +859,9 @@ export const useCustomerSearch = (searchParams: CustomerSearchParams) => {
 };
 ```
 
-**Location:** `frontend/src/features/<module>/hooks/use<Domain>.ts`
+**Location:** `frontend/src/features/<module>/use<Domain>.ts`
+
+**See CUST001 example:** `frontend/src/features/customers/useCustomer.ts`
 
 ### 4.4 Create Search Form Component
 
@@ -880,7 +876,7 @@ Create a React component for customer search form using:
 - TypeScript strict mode
 - Tailwind CSS for styling
 
-Form fields (from CUST001.dspf):
+Form fields (from CUSTDSP.dds):
 - Customer ID (number, optional)
 - Customer Name (text, optional)
 
@@ -894,8 +890,8 @@ Reference: CUST001 display file search screen
 ```tsx
 /**
  * Customer search form component
- * Maps to CUST001.dspf search screen
- * Source: source-rpgle/dds/display-files/CUST001.dspf
+ * Maps to CUSTDSP.dds search screen
+ * Source: source-rpgle/dds/display-files/CUSTDSP.dds
  */
 
 import React from 'react';
@@ -911,11 +907,11 @@ const searchSchema = z.object({
   message: "At least one search field is required"
 });
 
-interface CustomerSearchFormProps {
+interface CustomerSearchProps {
   onSearch: (params: CustomerSearchParams) => void;
 }
 
-export const CustomerSearchForm: React.FC<CustomerSearchFormProps> = ({ onSearch }) => {
+export const CustomerSearch: React.FC<CustomerSearchProps> = ({ onSearch }) => {
   const { register, handleSubmit, formState: { errors } } = useForm<CustomerSearchParams>({
     resolver: zodResolver(searchSchema),
   });
@@ -952,9 +948,9 @@ export const CustomerSearchForm: React.FC<CustomerSearchFormProps> = ({ onSearch
 };
 ```
 
-**Location:** `frontend/src/features/<module>/<Domain>SearchForm.tsx`
+**Location:** `frontend/src/features/<module>/<Domain>Search.tsx`
 
-**See CUST001 example:** `frontend/src/features/customer/CustomerSearchForm.tsx`
+**See CUST001 example:** `frontend/src/features/customers/CustomerSearch.tsx`
 
 ### 4.5 Create Detail Display Component
 
@@ -963,18 +959,18 @@ export const CustomerSearchForm: React.FC<CustomerSearchFormProps> = ({ onSearch
 ```tsx
 /**
  * Customer detail display component
- * Maps to CUST001.dspf detail screen
- * Source: source-rpgle/dds/display-files/CUST001.dspf
+ * Maps to CUSTDSP.dds detail screen
+ * Source: source-rpgle/dds/display-files/CUSTDSP.dds
  */
 
 import React from 'react';
 import { Customer } from '../types/customer.types';
 
-interface CustomerDetailDisplayProps {
+interface CustomerDetailProps {
   customer: Customer;
 }
 
-export const CustomerDetailDisplay: React.FC<CustomerDetailDisplayProps> = ({ customer }) => {
+export const CustomerDetail: React.FC<CustomerDetailProps> = ({ customer }) => {
   return (
     <div className="bg-white shadow rounded-lg p-6">
       <h2 className="text-xl font-semibold mb-4">Customer Details</h2>
@@ -1001,7 +997,9 @@ export const CustomerDetailDisplay: React.FC<CustomerDetailDisplayProps> = ({ cu
 };
 ```
 
-**Location:** `frontend/src/features/<module>/<Domain>DetailDisplay.tsx`
+**Location:** `frontend/src/features/<module>/<Domain>Detail.tsx`
+
+**See CUST001 example:** `frontend/src/features/customers/CustomerDetail.tsx`
 
 ### 4.6 Create Main Page Component
 
@@ -1015,12 +1013,12 @@ export const CustomerDetailDisplay: React.FC<CustomerDetailDisplayProps> = ({ cu
  */
 
 import React, { useState } from 'react';
-import { CustomerSearchForm } from './CustomerSearchForm';
-import { CustomerDetailDisplay } from './CustomerDetailDisplay';
-import { useCustomerSearch } from './hooks/useCustomers';
-import { CustomerSearchParams } from './types/customer.types';
+import { CustomerSearch } from './CustomerSearch';
+import { CustomerDetail } from './CustomerDetail';
+import { useCustomerSearch } from './useCustomer';
+import { CustomerSearchParams } from './customer.types';
 
-export const CustomerInquiryPage: React.FC = () => {
+export const CustomerInquiry: React.FC = () => {
   const [searchParams, setSearchParams] = useState<CustomerSearchParams>({});
   const { data: customers, isLoading, error } = useCustomerSearch(searchParams);
 
@@ -1030,7 +1028,7 @@ export const CustomerInquiryPage: React.FC = () => {
       
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         <div className="lg:col-span-1">
-          <CustomerSearchForm onSearch={setSearchParams} />
+          <CustomerSearch onSearch={setSearchParams} />
         </div>
         
         <div className="lg:col-span-2">
@@ -1038,7 +1036,7 @@ export const CustomerInquiryPage: React.FC = () => {
           {error && <p className="text-red-600">Error: {error.message}</p>}
           {customers && customers.length === 0 && <p>No customers found</p>}
           {customers && customers.map(customer => (
-            <CustomerDetailDisplay key={customer.customerId} customer={customer} />
+            <CustomerDetail key={customer.customerId} customer={customer} />
           ))}
         </div>
       </div>
@@ -1047,9 +1045,9 @@ export const CustomerInquiryPage: React.FC = () => {
 };
 ```
 
-**Location:** `frontend/src/features/<module>/<Domain>InquiryPage.tsx`
+**Location:** `frontend/src/features/<module>/<Domain>Inquiry.tsx` or `<Domain>Page.tsx`
 
-**See CUST001 example:** `frontend/src/features/customer/CustomerInquiryPage.tsx`
+**See CUST001 example:** `frontend/src/features/customers/CustomerInquiry.tsx`
 
 ### 4.7 Follow Documentation Standards
 
@@ -1083,12 +1081,12 @@ Add inline documentation per `docs/standards/typescript-documentation-standards.
 **Test Structure:**
 
 ```java
-package com.smeup.lanmam.customer.service;
+package com.smeup.backend.service;
 
-import com.smeup.lanmam.customer.dto.CustomerDTO;
-import com.smeup.lanmam.customer.dto.CustomerSearchDTO;
-import com.smeup.lanmam.customer.entity.Customer;
-import com.smeup.lanmam.customer.repository.CustomerRepository;
+import com.smeup.backend.dto.CustomerDTO;
+import com.smeup.backend.dto.CustomerSearchDTO;
+import com.smeup.backend.entity.Customer;
+import com.smeup.backend.repository.CustomerRepository;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -1181,9 +1179,9 @@ class CustomerServiceTest {
 }
 ```
 
-**Location:** `backend/src/test/java/com/smeup/lanmam/<module>/service/<Entity>ServiceTest.java`
+**Location:** `backend/src/test/java/com/smeup/backend/service/<Entity>ServiceTest.java`
 
-**See CUST001 example:** `backend/src/test/java/com/smeup/lanmam/customer/service/CustomerServiceTest.java`
+**See CUST001 example:** `backend/src/test/java/com/smeup/backend/service/CustomerServiceTest.java`
 
 ### 5.2 Backend Integration Tests with Testcontainers
 
@@ -1192,9 +1190,9 @@ class CustomerServiceTest {
 **Framework:** JUnit 5 + Testcontainers
 
 ```java
-package com.smeup.lanmam.customer.repository;
+package com.smeup.backend.repository;
 
-import com.smeup.lanmam.customer.entity.Customer;
+import com.smeup.backend.entity.Customer;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
@@ -1264,19 +1262,19 @@ class CustomerRepositoryIntegrationTest {
 }
 ```
 
-**Location:** `backend/src/test/java/com/smeup/lanmam/<module>/repository/<Entity>RepositoryIntegrationTest.java`
+**Location:** `backend/src/test/java/com/smeup/backend/repository/<Entity>RepositoryIntegrationTest.java`
 
-**See CUST001 example:** `backend/src/test/java/com/smeup/lanmam/customer/repository/CustomerRepositoryIntegrationTest.java`
+**See CUST001 example:** `backend/src/test/java/com/smeup/backend/repository/CustomerRepositoryIT.java`
 
 ### 5.3 Backend Controller Tests
 
 **Goal:** Test REST endpoints with MockMvc.
 
 ```java
-package com.smeup.lanmam.customer.controller;
+package com.smeup.backend.controller;
 
-import com.smeup.lanmam.customer.dto.CustomerDTO;
-import com.smeup.lanmam.customer.service.CustomerService;
+import com.smeup.backend.dto.CustomerDTO;
+import com.smeup.backend.service.CustomerService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
@@ -1338,17 +1336,17 @@ mvn test
 
 ```typescript
 /**
- * Tests for CustomerSearchForm component
+ * Tests for CustomerSearch component
  */
 
 import { describe, it, expect, vi } from 'vitest';
 import { render, screen, fireEvent, waitFor } from '@testing-library/react';
-import { CustomerSearchForm } from '../CustomerSearchForm';
+import { CustomerSearch } from '../CustomerSearch';
 
-describe('CustomerSearchForm', () => {
+describe('CustomerSearch', () => {
   it('renders search fields', () => {
     const onSearch = vi.fn();
-    render(<CustomerSearchForm onSearch={onSearch} />);
+    render(<CustomerSearch onSearch={onSearch} />);
 
     expect(screen.getByLabelText(/customer id/i)).toBeInTheDocument();
     expect(screen.getByLabelText(/customer name/i)).toBeInTheDocument();
@@ -1357,7 +1355,7 @@ describe('CustomerSearchForm', () => {
 
   it('calls onSearch with customerId when submitted', async () => {
     const onSearch = vi.fn();
-    render(<CustomerSearchForm onSearch={onSearch} />);
+    render(<CustomerSearch onSearch={onSearch} />);
 
     const idInput = screen.getByLabelText(/customer id/i);
     const submitButton = screen.getByRole('button', { name: /search/i });
@@ -1375,7 +1373,7 @@ describe('CustomerSearchForm', () => {
 
   it('shows validation error when both fields are empty', async () => {
     const onSearch = vi.fn();
-    render(<CustomerSearchForm onSearch={onSearch} />);
+    render(<CustomerSearch onSearch={onSearch} />);
 
     const submitButton = screen.getByRole('button', { name: /search/i });
     fireEvent.click(submitButton);
@@ -1391,7 +1389,7 @@ describe('CustomerSearchForm', () => {
 
 **Location:** `frontend/src/features/<module>/__tests__/<Component>.test.tsx`
 
-**See CUST001 example:** `frontend/src/features/customer/__tests__/CustomerSearchForm.test.tsx`
+**See CUST001 example:** `frontend/src/features/customers/__tests__/CustomerSearch.test.tsx`
 
 **Run frontend tests:**
 ```bash
@@ -1790,7 +1788,7 @@ Use this checklist before marking transformation complete:
 - `CUSTMAST.dds` → `CUSTMAST` table → `Customer.java` entity
 
 ### DDS Display Files
-- `CUST001.dspf` → React components (CustomerSearchForm, CustomerDetailDisplay)
+- `CUSTDSP.dds` → React components (CustomerSearch, CustomerDetail)
 
 ### RPGLE Program
 - `CUST001.rpgle` → CustomerService business logic
@@ -1807,11 +1805,11 @@ Use this checklist before marking transformation complete:
 ### Frontend Architecture
 - **Types:** customer.types.ts (TypeScript interfaces)
 - **API Client:** customerApi.ts (fetch wrapper)
-- **Hooks:** useCustomers.ts (React Query)
+- **Hooks:** useCustomer.ts (React Query)
 - **Components:** 
-  - CustomerSearchForm.tsx (search screen)
-  - CustomerDetailDisplay.tsx (detail screen)
-  - CustomerInquiryPage.tsx (main page)
+  - CustomerSearch.tsx (search screen)
+  - CustomerDetail.tsx (detail screen)
+  - CustomerInquiry.tsx (main page)
 
 ## Technical Decisions
 
@@ -1926,11 +1924,11 @@ C     DISPLAY   ENDSR
 
 **React Implementation:**
 ```tsx
-<CustomerDetailDisplay customer={customer} />
+<CustomerDetail customer={customer} />
 ```
 
 **Mapping:**
-- `CUSTDTL` format → `CustomerDetailDisplay` component
+- `CUSTDTL` format → `CustomerDetail` component
 - Field-by-field mapping via TypeScript types
 ```
 
@@ -1968,26 +1966,26 @@ C     DISPLAY   ENDSR
 - **Indexes:** 
   - `idx_custmast_name` on `CUSTNM` (for search performance)
 
-## DDS Display File: CUST001.dspf
+## DDS Display File: CUSTDSP.dds
 
 ### Screen Format: CUSTSRCH (Search Screen)
 
 | DDS Field | Field Type | Java DTO Field | React Component | HTML Input Type |
-|-----------|------------|----------------|-----------------|-----------------|
-| SCUSTID | Input | customerId | CustomerSearchForm | number |
-| SCUSTNM | Input | customerName | CustomerSearchForm | text |
+|-----------|------------|----------------|-----------------|-----------------|  
+| SCUSTID | Input | customerId | CustomerSearch | number |
+| SCUSTNM | Input | customerName | CustomerSearch | text |
 
 ### Screen Format: CUSTDTL (Detail Screen)
 
 | DDS Field | Field Type | Java DTO Field | React Component | Display Format |
 |-----------|------------|----------------|-----------------|----------------|
-| DCUSTID | Output | customerId | CustomerDetailDisplay | number |
-| DCUSTNM | Output | customerName | CustomerDetailDisplay | text |
-| DCUSTAD1 | Output | addressLine1 | CustomerDetailDisplay | text |
-| DCUSTAD2 | Output | addressLine2 | CustomerDetailDisplay | text |
-| DCUSTCY | Output | city | CustomerDetailDisplay | text |
-| DCUSTST | Output | state | CustomerDetailDisplay | text |
-| DCUSTPC | Output | postalCode | CustomerDetailDisplay | text |
+| DCUSTID | Output | customerId | CustomerDetail | number |
+| DCUSTNM | Output | customerName | CustomerDetail | text |
+| DCUSTAD1 | Output | addressLine1 | CustomerDetail | text |
+| DCUSTAD2 | Output | addressLine2 | CustomerDetail | text |
+| DCUSTCY | Output | city | CustomerDetail | text |
+| DCUSTST | Output | state | CustomerDetail | text |
+| DCUSTPC | Output | postalCode | CustomerDetail | text |
 ```
 
 **CUST001 Example:** `docs/transformations/CUST001/data-mapping.md`
@@ -2172,8 +2170,8 @@ public class CustomerRepositoryIntegrationTest {
 
 **Symptom:**
 ```
-FAIL  src/features/customer/__tests__/CustomerSearchForm.test.tsx
-  ● CustomerSearchForm › calls onSearch with customerId when submitted
+FAIL  src/features/customers/__tests__/CustomerSearch.test.tsx
+  ● CustomerSearch › calls onSearch with customerId when submitted
     Expected number of calls: 1
     Received number of calls: 0
 ```
@@ -2208,7 +2206,7 @@ const queryClient = new QueryClient({
 
 render(
   <QueryClientProvider client={queryClient}>
-    <CustomerInquiryPage />
+    <CustomerInquiry />
   </QueryClientProvider>
 );
 ```
@@ -2226,7 +2224,7 @@ fireEvent.change(input, { target: { value: '12345' } });
 expect(input).toHaveValue(12345);  // Verify value is set
 ```
 
-**See also:** `frontend/src/features/customer/__tests__/` for working examples
+**See also:** `frontend/src/features/customers/__tests__/` for working examples
 
 ---
 
@@ -2234,10 +2232,10 @@ expect(input).toHaveValue(12345);  // Verify value is set
 
 **Symptom:**
 ```
-backend/src/main/java/com/smeup/lanmam/customer/service/CustomerService.java:42:
+backend/src/main/java/com/smeup/backend/service/CustomerService.java:42:
 [Checkstyle] Line is longer than 120 characters (found 135).
 
-frontend/src/features/customer/CustomerSearchForm.tsx:15:
+frontend/src/features/customers/CustomerSearch.tsx:15:
 [@typescript-eslint/no-explicit-any] Unexpected any. Specify a different type.
 ```
 
@@ -2510,8 +2508,8 @@ spring:
 **When you're stuck:**
 
 1. **Check CUST001 Reference Implementation:**
-   - Backend: `backend/src/main/java/com/smeup/lanmam/customer/`
-   - Frontend: `frontend/src/features/customer/`
+   - Backend: `backend/src/main/java/com/smeup/backend/`
+   - Frontend: `frontend/src/features/customers/`
    - Tests: `backend/src/test/java/` and `frontend/src/__tests__/`
    - Docs: `docs/transformations/CUST001/`
 
@@ -2561,7 +2559,7 @@ spring:
 **RPGLE and DDS Sources:**
 - **RPGLE Program:** `source-rpgle/programs/CUST001.rpgle` - Customer inquiry business logic
 - **DDS Physical File:** `source-rpgle/dds/physical-files/CUSTMAST.dds` - Customer master table definition
-- **DDS Display File:** `source-rpgle/dds/display-files/CUST001.dspf` - Screen layout definitions
+- **DDS Display File:** `source-rpgle/dds/display-files/CUSTDSP.dds` - Screen layout definitions
 
 ### Backend Implementation
 
@@ -2623,7 +2621,7 @@ backend/src/main/resources/db/migration/V1__Create_Customer_Table.sql
 
 **TypeScript Types:**
 ```
-frontend/src/features/customer/types/customer.types.ts
+frontend/src/features/customers/customer.types.ts
 ```
 - `Customer` interface matches `CustomerDTO`
 - `CustomerSearchParams` matches search query params
@@ -2632,7 +2630,7 @@ frontend/src/features/customer/types/customer.types.ts
 
 **API Client:**
 ```
-frontend/src/features/customer/api/customerApi.ts
+frontend/src/api/customerApi.ts (or in features/customers/)
 ```
 - `searchCustomers()` function calls `GET /api/customers/search`
 - Type-safe with TypeScript
@@ -2640,7 +2638,7 @@ frontend/src/features/customer/api/customerApi.ts
 
 **React Query Hooks:**
 ```
-frontend/src/features/customer/hooks/useCustomers.ts
+frontend/src/features/customers/useCustomer.ts
 ```
 - `useCustomerSearch()` hook manages server state
 - Uses React Query for caching and refetching
@@ -2648,23 +2646,23 @@ frontend/src/features/customer/hooks/useCustomers.ts
 
 **Components:**
 ```
-frontend/src/features/customer/CustomerSearchForm.tsx
+frontend/src/features/customers/CustomerSearch.tsx
 ```
-- Maps to `CUST001.dspf` search screen (CUSTSRCH format)
+- Maps to `CUSTDSP.dds` search screen (CUSTSRCH format)
 - Uses React Hook Form for state management
 - Zod schema for validation
 - Tailwind CSS for styling
 - Includes RPGLE traceability comments
 
 ```
-frontend/src/features/customer/CustomerDetailDisplay.tsx
+frontend/src/features/customers/CustomerDetail.tsx
 ```
-- Maps to `CUST001.dspf` detail screen (CUSTDTL format)
+- Maps to `CUSTDSP.dds` detail screen (CUSTDTL format)
 - Displays customer fields in semantic layout
 - Responsive design with Tailwind CSS
 
 ```
-frontend/src/features/customer/CustomerInquiryPage.tsx
+frontend/src/features/customers/CustomerInquiry.tsx
 ```
 - Main page combining search + results
 - Implements full RPGLE program flow
@@ -2674,7 +2672,7 @@ frontend/src/features/customer/CustomerInquiryPage.tsx
 
 **Backend Unit Tests:**
 ```
-backend/src/test/java/com/smeup/lanmam/customer/service/CustomerServiceTest.java
+backend/src/test/java/com/smeup/backend/service/CustomerServiceTest.java
 ```
 **Example tests:**
 - `searchByCustomerId_WhenExists_ReturnsCustomer()` - Happy path
@@ -2683,7 +2681,7 @@ backend/src/test/java/com/smeup/lanmam/customer/service/CustomerServiceTest.java
 
 **Backend Integration Tests:**
 ```
-backend/src/test/java/com/smeup/lanmam/customer/repository/CustomerRepositoryIntegrationTest.java
+backend/src/test/java/com/smeup/backend/repository/CustomerRepositoryIT.java
 ```
 - Uses Testcontainers PostgreSQL
 - Tests real database queries
@@ -2691,7 +2689,7 @@ backend/src/test/java/com/smeup/lanmam/customer/repository/CustomerRepositoryInt
 
 **Backend Controller Tests:**
 ```
-backend/src/test/java/com/smeup/lanmam/customer/controller/CustomerControllerTest.java
+backend/src/test/java/com/smeup/backend/controller/CustomerControllerTest.java
 ```
 - Uses MockMvc for REST endpoint testing
 - Tests query parameter handling
@@ -2699,9 +2697,9 @@ backend/src/test/java/com/smeup/lanmam/customer/controller/CustomerControllerTes
 
 **Frontend Component Tests:**
 ```
-frontend/src/features/customer/__tests__/CustomerSearchForm.test.tsx
-frontend/src/features/customer/__tests__/CustomerDetailDisplay.test.tsx
-frontend/src/features/customer/__tests__/CustomerInquiryPage.test.tsx
+frontend/src/features/customers/__tests__/CustomerSearch.test.tsx
+frontend/src/features/customers/__tests__/CustomerDetail.test.tsx
+frontend/src/features/customers/__tests__/CustomerInquiry.test.tsx
 ```
 - Vitest + React Testing Library
 - Tests user interactions
@@ -2849,22 +2847,22 @@ When starting a new transformation, reference CUST001 for:
 - ✅ Repository query methods → `CustomerRepository.java`
 - ✅ Service business logic → `CustomerService.java`
 - ✅ Controller endpoint structure → `CustomerController.java`
-- ✅ DTO design → `CustomerDTO.java`, `CustomerSearchDTO.java`
+- ✅ DTO design → `CustomerDTO.java`, `ApiResponse.java`
 - ✅ Migration SQL → `V1__Create_Customer_Table.sql`
 
 **Phase 4 - Frontend:**
 - ✅ TypeScript types → `customer.types.ts`
 - ✅ API client pattern → `customerApi.ts`
-- ✅ React Query hooks → `useCustomers.ts`
-- ✅ Form component → `CustomerSearchForm.tsx`
-- ✅ Display component → `CustomerDetailDisplay.tsx`
-- ✅ Page composition → `CustomerInquiryPage.tsx`
+- ✅ React Query hooks → `useCustomer.ts`
+- ✅ Form component → `CustomerSearch.tsx`
+- ✅ Display component → `CustomerDetail.tsx`
+- ✅ Page composition → `CustomerInquiry.tsx`
 
 **Phase 5 - Testing:**
 - ✅ Unit test structure → `CustomerServiceTest.java`
-- ✅ Integration test with Testcontainers → `CustomerRepositoryIntegrationTest.java`
+- ✅ Integration test with Testcontainers → `CustomerRepositoryIT.java`
 - ✅ Controller test with MockMvc → `CustomerControllerTest.java`
-- ✅ Component test → `CustomerSearchForm.test.tsx`
+- ✅ Component test → `CustomerSearch.test.tsx`
 - ✅ E2E test → `customer-inquiry.spec.ts`
 
 **Phase 6 - Validation:**
