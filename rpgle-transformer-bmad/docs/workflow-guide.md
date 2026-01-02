@@ -1718,6 +1718,8 @@ npm run build
 
 **Estimated Time:** 15-30 minutes to complete full checklist validation
 
+**Standalone Checklist for PRs:** Reference [docs/standards/transformation-validation-checklist.md](docs/standards/transformation-validation-checklist.md) for the copy-pastable template and reviewer sign-off section.
+
 ---
 
 #### **Category 1: Compilation & Build Validation**
@@ -1876,13 +1878,13 @@ cd frontend && npm run lint && npm run format:check && cd ..
 
 Verify comprehensive inline documentation with RPGLE traceability.
 
-- [ ] **All Java classes have JavaDoc** (per [java-documentation-standards.md](../standards/java-documentation-standards.md))
+  - [ ] **All Java classes have JavaDoc** (per [java-documentation-standards.md](standards/java-documentation-standards.md))
   - Entities: Include DDS physical file reference
   - Services: Include RPGLE program reference and business logic mapping
   - Controllers: Include original RPGLE program reference
   - DTOs: Include DDS display file or purpose
 
-- [ ] **All React components have JSDoc** (per [typescript-documentation-standards.md](../standards/typescript-documentation-standards.md))
+  - [ ] **All React components have JSDoc** (per [typescript-documentation-standards.md](standards/typescript-documentation-standards.md))
   - Components: Include DDS display file and record format reference
   - Hooks: Include original RPGLE interaction pattern
   - Types: Include DDS field mapping

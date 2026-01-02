@@ -387,6 +387,17 @@ See `docs/transformations/CUST001/` for a complete example of a fully validated 
 - **Code Examples:** Properly documented with RPGLE references
 - **Test Coverage:** 87% backend, 84% frontend (both above 80% threshold)
 
+### 📝 CUST001 Compliance Snapshot
+
+- **Compilation & Build:** `mvn clean compile` and `npm run build` both succeeded with `BUILD SUCCESS` status, demonstrating the checklist’s compilation checks. (See `docs/transformations/CUST001/analysis.md` for command output.)
+- **Testing Validation:** Backend `mvn test`, frontend `npm test`, and Playwright `npx playwright test` all pass; JaCoCo shows 87% backend coverage and Vitest shows 84% frontend coverage. Integration tests (Testcontainers) report zero failures.
+- **Code Quality & Linting:** Backend Checkstyle/PMD runs return `BUILD SUCCESS` with no violations; ESLint + Prettier in the frontend show clean ceilings according to the CUST001 logs referenced in `docs/transformations/CUST001/analysis.md`.
+- **Documentation:** Every Java/TypeScript file in the CUST001 transformation includes `Source: source-rpgle` traceability notes, and the story documents the documentation standards compliance (see `docs/transformations/CUST001/business-logic-mapping.md`).
+- **Functional Equivalence:** FunctionalEquivalenceTest shows 100% pass rate and manual scenarios (search by ID/name, empty search, not-found, detail view) all match RPGLE behavior, proving NFR1 coverage.
+- **Architectural Compliance:** Entities retain `@Table(name = "CUSTMAST")`, columns preserve DDS names, REST endpoints are plural, and React features follow the prescribed `features/<module>` structure referenced in `docs/transformations/CUST001/analysis.md`.
+- **Traceability & Cleanliness:** Every modified file was listed in the story’s File List, git history contains no WIP or debug commits, and there are no unresolved `TODO`/`FIXME` markers.
+- **PR Review Readiness:** The story file notes validation summary, sprint status marks `review`, and the PR template (this document) provides reviewer sign-off fields.
+
 ---
 
 ## 📚 Additional Resources
