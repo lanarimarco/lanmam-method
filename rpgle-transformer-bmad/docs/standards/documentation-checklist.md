@@ -227,10 +227,26 @@ This checklist ensures consistent, high-quality documentation across all transfo
 
 ## AI Agent Prompt Template
 
-When using this checklist with AI agents, use this prompt template:
+### When to Use This Checklist
+
+**During Development (dev-story workflow)**:
+- Use checklist sections as you implement code
+- Apply standards incrementally, not all at once at the end
+- Reference specific checklist sections for each component type
+
+**During Code Review (code-review workflow)**:
+- Use full checklist to validate completed implementation
+- Run linting tools to verify documentation quality
+- Check cross-references and examples
+
+### AI Agent Prompt Template
+
+When using this checklist with AI agents during **code review**, use this prompt:
 
 ```
-I am implementing [Story Name]. Before marking this story as done, review the code against the Documentation Checklist at docs/standards/documentation-checklist.md.
+I am reviewing [Story Name]. Review the code against the Documentation Checklist at docs/standards/documentation-checklist.md.
+
+Agent Context: code-review workflow (adversarial validation mode)
 
 Specifically check:
 1. All backend classes have proper JavaDoc with DDS/RPGLE references
@@ -239,8 +255,23 @@ Specifically check:
 4. No unnecessary documentation on obvious code
 5. All public APIs are documented
 6. Linting passes with no documentation warnings
+7. Cross-references between documentation files are valid
+8. Examples match actual code structure
 
 Report any missing or incomplete documentation and suggest improvements.
+```
+
+When using during **development (dev-story workflow)**, use this prompt:
+
+```
+I am implementing [Story Name]. Apply documentation standards from docs/standards/ as I write code.
+
+For each component I create:
+- Backend Entity: Follow java-documentation-standards.md Entity section
+- Backend Service: Follow java-documentation-standards.md Service section
+- Frontend Component: Follow typescript-documentation-standards.md Component section
+
+Reference the documentation-checklist.md Definition of Done before marking tasks complete.
 ```
 
 ---

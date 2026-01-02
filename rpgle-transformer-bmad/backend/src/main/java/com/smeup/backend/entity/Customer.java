@@ -8,25 +8,27 @@ import java.util.Objects;
 
 /**
  * Customer entity mapped from DDS Physical File CUSTMAST.dds
- * 
- * Original DDS File: source-rpgle/dds/physical-files/CUSTMAST.dds
- * Table: CUSTMAST
- * Record Format: CUSTREC
- * 
- * This entity preserves the original AS/400 data structure while providing
+ *
+ * <p>Original DDS File: source-rpgle/dds/physical-files/CUSTMAST.dds
+ * <p>Table: CUSTMAST
+ * <p>Record Format: CUSTREC
+ *
+ * <p>This entity preserves the original AS/400 data structure while providing
  * a modern Java interface for the application.
- * 
- * DDS Field Mapping:
- * - CUSTNO (5P 0) → customerId (Long)
- * - CUSTNAME (30A) → customerName (String)
- * - ADDR1 (30A) → addressLine1 (String)
- * - CITY (20A) → city (String)
- * - STATE (2A) → state (String)
- * - ZIP (5P 0) → zipCode (Integer)
- * - PHONE (12A) → phoneNumber (String)
- * - BALANCE (9P 2) → accountBalance (BigDecimal)
- * - CREDITLIM (9P 2) → creditLimit (BigDecimal)
- * - LASTORDER (8P 0) → lastOrderDate (Integer, YYYYMMDD format)
+ *
+ * <p>DDS Field Mapping:
+ * <ul>
+ *   <li>CUSTNO (5P 0) → customerId (Long)</li>
+ *   <li>CUSTNAME (30A) → customerName (String)</li>
+ *   <li>ADDR1 (30A) → addressLine1 (String)</li>
+ *   <li>CITY (20A) → city (String)</li>
+ *   <li>STATE (2A) → state (String)</li>
+ *   <li>ZIP (5P 0) → zipCode (Integer)</li>
+ *   <li>PHONE (12A) → phoneNumber (String)</li>
+ *   <li>BALANCE (9P 2) → accountBalance (BigDecimal)</li>
+ *   <li>CREDITLIM (9P 2) → creditLimit (BigDecimal)</li>
+ *   <li>LASTORDER (8P 0) → lastOrderDate (Integer, YYYYMMDD format)</li>
+ * </ul>
  */
 @Entity
 @Table(name = "CUSTMAST") // DDS Physical File name
@@ -36,9 +38,8 @@ public class Customer implements Serializable {
 
     /**
      * Customer Number - Primary Key
-     * DDS Field: CUSTNO (5P 0)
-     * 
-     * Note: No @GeneratedValue - IDs are manually assigned to preserve
+     * <p>DDS Field: CUSTNO (5P 0)
+     * <p>Note: No @GeneratedValue - IDs are manually assigned to preserve
      * original AS/400 customer numbers during migration.
      */
     @Id
@@ -48,7 +49,7 @@ public class Customer implements Serializable {
 
     /**
      * Customer Name
-     * DDS Field: CUSTNAME (30A)
+     * <p>DDS Field: CUSTNAME (30A)
      */
     @Column(name = "CUSTNAME", length = 30, nullable = false)
     @NotBlank(message = "Customer name is required")
@@ -57,21 +58,22 @@ public class Customer implements Serializable {
 
     /**
      * Address Line 1
-     * DDS Field: ADDR1 (30A)
+     * <p>DDS Field: ADDR1 (30A)
      */
     @Column(name = "ADDR1", length = 30)
     private String addressLine1;
 
     /**
      * City
-     * DDS Field: CITY (20A)
+     * <p>DDS Field: CITY (20A)
      */
     @Column(name = "CITY", length = 20)
     private String city;
 
     /**
      * State Code
-     * DDS Field: STATE (2A)
+     * <p>DDS Field: STATE (2A)
+     * <p>Validation: Must be 2 uppercase letters (e.g., "IL", "CA")
      */
     @Column(name = "STATE", length = 2)
     @Size(min = 2, max = 2, message = "State code must be exactly 2 characters")
@@ -80,7 +82,7 @@ public class Customer implements Serializable {
 
     /**
      * Zip Code
-     * DDS Field: ZIP (5P 0)
+     * <p>DDS Field: ZIP (5P 0)
      */
     @Column(name = "ZIP")
     @Min(value = 0, message = "ZIP code must be positive")
@@ -89,7 +91,7 @@ public class Customer implements Serializable {
 
     /**
      * Phone Number
-     * DDS Field: PHONE (12A)
+     * <p>DDS Field: PHONE (12A)
      */
     @Column(name = "PHONE", length = 12)
     @Size(max = 12, message = "Phone number must not exceed 12 characters")
@@ -97,21 +99,25 @@ public class Customer implements Serializable {
 
     /**
      * Account Balance
-     * DDS Field: BALANCE (9P 2)
+     * <p>DDS Field: BALANCE (9P 2) - Packed Decimal with 2 decimal places
+     * <p>Java Type: BigDecimal - Exact decimal arithmetic for financial data
      */
     @Column(name = "BALANCE", precision = 9, scale = 2)
     private BigDecimal accountBalance;
 
     /**
      * Credit Limit
-     * DDS Field: CREDITLIM (9P 2)
+     * <p>DDS Field: CREDITLIM (9P 2) - Packed Decimal with 2 decimal places
+     * <p>Java Type: BigDecimal - Exact decimal arithmetic for financial data
      */
     @Column(name = "CREDITLIM", precision = 9, scale = 2)
     private BigDecimal creditLimit;
 
     /**
      * Last Order Date (YYYYMMDD format)
-     * DDS Field: LASTORDER (8P 0)
+     * <p>DDS Field: LASTORDER (8P 0)
+     * <p>Format: Integer in YYYYMMDD format (e.g., 20251228)
+     * <p>Note: Preserves original AS/400 date format for compatibility
      */
     @Column(name = "LASTORDER")
     private Integer lastOrderDate;

@@ -603,6 +603,8 @@ Document RPGLE indicator mappings:
 
 ## Examples from CUST001
 
+**Note**: The examples below are based on actual CUST001 transformation code from this project. They demonstrate real-world application of these standards and serve as reference implementations for future transformations.
+
 ### Example 1: Component File Documentation
 
 **File**: `frontend/src/features/customers/CustomerSearch.tsx`
