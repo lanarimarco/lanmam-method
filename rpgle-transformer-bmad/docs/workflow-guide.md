@@ -1708,41 +1708,472 @@ npm run build
 
 ### 6.7 Transformation Validation Checklist
 
-Use this checklist before marking transformation complete:
+**Purpose:** This checklist serves as your **Definition of Done** before marking a transformation complete. It ensures functional equivalence with RPGLE, comprehensive testing, quality standards, and proper documentation.
 
-**Completeness:**
-- [ ] All DDS fields mapped to Java/TypeScript
-- [ ] All RPGLE business rules implemented
-- [ ] All display file screens converted to React components
-- [ ] All database operations converted to JPA/REST
+**When to Use:**
+- Before marking story/transformation as "done"
+- Before creating a Pull Request
+- During code review (reviewer validates all items)
+- As final quality gate before merging
 
-**Correctness:**
-- [ ] Functional equivalence tests pass 100%
-- [ ] Manual testing confirms behavior matches RPGLE
-- [ ] Edge cases handled correctly
-- [ ] Error messages match RPGLE behavior
+**Estimated Time:** 15-30 minutes to complete full checklist validation
 
-**Quality:**
-- [ ] All tests pass (unit, integration, E2E)
-- [ ] Code coverage ≥80%
-- [ ] All linters pass with zero critical violations
-- [ ] Inline documentation complete with RPGLE traceability
+---
 
-**Standards Compliance:**
-- [ ] Follows project-context.md naming conventions
-- [ ] Uses DDS names for @Table and @Column
-- [ ] Uses readable names for Java/TypeScript classes and fields
-- [ ] Follows Java documentation standards
-- [ ] Follows TypeScript documentation standards
+#### **Category 1: Compilation & Build Validation**
 
-**Integration:**
-- [ ] Flyway migration runs successfully
-- [ ] Backend builds and runs without errors
-- [ ] Frontend builds and runs without errors
-- [ ] API endpoints work correctly
-- [ ] Database queries are efficient
+Verify all code compiles without errors or warnings.
 
-**If ANY checkbox is unchecked:** Address the issue before proceeding to Phase 7.
+- [ ] **Backend compiles successfully**
+  ```bash
+  cd backend
+  mvn clean compile
+  # Expected: BUILD SUCCESS, 0 errors
+  ```
+
+- [ ] **Frontend compiles successfully**
+  ```bash
+  cd frontend
+  npm run build
+  # Expected: ✓ built in <n>s, 0 errors
+  ```
+
+- [ ] **No compilation errors or warnings**
+  - Backend: Check Maven output for `[WARNING]` or `[ERROR]`
+  - Frontend: Check Vite/TypeScript output for type errors
+
+- [ ] **All dependencies resolved**
+  - Backend: No Maven dependency resolution failures
+  - Frontend: `npm install` completes without errors
+
+**Command Summary:**
+```bash
+# Quick validation
+cd backend && mvn clean compile && cd ..
+cd frontend && npm run build && cd ..
+```
+
+---
+
+#### **Category 2: Testing Validation**
+
+Ensure comprehensive test coverage and all tests passing.
+
+- [ ] **All backend unit tests pass**
+  ```bash
+  cd backend
+  mvn test
+  # Expected: Tests run: N, Failures: 0, Errors: 0, Skipped: 0
+  ```
+
+- [ ] **All frontend unit tests pass**
+  ```bash
+  cd frontend
+  npm test
+  # Expected: Test Files: N passed (N), Tests: N passed (N)
+  ```
+
+- [ ] **All backend integration tests pass** (Testcontainers)
+  ```bash
+  cd backend
+  mvn verify -Pintegration-tests
+  # Or: mvn test -Dtest=*IT
+  # Expected: All integration tests pass
+  ```
+
+- [ ] **All E2E tests pass** (Playwright)
+  ```bash
+  cd frontend
+  npx playwright test
+  # Expected: All tests passed (N passed)
+  ```
+
+- [ ] **Code coverage ≥ 80%** (backend and frontend)
+  ```bash
+  # Backend (JaCoCo)
+  cd backend
+  mvn clean test jacoco:report
+  # Check: target/site/jacoco/index.html
+  
+  # Frontend (Vitest)
+  cd frontend
+  npm test -- --coverage
+  # Check: coverage/index.html
+  ```
+
+- [ ] **No flaky tests detected**
+  - Run test suite 2-3 times to verify consistency
+  - All tests produce same results on each run
+
+**Test Coverage Requirements:**
+- Line coverage ≥ 80% for all modules
+- Critical business logic: 100% coverage
+- New code must have accompanying tests
+
+**Command Summary:**
+```bash
+# Full test suite validation
+cd backend && mvn clean verify && cd ..
+cd frontend && npm test && npx playwright test && cd ..
+```
+
+---
+
+#### **Category 3: Code Quality & Linting Validation**
+
+Ensure code meets quality standards and style guidelines.
+
+- [ ] **Backend passes Checkstyle**
+  ```bash
+  cd backend
+  mvn checkstyle:check
+  # Expected: BUILD SUCCESS, 0 violations
+  ```
+
+- [ ] **Backend passes PMD static analysis**
+  ```bash
+  cd backend
+  mvn pmd:check
+  # Expected: BUILD SUCCESS, 0 critical violations
+  ```
+
+- [ ] **Frontend passes ESLint**
+  ```bash
+  cd frontend
+  npm run lint
+  # Expected: ✔ No linting errors
+  ```
+
+- [ ] **Frontend passes Prettier formatting**
+  ```bash
+  cd frontend
+  npm run format:check
+  # Expected: All files formatted correctly
+  ```
+
+- [ ] **No TypeScript `any` types in new code**
+  - Search: `grep -r ": any" frontend/src/features/<module>/`
+  - Should return 0 results for new transformation code
+
+- [ ] **Cyclomatic complexity ≤ 10 for all methods**
+  - PMD checks this automatically
+  - Refactor complex methods into smaller units
+
+**Zero Critical Violations Required:**
+- Warnings are acceptable if justified in code comments
+- Critical violations must be fixed before proceeding
+
+**Command Summary:**
+```bash
+# Quick quality check
+cd backend && mvn checkstyle:check pmd:check && cd ..
+cd frontend && npm run lint && npm run format:check && cd ..
+```
+
+---
+
+#### **Category 4: Documentation Validation**
+
+Verify comprehensive inline documentation with RPGLE traceability.
+
+- [ ] **All Java classes have JavaDoc** (per [java-documentation-standards.md](../standards/java-documentation-standards.md))
+  - Entities: Include DDS physical file reference
+  - Services: Include RPGLE program reference and business logic mapping
+  - Controllers: Include original RPGLE program reference
+  - DTOs: Include DDS display file or purpose
+
+- [ ] **All React components have JSDoc** (per [typescript-documentation-standards.md](../standards/typescript-documentation-standards.md))
+  - Components: Include DDS display file and record format reference
+  - Hooks: Include original RPGLE interaction pattern
+  - Types: Include DDS field mapping
+
+- [ ] **Inline comments reference original DDS/RPGLE sources**
+  ```bash
+  # Verify RPGLE references exist
+  grep -r "Source: source-rpgle" backend/src/main/java/
+  grep -r "Source: source-rpgle" frontend/src/features/
+  # Should return results for all transformed files
+  ```
+
+- [ ] **Business logic transformations are documented**
+  - Service methods include comment explaining RPGLE equivalent
+  - Complex validations reference original RPGLE logic
+
+- [ ] **Transformation analysis document created**
+  - Location: `docs/transformations/<PROGRAM>/analysis.md`
+  - Contains: Program overview, transformation approach, technical decisions
+
+- [ ] **Business logic mapping document created**
+  - Location: `docs/transformations/<PROGRAM>/business-logic-mapping.md`
+  - Contains: RPGLE subroutine to Java method mappings
+
+- [ ] **Data mapping document created** (DDS → JPA → React)
+  - Location: `docs/transformations/<PROGRAM>/data-mapping.md`
+  - Contains: Complete field-by-field mapping table
+
+**Documentation Standard Compliance:**
+- Reference Story 5.4 for documentation requirements
+- Use CUST001 docs as template: `docs/transformations/CUST001/`
+
+---
+
+#### **Category 5: Functional Equivalence Validation** ⚠️ **CRITICAL - NFR1**
+
+Ensure 100% functional equivalence with original RPGLE behavior.
+
+- [ ] **Functional equivalence tests pass with test data**
+  ```bash
+  cd backend
+  mvn test -Dtest=FunctionalEquivalenceTest
+  # All scenarios must pass
+  ```
+
+- [ ] **Manual testing of key workflows completed**
+  - Test each user workflow end-to-end
+  - Compare output with RPGLE program output (if available)
+  - Document test results
+
+- [ ] **Edge cases identified and tested**
+  - Empty inputs
+  - Maximum length inputs
+  - Boundary values (min/max numbers)
+  - Special characters in text fields
+  - Null/missing data scenarios
+
+- [ ] **Error handling matches original RPGLE behavior**
+  - Error messages match RPGLE messages (or are more helpful)
+  - Error codes/formats consistent
+  - Graceful degradation for expected failures
+
+- [ ] **Validation rules match original DDS/RPGLE constraints**
+  - Field length limits enforced
+  - Required field validation
+  - Data type validation (numeric, date formats)
+  - Range checks (min/max values)
+  - Cross-field validation logic
+
+- [ ] **Data transformations preserve original semantics**
+  - Calculations produce same results
+  - Decimal precision matches RPGLE
+  - Date/time conversions preserve meaning
+  - String operations (trim, case) match behavior
+
+- [ ] **UI behavior matches original green-screen intent**
+  - Display fields show same data
+  - Input fields accept same formats
+  - Screen flow matches RPGLE program flow
+  - Function key equivalents work correctly
+
+**NFR1 Requirement:** 100% functional equivalence is mandatory.  
+Reference: `_bmad-output/planning-artifacts/prd.md` - NFR1
+
+---
+
+#### **Category 6: Architectural Compliance Validation**
+
+Ensure code follows project architectural patterns and conventions.
+
+- [ ] **Code follows project naming conventions** (per [architecture.md](../../_bmad-output/planning-artifacts/architecture.md))
+  - Packages: `com.smeup.backend.<module>`
+  - Classes: PascalCase (CustomerService, CustomerController)
+  - Methods: camelCase (searchCustomers, validateInput)
+  - Files: kebab-case for React (customer-search.tsx)
+
+- [ ] **Database schema uses DDS file names for tables**
+  - `@Table(name = "CUSTMAST")` - preserves DDS physical file name
+  - Verified in Flyway migration SQL
+
+- [ ] **JPA entities use `@Table(name="DDS_FILE")` pattern**
+  ```java
+  @Entity
+  @Table(name = "CUSTMAST")  // DDS physical file name
+  public class Customer { ... }
+  ```
+
+- [ ] **JPA fields use `@Column(name="DDS_FIELD")` pattern**
+  ```java
+  @Column(name = "CUSTID")  // DDS field name
+  private Long customerId;  // Java readable name
+  ```
+
+- [ ] **API endpoints follow REST conventions**
+  - Plural resource names: `/api/customers`
+  - HTTP methods: GET (read), POST (create), PUT (update), DELETE
+  - Query params for search: `/api/customers/search?customerId=123`
+  - Path params for specific resource: `/api/customers/{id}`
+
+- [ ] **React components follow feature module structure**
+  ```
+  frontend/src/features/<module>/
+  ├── <Domain>Search.tsx
+  ├── <Domain>Detail.tsx
+  ├── <Domain>Inquiry.tsx (or <Domain>Page.tsx)
+  ├── use<Domain>.ts
+  └── <domain>.types.ts
+  ```
+
+- [ ] **Error responses use RFC 7807 Problem Details format**
+  - Backend controller exception handlers return RFC 7807 format
+  - Frontend API client handles problem detail responses
+
+**Architectural Patterns Reference:**
+- Backend patterns: `_bmad-output/planning-artifacts/architecture.md` - Implementation Patterns
+- Frontend patterns: `_bmad-output/planning-artifacts/architecture.md` - React patterns
+
+---
+
+#### **Category 7: Traceability & Project Cleanliness**
+
+Ensure code is traceable to original sources and repository is clean.
+
+- [ ] **All generated files reference original RPGLE/DDS sources**
+  ```bash
+  # Every transformed file should have source reference
+  # Example: "Source: source-rpgle/programs/CUST001.rpgle"
+  find backend/src/main/java -name "*.java" -exec grep -l "Source: source-rpgle" {} \;
+  find frontend/src/features -name "*.tsx" -exec grep -l "Source: source-rpgle" {} \;
+  ```
+
+- [ ] **Commit messages reference story number** (e.g., "5-6")
+  ```bash
+  git log --oneline -5
+  # Should show commits like: "feat(5-6): Add validation checklist"
+  ```
+
+- [ ] **Git history is clean**
+  - No merge conflicts remaining
+  - No debug commits (console.log, System.out.println)
+  - No "WIP" or "temp" commits in final history
+  - Consider: `git rebase -i` to clean up before merging
+
+- [ ] **Files are in correct locations per project structure**
+  - Backend: Entities in `entity/`, Services in `service/`, etc.
+  - Frontend: Components in `features/<module>/`, types in same folder
+  - Tests: Co-located with source or in parallel `test/` structure
+
+- [ ] **No leftover TODO or FIXME comments without issues**
+  ```bash
+  # Search for unresolved TODOs
+  grep -rn "TODO\|FIXME" backend/src/main/java/ frontend/src/features/
+  # Each TODO should have corresponding GitHub issue or be resolved
+  ```
+
+**Clean Repository Standards:**
+- All code is production-ready
+- No commented-out code blocks (unless with explanation)
+- No unused imports or variables
+
+---
+
+#### **Category 8: PR Review & Integration Readiness**
+
+Validate story is ready for code review and integration.
+
+- [ ] **All tasks/subtasks in story file marked complete** `[x]`
+  - Review story file: `_bmad-output/implementation-artifacts/<story-key>.md`
+  - Every `[ ]` checkbox should be `[x]`
+
+- [ ] **Story file updated with completion details**
+  - Dev Agent Record → Implementation Notes filled
+  - File List → All modified files listed
+  - Change Log → Summary of changes added
+
+- [ ] **Sprint status updated** (if using sprint tracking)
+  - `_bmad-output/implementation-artifacts/sprint-status.yaml`
+  - Story status: `in-progress` → `review` (done by workflow automatically)
+
+- [ ] **All acceptance criteria satisfied**
+  - Review story acceptance criteria section
+  - Verify each "Given/When/Then" is implemented and tested
+
+- [ ] **Full build succeeds (backend + frontend)**
+  ```bash
+  cd backend && mvn clean install && cd ..
+  cd frontend && npm run build && cd ..
+  # Expected: Both succeed with no errors
+  ```
+
+**Ready for Review Criteria:**
+- All checklist items above are checked ✅
+- Implementation matches story requirements exactly
+- No known bugs or incomplete features
+
+---
+
+### **Validation Summary Template**
+
+Use this summary when marking transformation complete:
+
+```markdown
+## Transformation Validation Summary
+
+**Story:** <story-key> - <story-title>
+**Program:** <RPGLE-program-name>
+**Validation Date:** <date>
+**Validated By:** <your-name>
+
+### Validation Results
+
+- ✅ **Compilation & Build:** All code compiles, no errors
+- ✅ **Testing:** All tests pass (Unit: N, Integration: N, E2E: N)
+- ✅ **Code Coverage:** Backend: X%, Frontend: Y% (both ≥80%)
+- ✅ **Code Quality:** Checkstyle, PMD, ESLint pass with 0 critical violations
+- ✅ **Documentation:** All inline docs complete with RPGLE traceability
+- ✅ **Functional Equivalence:** 100% match with RPGLE behavior verified
+- ✅ **Architectural Compliance:** Follows all project patterns and conventions
+- ✅ **Traceability:** All files reference original sources, git history clean
+- ✅ **PR Readiness:** Story complete, sprint status updated
+
+### Manual Test Results
+
+- [ ] Search by customer ID: ✅ Pass
+- [ ] Search by customer name: ✅ Pass
+- [ ] Empty search validation: ✅ Pass
+- [ ] Not found scenario: ✅ Pass
+- [ ] Detail display: ✅ Pass
+
+### Files Modified
+
+**Backend:**
+- `backend/src/main/java/.../Customer.java` (entity)
+- `backend/src/main/java/.../CustomerRepository.java` (repository)
+- `backend/src/main/java/.../CustomerService.java` (service)
+- `backend/src/main/java/.../CustomerController.java` (controller)
+- `backend/src/main/resources/db/migration/V<n>__Create_Customer_Table.sql`
+
+**Frontend:**
+- `frontend/src/features/customers/customer.types.ts`
+- `frontend/src/features/customers/CustomerSearch.tsx`
+- `frontend/src/features/customers/CustomerDetail.tsx`
+- `frontend/src/features/customers/CustomerInquiry.tsx`
+- `frontend/src/features/customers/useCustomer.ts`
+
+**Documentation:**
+- `docs/transformations/<PROGRAM>/analysis.md`
+- `docs/transformations/<PROGRAM>/business-logic-mapping.md`
+- `docs/transformations/<PROGRAM>/data-mapping.md`
+
+### Reviewer Sign-Off
+
+- [ ] Code Review Complete
+- [ ] All Checklist Items Verified
+- [ ] Approved for Merge
+
+**Reviewer:** _______________  
+**Date:** _______________
+```
+
+---
+
+**If ANY checklist item is unchecked:** Address the issue before proceeding to Phase 7 or marking story done.
+
+**CUST001 Validation Example:** See `docs/transformations/CUST001/` for reference of fully validated transformation.
+
+**Next Steps After Validation:**
+1. Complete Phase 7: Documentation & Integration
+2. Create Pull Request using validation summary
+3. Run code review workflow (recommended: fresh context, different LLM)
+4. Merge after approval
 
 **Checkpoint:**
 
