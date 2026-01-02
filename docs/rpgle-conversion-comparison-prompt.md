@@ -11,8 +11,19 @@ You will receive the following original RPGLE artifacts:
 - **Physical File**: Database definition file (DDS format, typically .pf)
 - **Display File**: Screen/UI definition file (DDS format, typically .dspf)
 
-### 2. Conversion Artifacts - Agent-Based Approach
-Path: `[PATH_TO_AGENTS_ARTIFACTS]`
+### 2. Conversion Artifacts - Baseline Approach
+Path: `rpgle-transformer-baseline`
+
+Expected artifacts from rpgle-transformer-baseline:
+- React components and UI code
+- Java REST API controllers, services, and models
+- Database schema/migration files
+- API documentation
+- Configuration files
+- Any additional generated artifacts
+
+### 3. Conversion Artifacts - Agent-Based Approach
+Path: `rpgle-transformer-agents`
 
 Expected artifacts from rpgle-transformer-agents:
 - React components and UI code
@@ -22,16 +33,17 @@ Expected artifacts from rpgle-transformer-agents:
 - Configuration files
 - Any additional generated artifacts
 
-### 3. Conversion Artifacts - Baseline Approach
-Path: `[PATH_TO_BASELINE_ARTIFACTS]`
+### 4. Conversion Artifacts - Bmad-Based Approach
+Path: `rpgle-transformer-bmad`
 
-Expected artifacts from rpgle-transformer-baseline:
+Expected artifacts from rpgle-transformer-bmad:
 - React components and UI code
 - Java REST API controllers, services, and models
 - Database schema/migration files
 - API documentation
 - Configuration files
 - Any additional generated artifacts
+
 
 ## Evaluation Framework
 
@@ -55,7 +67,7 @@ First, analyze the original RPGLE program to establish evaluation criteria:
 
 ### Phase 2: Individual Conversion Analysis
 
-For EACH conversion approach (agents and baseline), evaluate:
+For EACH conversion approach (baseline, agents and bmad), evaluate:
 
 #### A. Functional Completeness (Weight: 30%)
 - **Business Logic Preservation**: Are all business rules correctly translated?
@@ -107,14 +119,14 @@ Score: [0-10] with data model assessment
 #### Direct Comparison Matrix
 Create a side-by-side comparison table:
 
-| Criterion | Agents Approach | Baseline Approach | Winner | Delta |
-|-----------|----------------|-------------------|--------|-------|
-| Functional Completeness | [score/10] | [score/10] | [agents/baseline/tie] | [difference] |
-| Architecture Quality | [score/10] | [score/10] | [agents/baseline/tie] | [difference] |
-| Code Quality | [score/10] | [score/10] | [agents/baseline/tie] | [difference] |
-| UI/UX Translation | [score/10] | [score/10] | [agents/baseline/tie] | [difference] |
-| Data Model Translation | [score/10] | [score/10] | [agents/baseline/tie] | [difference] |
-| **WEIGHTED TOTAL** | [score/10] | [score/10] | [agents/baseline] | [difference] |
+| Criterion | Baseline Approach | Agents Approach | Bmad Approach | Winner | Delta |
+|-----------|----------------|-------------------|----------------|--------|-------|
+| Functional Completeness | [score/10] | [score/10] | [score/10] | [agents/baseline/bmad/tie] | [difference] |
+| Architecture Quality | [score/10] | [score/10] | [score/10] | [agents/baseline/bmad/tie] | [difference] |
+| Code Quality | [score/10] | [score/10] | [score/10] | [agents/baseline/bmad/tie] | [difference] |
+| UI/UX Translation | [score/10] | [score/10] | [score/10] | [agents/baseline/bmad/tie] | [difference] |
+| Data Model Translation | [score/10] | [score/10] | [score/10] | [agents/baseline/bmad/tie] | [difference] |
+| **WEIGHTED TOTAL** | [score/10] | [score/10] | [score/10] | [agents/baseline/bmad] | [difference] |
 
 #### Qualitative Comparison
 
@@ -134,6 +146,14 @@ Create a side-by-side comparison table:
    - List 3-5 key limitations
    - Provide specific examples from the code
 
+5. **Strengths of Bmad Approach**
+   - List 3-5 key advantages
+   - Provide specific examples from the code
+
+6. **Weaknesses of Bmad Approach**
+   - List 3-5 key limitations
+   - Provide specific examples from the code
+
 #### Critical Differences
 Identify and explain:
 - **Architectural Divergences**: Major differences in how the solution is structured
@@ -148,20 +168,23 @@ Provide 2-3 concrete examples for each category:
 
 #### Example 1: Business Logic Implementation
 **Original RPGLE Code Snippet**: [relevant section]
-**Agents Implementation**: [React/Java code]
 **Baseline Implementation**: [React/Java code]
+**Agents Implementation**: [React/Java code]
+**Bmad Implementation**: [React/Java code]
 **Analysis**: Which is more faithful, maintainable, and correct?
 
 #### Example 2: Database Operation
 **Original RPGLE Code Snippet**: [relevant section]
-**Agents Implementation**: [React/Java code]
 **Baseline Implementation**: [React/Java code]
+**Agents Implementation**: [React/Java code]
+**Bmad Implementation**: [React/Java code]
 **Analysis**: Compare the API design and data access patterns
 
 #### Example 3: UI Component
 **Original Display File**: [relevant section]
-**Agents Implementation**: [React code]
 **Baseline Implementation**: [React code]
+**Agents Implementation**: [React code]
+**Bmad Implementation**: [React code]
 **Analysis**: Evaluate UI fidelity and user experience
 
 ### Phase 5: Production Readiness Assessment
@@ -198,10 +221,13 @@ Structure your analysis as follows:
 ## Original Program Analysis
 [Detailed understanding of the RPGLE program]
 
+## Baseline Approach Evaluation
+[Detailed scores and analysis]
+
 ## Agents Approach Evaluation
 [Detailed scores and analysis]
 
-## Baseline Approach Evaluation
+## Bmad Approach Evaluation
 [Detailed scores and analysis]
 
 ## Comparative Analysis
@@ -242,7 +268,8 @@ Structure your analysis as follows:
 
 Now, proceed with the comparison using the provided inputs:
 - Original RPGLE artifacts: [TO BE PROVIDED]
-- Agents approach path: [TO BE PROVIDED]
 - Baseline approach path: [TO BE PROVIDED]
+- Agents approach path: [TO BE PROVIDED]
+- Bmad approach path: [TO BE PROVIDED]
 
 Start by thoroughly analyzing the original RPGLE program, then systematically evaluate each conversion approach, and finally provide a comprehensive comparative analysis.
