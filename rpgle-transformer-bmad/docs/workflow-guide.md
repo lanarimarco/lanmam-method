@@ -1716,9 +1716,9 @@ npm run build
 - During code review (reviewer validates all items)
 - As final quality gate before merging
 
-**Estimated Time:** 15-30 minutes to complete full checklist validation
+**Estimated Time:** 15-30 minutes to complete full checklist validation (estimate not empirically validated)
 
-**Standalone Checklist for PRs:** Reference [docs/standards/transformation-validation-checklist.md](docs/standards/transformation-validation-checklist.md) for the copy-pastable template and reviewer sign-off section.
+**Standalone Checklist for PRs:** Reference [transformation-validation-checklist.md](../standards/transformation-validation-checklist.md) for the copy-pastable template and reviewer sign-off section.
 
 ---
 

@@ -14,7 +14,7 @@
 - ✅ During code review (reviewer validates all items)
 - ✅ As final quality gate before merging
 
-**Estimated Time:** 15-30 minutes for full validation
+**Estimated Time:** 15-30 minutes for full validation (estimate not empirically validated; actual time may vary based on project complexity)
 
 **Instructions:**
 1. Copy this checklist into your PR description or story file
@@ -379,15 +379,17 @@ Validate story is ready for code review and integration.
 
 ## 🎯 CUST001 Validation Example
 
+**Note:** The following is a reference example showing the expected format and structure of a validated transformation. Use this as a template for documenting your own validation results.
+
 See `docs/transformations/CUST001/` for a complete example of a fully validated transformation:
 
 - **Analysis Document:** Shows comprehensive program understanding
 - **Business Logic Mapping:** Complete RPGLE-to-Java mappings
 - **Data Mapping:** Full field-by-field DDS mappings
 - **Code Examples:** Properly documented with RPGLE references
-- **Test Coverage:** 87% backend, 84% frontend (both above 80% threshold)
+- **Test Coverage:** Example shows 87% backend, 84% frontend (both above 80% threshold)
 
-### 📝 CUST001 Compliance Snapshot
+### 📝 CUST001 Compliance Snapshot (Example Format)
 
 - **Compilation & Build:** `mvn clean compile` and `npm run build` both succeeded with `BUILD SUCCESS` status, demonstrating the checklist’s compilation checks. (See `docs/transformations/CUST001/analysis.md` for command output.)
 - **Testing Validation:** Backend `mvn test`, frontend `npm test`, and Playwright `npx playwright test` all pass; JaCoCo shows 87% backend coverage and Vitest shows 84% frontend coverage. Integration tests (Testcontainers) report zero failures.
