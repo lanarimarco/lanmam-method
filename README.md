@@ -244,14 +244,143 @@ See the [full comparison report](docs/rpgle-conversion-comparison-report.md) for
 
 ## Sample Application: CUST001
 
-All three approaches include a complete conversion of **CUST001** (Customer Inquiry), a simple RPGLE program that:
-- Prompts user for customer number
-- Validates input (non-zero)
-- Looks up customer in CUSTMAST file
-- Displays customer details (name, address, phone, balance)
-- Handles F3 (Exit) and F12 (Return) function keys
+All three approaches include a complete conversion of **CUST001** (Customer Inquiry), a simple but complete RPGLE program that demonstrates common legacy patterns.
 
-This serves as a reference implementation and testing ground for the conversion methodologies.
+### Program Overview
+
+CUST001 is a customer inquiry program that allows users to look up customer information by customer number. It demonstrates typical RPGLE patterns including:
+- File I/O operations (CHAIN lookup)
+- Interactive screen handling (ExFmt)
+- Input validation and error messaging
+- Function key handling (F3=Exit, F12=Return)
+- Indicator-based flow control
+
+### Data Structure: CUSTMAST File
+
+The CUSTMAST physical file contains customer master records with the following fields:
+
+| Field | Type | Description |
+|-------|------|-------------|
+| CUSTNO | 5P 0 | Customer Number (Primary Key) |
+| CUSTNAME | 30A | Customer Name |
+| ADDR1 | 30A | Address Line 1 |
+| CITY | 20A | City |
+| STATE | 2A | State Code |
+| ZIP | 5P 0 | Zip Code |
+| PHONE | 12A | Phone Number |
+| BALANCE | 9P 2 | Account Balance |
+| CREDITLIM | 9P 2 | Credit Limit |
+| LASTORDER | 8P 0 | Last Order Date (YYYYMMDD) |
+
+### Screen Flow
+
+The program uses a display file (CUSTDSP) with two record formats:
+
+#### 1. PROMPT Screen (Entry)
+```
+CUST001                    Customer Inquiry                      12:34:56
+                                                                  01/03/26
+
+Customer Number: _____
+
+Error: [error message if validation fails]
+
+F3=Exit
+```
+
+**Fields**:
+- `PCUSTNO`: Input field for customer number (5-digit, zero-suppressed)
+- `PMSG`: Error message field (displayed when indicator 90 is on)
+
+**Function Keys**:
+- F3 (indicator 03): Exit program
+- F12 (indicator 12): Cancel/Return
+
+#### 2. DETAIL Screen (Display)
+```
+CUST001                    Customer Detail                       12:34:56
+                                                                  01/03/26
+
+Customer Number: 12345
+Name:            John Smith
+Address:         123 Main Street
+City:            Springfield
+State:           IL
+Zip:             62701
+Phone:           217-555-1234
+Balance:         1,234.56
+
+F3=Exit  F12=Return
+```
+
+**Fields**: All output-only, populated from CUSTMAST record
+- `DCUSTNO`, `DCUSTNAME`, `DADDR1`, `DCITY`, `DSTATE`, `DZIP`, `DPHONE`, `DBALANCE`
+
+### Program Logic Flow
+
+```
+1. Display PROMPT screen (ExFmt PROMPT)
+2. LOOP while F3 not pressed (*IN03 = *Off):
+   a. Clear error indicator (*IN90 = *Off) and message (PMSG)
+
+   b. VALIDATE customer number:
+      - IF PCUSTNO = 0:
+        * Set error indicator (*IN90 = *On)
+        * Set error message: "Customer number required"
+        * Re-display PROMPT screen
+        * Continue to next iteration
+
+   c. LOOKUP customer in CUSTMAST:
+      - CHAIN PCUSTNO to CUSTMAST file
+
+   d. IF customer found (%Found):
+      * Copy CUSTMAST fields to DETAIL screen fields
+      * Display DETAIL screen (ExFmt DETAIL)
+      ELSE:
+      * Set error indicator (*IN90 = *On)
+      * Set error message: "Customer not found"
+
+   e. Re-display PROMPT screen (ExFmt PROMPT)
+3. END LOOP
+4. Set Last Record (*INLR = *On) and exit
+```
+
+### Key RPGLE Concepts Demonstrated
+
+1. **File Declarations**:
+   - `FCUSTMAST IF E K DISK`: Input file, externally described, keyed access
+   - `FCUSTDSP CF E WORKSTN`: Combined I/O file, externally described, workstation
+
+2. **Screen I/O**:
+   - `ExFmt`: Write then Read (display screen and wait for user input)
+   - Indicator-based error display (*IN90 controls error message visibility)
+
+3. **Database Operations**:
+   - `CHAIN`: Random read by key (retrieves record matching PCUSTNO)
+   - `%Found()`: Built-in function to check if CHAIN was successful
+
+4. **Flow Control**:
+   - `DoW` (Do While): Loop while condition is true
+   - `Iter`: Continue to next iteration (skip remaining loop code)
+   - Indicator-based termination (*IN03 for F3 key)
+
+5. **Data Validation**:
+   - Simple non-zero check for required input
+   - Error messaging with conditional display
+
+### Business Rules
+
+1. **Customer Number Required**: Users must enter a non-zero customer number
+2. **Inquiry Only**: No create, update, or delete operations (read-only access)
+3. **Real-time Lookup**: Each inquiry performs a fresh database read
+4. **User-Friendly Navigation**: F3 exits, F12 returns to entry screen from detail
+
+This serves as a reference implementation and testing ground for the conversion methodologies, demonstrating how each approach handles:
+- Interactive screen flows → REST APIs + React forms
+- File I/O → JPA/Spring Data repository patterns
+- Indicator logic → Boolean validation and error handling
+- Function keys → UI navigation and cancel operations
+- DDS field definitions → Database schemas and entity models
 
 ## Key Differentiators
 
