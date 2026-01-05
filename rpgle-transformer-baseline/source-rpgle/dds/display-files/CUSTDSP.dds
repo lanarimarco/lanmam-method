@@ -1,0 +1,59 @@
+     A*===============================================================
+     A* File: CUSTDSP - Customer Inquiry Display File
+     A* Description: Display file for customer inquiry program
+     A*===============================================================
+     A                                      DSPSIZ(24 80 *DS3)
+     A                                      PRINT
+     A                                      INDARA
+     A                                      CA03(03 'Exit')
+     A                                      CA12(12 'Cancel')
+     A*---------------------------------------------------------------
+     A* Record Format: PROMPT - Customer Number Entry Screen
+     A*---------------------------------------------------------------
+     A          R PROMPT
+     A                                      OVERLAY
+     A                                  1  2'CUST001'
+     A                                      DSPATR(HI)
+     A                                  1 30'Customer Inquiry'
+     A                                      DSPATR(HI)
+     A                                  1 70TIME
+     A                                  2 70DATE
+     A                                      EDTCDE(Y)
+     A                                  4  2'Customer Number:'
+     A            PCUSTNO        5Y 0B  4 20EDTCDE(Z)
+     A  90                              5  2'Error:'
+     A  90                                  DSPATR(HI)
+     A  90                                  COLOR(RED)
+     A  90        PMSG          50A  O  5  9COLOR(RED)
+     A                                 23  2'F3=Exit'
+     A                                      COLOR(BLU)
+     A*---------------------------------------------------------------
+     A* Record Format: DETAIL - Customer Detail Display Screen
+     A*---------------------------------------------------------------
+     A          R DETAIL
+     A                                      OVERLAY
+     A                                  1  2'CUST001'
+     A                                      DSPATR(HI)
+     A                                  1 30'Customer Detail'
+     A                                      DSPATR(HI)
+     A                                  1 70TIME
+     A                                  2 70DATE
+     A                                      EDTCDE(Y)
+     A                                  4  2'Customer Number:'
+     A            DCUSTNO        5Y 0O  4 20EDTCDE(Z)
+     A                                  5  2'Name:'
+     A            DCUSTNAME     30A  O  5 20
+     A                                  7  2'Address:'
+     A            DADDR1        30A  O  7 20
+     A                                  8  2'City:'
+     A            DCITY         20A  O  8 20
+     A                                  9  2'State:'
+     A            DSTATE         2A  O  9 20
+     A                                 10  2'Zip:'
+     A            DZIP           5Y 0O 10 20EDTCDE(Z)
+     A                                 12  2'Phone:'
+     A            DPHONE        12A  O 12 20
+     A                                 14  2'Balance:'
+     A            DBALANCE       9Y 2O 14 20EDTCDE(J)
+     A                                 23  2'F3=Exit  F12=Return'
+     A                                      COLOR(BLU)
