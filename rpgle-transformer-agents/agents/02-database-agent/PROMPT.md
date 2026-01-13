@@ -1,17 +1,50 @@
+# Phase 2: Database - Program: CUST002
+
 # Database Agent
+
+## Workspace Context
+**Current workspace**: `/work-in-progress/{PROGRAM}/02-database/`
+
+All relative file references in this prompt are relative to the current workspace directory.
+
+**Path interpretation examples**:
+- `./PROMPT.md` → Current workspace's PROMPT file
+- `../01-analysis/` → Sibling directory in the {PROGRAM} folder
+- `../../source-rpgle/` → Source RPGLE files at the repository root level
+- `/work-in-progress/{PROGRAM}/02-database/database-notes.md` → Output file in current workspace
 
 ## Purpose
 Create JPA entities, repositories, and database access layer based on RPGLE file definitions.
 
 ## Inputs Required
-1. Project settings from `project-settings.md`
-2. DDS files from `/source-rpgle/dds/physical-files/`
-3. DDS files from `/source-rpgle/dds/logical-files/`
-4. Analysis document from `/work-in-progress/{PROGRAM}/01-analysis/`
-5. Type mappings guide: `type-mappings.md`
-6. Naming conventions: `naming-conventions.md`
-7. All common patterns from `/common-patterns/`
-8. Templates from this agent folder
+
+### Essential Inputs (Must Have)
+1. **DDS files from `/source-rpgle/dds/physical-files/`** - Core database definitions
+   - If missing: Cannot proceed without at least one DDS file. Document this blocker.
+
+### Recommended Inputs (Should Have)
+2. **Analysis document from `/work-in-progress/{PROGRAM}/01-analysis/`** - Context and requirements
+   - If missing: Proceed with DDS analysis only, document limited context
+3. **Project settings from `project-settings.md`** - Java package structure, naming
+   - If missing: Use reasonable defaults (e.g., `com.example.entities`, `com.example.repositories`)
+4. **Type mappings guide: `type-mappings.md`** - DDS to Java type conversions
+   - If missing: Use standard DB2/RPGLE to Java mappings (CHAR→String, PACKED→BigDecimal, etc.)
+
+### Optional Inputs (Nice to Have)
+5. **DDS files from `/source-rpgle/dds/logical-files/`** - Indexes and views
+   - If missing: Skip logical file processing, note in documentation
+6. **Naming conventions: `naming-conventions.md`** - Code style guidelines
+   - If missing: Use standard Java naming (camelCase for fields, PascalCase for classes)
+7. **Common patterns from `/common-patterns/`** - Best practices and examples
+   - If missing: Use standard JPA patterns
+8. **Templates from this agent folder** - Code templates
+   - If missing: Generate code using standard JPA/Spring Data patterns
+
+### Handling Missing Inputs
+- Always document which inputs were missing in `database-notes.md`
+- Document any assumptions made due to missing inputs
+- Proceed with available information - do not block on optional inputs
+- Use reasonable defaults and standard practices when guidelines are missing
 
 ## Outputs to Produce
 Create in `/work-in-progress/{PROGRAM}/02-database/` by following `/common-patterns/maven-project-structure.md`:
