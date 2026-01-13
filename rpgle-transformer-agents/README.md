@@ -70,6 +70,28 @@ rpgle-transformer-agents/
 │       ├── 06-review/           # Review reports
 │       ├── 07-integration/      # Integration outputs
 │       └── MASTER-PIPELINE-PROMPT.md  # Complete pipeline prompt
+├── final-output/                # Completed conversion outputs
+│   └── {PROGRAM}/               # Individual program final output
+│       ├── docs/                # Agent-generated documentation (always present)
+│       │   ├── {PROGRAM}-analysis.md
+│       │   ├── database-notes.md
+│       │   ├── conversion-notes.md
+│       │   ├── ui-notes.md
+│       │   ├── testing-notes.md
+│       │   ├── review-report.md
+│       │   └── deployment-guide.md
+│       ├── backend/             # Java/Spring Boot code (architectural decision)
+│       │   ├── entities/
+│       │   ├── repositories/
+│       │   ├── services/
+│       │   ├── controllers/
+│       │   ├── dtos/
+│       │   └── tests/
+│       └── frontend/            # React/TypeScript code (architectural decision)
+│           ├── pages/
+│           ├── services/
+│           ├── types/
+│           └── tests/
 ├── common-patterns/             # Reusable patterns and knowledge base
 │   ├── date-time-conversion.md  # Date/time handling patterns
 │   ├── error-handling-strategy.md
