@@ -250,7 +250,7 @@ class CustomerRepositoryTest {
                 .city("Springfield")
                 .state("IL")
                 .zipCode(62701)
-                .phoneNumber("(555) 123-4567")
+                .phoneNumber("123-4567")
                 .balance(new BigDecimal("1000.00"))
                 .build();
 
@@ -264,6 +264,6 @@ class CustomerRepositoryTest {
         assertThat(result).isPresent();
         assertThat(result.get().getCustomerName()).isEqualTo("O'Brien & Sons, Inc.");
         assertThat(result.get().getAddress1()).isEqualTo("123 Main St., Apt #5");
-        assertThat(result.get().getPhoneNumber()).isEqualTo("(555) 123-4567");
+        assertThat(result.get().getPhoneNumber()).isEqualTo("123-4567");
     }
 }
