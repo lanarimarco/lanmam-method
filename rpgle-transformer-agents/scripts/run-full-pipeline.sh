@@ -31,33 +31,61 @@ echo "  Phase 6: Code Review"
 echo "  Phase 7: Integration & Deployment"
 echo ""
 
-# Run each phase setup script
+# Run each phase setup script with error checking
 echo "Phase 1: Setting up Analysis..."
 ./run-analysis.sh $PROGRAM
+if [ $? -ne 0 ]; then
+    echo "❌ Error in Phase 1: Analysis. Aborting pipeline."
+    exit 1
+fi
 
 echo ""
 echo "Phase 2: Setting up Database layer..."
 ./run-database.sh $PROGRAM
+if [ $? -ne 0 ]; then
+    echo "❌ Error in Phase 2: Database layer. Aborting pipeline."
+    exit 1
+fi
 
 echo ""
 echo "Phase 3: Setting up Conversion..."
 ./run-conversion.sh $PROGRAM
+if [ $? -ne 0 ]; then
+    echo "❌ Error in Phase 3: Conversion. Aborting pipeline."
+    exit 1
+fi
 
 echo ""
 echo "Phase 4: Setting up UI..."
 ./run-ui.sh $PROGRAM
+if [ $? -ne 0 ]; then
+    echo "❌ Error in Phase 4: UI. Aborting pipeline."
+    exit 1
+fi
 
 echo ""
 echo "Phase 5: Setting up Testing..."
 ./run-testing.sh $PROGRAM
+if [ $? -ne 0 ]; then
+    echo "❌ Error in Phase 5: Testing. Aborting pipeline."
+    exit 1
+fi
 
 echo ""
 echo "Phase 6: Setting up Review..."
 ./run-review.sh $PROGRAM
+if [ $? -ne 0 ]; then
+    echo "❌ Error in Phase 6: Review. Aborting pipeline."
+    exit 1
+fi
 
 echo ""
 echo "Phase 7: Setting up Integration..."
 ./run-integration.sh $PROGRAM
+if [ $? -ne 0 ]; then
+    echo "❌ Error in Phase 7: Integration. Aborting pipeline."
+    exit 1
+fi
 
 # Create master pipeline prompt
 echo ""
