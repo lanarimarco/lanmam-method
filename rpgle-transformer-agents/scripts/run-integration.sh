@@ -25,14 +25,6 @@ if [ ! -f "$REVIEW_REPORT" ]; then
     echo ""
 fi
 
-# Check that all previous phases exist
-ANALYSIS_FILE="$PROJECT_ROOT/work-in-progress/$PROGRAM/01-analysis/$PROGRAM-analysis.md"
-if [ ! -f "$ANALYSIS_FILE" ]; then
-    echo "⚠️  Warning: Analysis document not found: $ANALYSIS_FILE"
-    echo "  Please complete Phase 1 (Analysis) first"
-    echo ""
-fi
-
 DATABASE_DIR="$PROJECT_ROOT/work-in-progress/$PROGRAM/02-database"
 if [ ! -d "$DATABASE_DIR" ]; then
     echo "⚠️  Warning: Database layer not found: $DATABASE_DIR"
