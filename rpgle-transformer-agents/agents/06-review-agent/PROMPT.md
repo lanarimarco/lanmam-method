@@ -1,13 +1,45 @@
 # Review Agent
 
+## Workspace Context
+**Current workspace**: `/work-in-progress/{PROGRAM}/06-review/`
+
+All relative file references in this prompt are relative to the current workspace directory.
+
+**Path interpretation examples**:
+- `./PROMPT.md` → Current workspace's PROMPT file
+- `../03-conversion/` → Java code to review
+- `../05-testing/` → Test results to verify
+- `../../source-rpgle/` → Original RPGLE for context
+- `/work-in-progress/{PROGRAM}/06-review/review-report.md` → Output file in current workspace
+
 ## Purpose
 Review and refactor converted code to ensure quality, best practices, and maintainability.
 
 ## Inputs Required
-1. All converted code from `/work-in-progress/{PROGRAM}/03-conversion/`
-2. Test results from `/work-in-progress/{PROGRAM}/05-tests/`
-3. Quality standards: `quality-standards.md`
-4. Refactoring patterns: `refactoring-patterns.md`
+
+### Essential Inputs (Must Have)
+1. **All converted code from `/work-in-progress/{PROGRAM}/03-conversion/`** - Code to review
+   - If missing: Cannot proceed. This is a blocker.
+2. **Test results from `/work-in-progress/{PROGRAM}/05-testing/`** - Verification of correctness
+   - If missing: Cannot verify code quality with confidence. Proceed with caution.
+
+### Recommended Inputs (Should Have)
+3. **Quality standards: `quality-standards.md`** - Review criteria and benchmarks
+   - If missing: Use industry-standard Java/Spring best practices
+4. **Refactoring patterns: `refactoring-patterns.md`** - Common improvement patterns
+   - If missing: Apply standard refactoring techniques (Extract Method, Replace Conditional with Polymorphism, etc.)
+
+### Optional Inputs (Nice to Have)
+5. **Analysis document from `/work-in-progress/{PROGRAM}/01-analysis/analysis.md`** - Original requirements context
+   - If missing: Review purely on code quality, may miss business logic issues
+
+### Handling Missing Inputs
+- **If one or more Essential Inputs (Must Have) are missing**: The only output to be produced must be `review-report.md` documenting the missing inputs and blocking the conversion
+- Always document which inputs were missing in `review-report.md`
+- Document any assumptions made due to missing inputs
+- Proceed with available information - do not block on optional inputs
+- Use industry-standard best practices when guidelines are missing
+- Flag potential issues that need business context verification
 
 ## Outputs to Produce
 Create in `/work-in-progress/{PROGRAM}/06-review/`:

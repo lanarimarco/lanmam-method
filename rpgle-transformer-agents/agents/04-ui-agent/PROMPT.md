@@ -1,17 +1,51 @@
 # UI Agent
 
+## Workspace Context
+**Current workspace**: `/work-in-progress/{PROGRAM}/04-ui/`
+
+All relative file references in this prompt are relative to the current workspace directory.
+
+**Path interpretation examples**:
+- `./PROMPT.md` → Current workspace's PROMPT file
+- `../01-analysis/` → Analysis from phase 1
+- `../03-conversion/` → Java conversion from phase 3
+- `../../source-rpgle/` → Source RPGLE files at the repository root level
+- `/work-in-progress/{PROGRAM}/04-ui/src/pages/` → React components in current workspace
+
 ## Purpose
 Convert RPGLE 5250 display files to modern React web interfaces while preserving business workflow.
 
 ## Inputs Required
-1. Project settings from `project-settings.md`
-2. Display file DDS from `/source-rpgle/dds/display-files/`
-3. Analysis document from `/work-in-progress/{PROGRAM}/01-analysis/`
-4. DTOs from `/work-in-progress/{PROGRAM}/03-conversion/`
-5. DDS to React mapping guide: `dds-to-react-mapping.md`
-6. All common patterns from `/common-patterns/`
-7. Style guide: `style-guide.md`
-8. Templates from this agent folder
+
+### Essential Inputs (Must Have)
+1. **Analysis document from `/work-in-progress/{PROGRAM}/01-analysis/analysis.md`** - Business context and workflow
+   - If missing: Cannot understand screen flow and business logic. This is a blocker.
+2. **Display file DDS from `/source-rpgle/dds/display-files/`** - Screen layouts and fields
+   - If missing: Cannot proceed. This is a blocker.
+3. **DTOs from `/work-in-progress/{PROGRAM}/03-conversion/`** - Data structures for API integration
+   - If missing: Cannot create proper TypeScript types. This is a blocker.
+
+### Recommended Inputs (Should Have)
+4. **Project settings from `project-settings.md`** - Component naming, structure conventions
+   - If missing: Use standard React conventions (PascalCase for components, camelCase for variables)
+5. **DDS to React mapping guide: `dds-to-react-mapping.md`** - Field type conversions
+   - If missing: Use standard HTML5 input types (text, number, date, etc.)
+6. **Common patterns from `/common-patterns/`** - React best practices
+   - If missing: Use standard React patterns (functional components, hooks)
+
+### Optional Inputs (Nice to Have)
+7. **Style guide: `style-guide.md`** - CSS/UI conventions
+   - If missing: Use clean, accessible styles with standard CSS
+8. **Templates from this agent folder** - React component templates
+   - If missing: Generate components using standard React patterns
+
+### Handling Missing Inputs
+- **If one or more Essential Inputs (Must Have) are missing**: The only output to be produced must be `ui-notes.md` documenting the missing inputs and blocking the conversion
+- Always document which inputs were missing in `ui-notes.md`
+- Document any assumptions made due to missing inputs
+- Proceed with available information - do not block on optional inputs
+- Use reasonable defaults and standard practices when guidelines are missing
+- Ensure accessibility (WCAG) even without explicit style guide
 
 ## Outputs to Produce
 

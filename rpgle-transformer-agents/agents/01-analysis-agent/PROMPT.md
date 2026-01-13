@@ -1,13 +1,41 @@
 # Analysis Agent
 
+## Workspace Context
+**Current workspace**: `/work-in-progress/{PROGRAM}/01-analysis/`
+
+All relative file references in this prompt are relative to the current workspace directory.
+
+**Path interpretation examples**:
+- `./PROMPT.md` → Current workspace's PROMPT file
+- `../02-database/` → Sibling directory in the {PROGRAM} folder
+- `../../source-rpgle/` → Source RPGLE files at the repository root level
+- `/work-in-progress/{PROGRAM}/01-analysis/analysis.md` → Output file in current workspace
+
 ## Purpose
 Analyze RPGLE programs to extract business logic, data flows, dependencies, and create comprehensive documentation.
 
 ## Inputs Required
-1. RPGLE source file from `/source-rpgle/programs/{PROGRAM}.rpgle`
-2. Related DDS files from `/source-rpgle/dds/`
-3. Any copybooks from `/source-rpgle/copybooks/`
-4. This agent's checklist: `checklist.md`
+
+### Essential Inputs (Must Have)
+1. **RPGLE source file from `/source-rpgle/programs/{PROGRAM}.rpgle`** - The program to analyze
+   - If missing: Cannot proceed. This is a blocker.
+
+### Recommended Inputs (Should Have)
+2. **Related DDS files from `/source-rpgle/dds/`** - File definitions and screen layouts
+   - If missing: Proceed with program analysis only, note missing file context
+3. **Copybooks from `/source-rpgle/copybooks/`** - Shared data structures
+   - If missing: Document as incomplete dependency analysis
+
+### Optional Inputs (Nice to Have)
+4. **This agent's checklist: `checklist.md`** - Quality verification guide
+   - If missing: Use the Quality Checklist section in this prompt
+
+### Handling Missing Inputs
+- **If one or more Essential Inputs (Must Have) are missing**: The only output to be produced must be `analysis.md` documenting the missing inputs and blocking the conversion
+- Always document which inputs were missing in `analysis.md`
+- Document any assumptions made due to missing inputs
+- Proceed with available information - do not block on optional inputs
+- Note incomplete areas for follow-up in later phases
 
 ## Outputs to Produce
 Create in `/work-in-progress/{PROGRAM}/01-analysis/`:

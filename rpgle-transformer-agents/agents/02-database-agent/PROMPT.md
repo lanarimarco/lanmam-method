@@ -1,5 +1,3 @@
-# Phase 2: Database - Program: CUST002
-
 # Database Agent
 
 ## Workspace Context
@@ -19,12 +17,12 @@ Create JPA entities, repositories, and database access layer based on RPGLE file
 ## Inputs Required
 
 ### Essential Inputs (Must Have)
-1. **DDS files from `/source-rpgle/dds/physical-files/`** - Core database definitions
+1. **Analysis document from `/work-in-progress/{PROGRAM}/01-analysis/analysis.md`** - Context and requirements
+   - If missing: Cannot proceed. This is a blocker.
+2. **DDS files from `/source-rpgle/dds/physical-files/`** - Core database definitions
    - If missing: Cannot proceed without at least one DDS file. Document this blocker.
 
 ### Recommended Inputs (Should Have)
-2. **Analysis document from `/work-in-progress/{PROGRAM}/01-analysis/`** - Context and requirements
-   - If missing: Proceed with DDS analysis only, document limited context
 3. **Project settings from `project-settings.md`** - Java package structure, naming
    - If missing: Use reasonable defaults (e.g., `com.example.entities`, `com.example.repositories`)
 4. **Type mappings guide: `type-mappings.md`** - DDS to Java type conversions
@@ -41,6 +39,7 @@ Create JPA entities, repositories, and database access layer based on RPGLE file
    - If missing: Generate code using standard JPA/Spring Data patterns
 
 ### Handling Missing Inputs
+- **If one or more Essential Inputs (Must Have) are missing**: The only output to be produced must be `database-notes.md` documenting the missing inputs and blocking the conversion
 - Always document which inputs were missing in `database-notes.md`
 - Document any assumptions made due to missing inputs
 - Proceed with available information - do not block on optional inputs

@@ -1,16 +1,49 @@
 # Conversion Agent
 
+## Workspace Context
+**Current workspace**: `/work-in-progress/{PROGRAM}/03-conversion/`
+
+All relative file references in this prompt are relative to the current workspace directory.
+
+**Path interpretation examples**:
+- `./PROMPT.md` → Current workspace's PROMPT file
+- `../01-analysis/` → Sibling directory in the {PROGRAM} folder
+- `../02-database/` → Database layer from previous phase
+- `../../source-rpgle/` → Source RPGLE files at the repository root level
+- `/work-in-progress/{PROGRAM}/03-conversion/conversion-notes.md` → Output file in current workspace
+
 ## Purpose
 Convert RPGLE programs to Java services following established patterns and best practices.
 
 ## Inputs Required
-1. Project settings from `project-settings.md`
-2. RPGLE source file from `/source-rpgle/programs/{PROGRAM}.rpgle`
-3. Analysis document from `/work-in-progress/{PROGRAM}/01-analysis/`
-4. Database entities from `/work-in-progress/{PROGRAM}/02-database/`
-5. Display file specifications from `/source-rpgle/dds/display-files/`
-6. All common patterns from `/common-patterns/`
-7. Templates from this agent folder
+
+### Essential Inputs (Must Have)
+1. **RPGLE source file from `/source-rpgle/programs/{PROGRAM}.rpgle`** - Source code to convert
+   - If missing: Cannot proceed. This is a blocker.
+2. **Analysis document from `/work-in-progress/{PROGRAM}/01-analysis/analysis.md`** - Business logic context
+   - If missing: Cannot proceed without understanding program purpose and logic flow. This is a blocker.
+3. **Database entities from `/work-in-progress/{PROGRAM}/02-database/`** - JPA entities and repositories
+   - If missing: Cannot implement data access layer. This is a blocker.
+
+### Recommended Inputs (Should Have)
+4. **Project settings from `project-settings.md`** - Package structure, naming conventions
+   - If missing: Use reasonable defaults (e.g., `com.example.services`, `com.example.controllers`)
+5. **Common patterns from `/common-patterns/`** - Best practices and mapping guides
+   - If missing: Use standard Spring Boot patterns, document deviations
+6. **Display file specifications from `/source-rpgle/dds/display-files/`** - UI interaction context
+   - If missing: Create generic DTOs, note UI integration needed
+
+### Optional Inputs (Nice to Have)
+7. **Templates from this agent folder** - Code templates
+   - If missing: Generate code using standard Spring Boot patterns
+
+### Handling Missing Inputs
+- **If one or more Essential Inputs (Must Have) are missing**: The only output to be produced must be `conversion-notes.md` documenting the missing inputs and blocking the conversion
+- Always document which inputs were missing in `conversion-notes.md`
+- Document any assumptions made due to missing inputs
+- Proceed with available information - do not block on optional inputs
+- Use reasonable defaults and standard practices when guidelines are missing
+- Flag areas needing review when essential context is missing
 
 ## Outputs to Produce
 Create in `/work-in-progress/{PROGRAM}/03-conversion/` by following `/common-patterns/maven-project-structure.md`:

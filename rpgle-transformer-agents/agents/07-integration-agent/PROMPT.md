@@ -1,13 +1,49 @@
 # Integration Agent
 
+## Workspace Context
+**Current workspace**: `/final-output/` (with reference to `/work-in-progress/{PROGRAM}/`)
+
+All relative file references in this prompt are relative to either the final-output or work-in-progress directories.
+
+**Path interpretation examples**:
+- `/work-in-progress/{PROGRAM}/03-conversion/` → Source artifacts to integrate
+- `/final-output/backend/src/` → Target for Java code integration
+- `/final-output/frontend/src/` → Target for React code integration
+- `/final-output/docs/{PROGRAM}/` → Program-specific documentation
+
 ## Purpose
 Consolidate all reviewed artifacts from the conversion pipeline into the final production-ready application structure with Spring Boot backend and React frontend, and prepare for deployment.
 
 ## Inputs Required
-1. Project settings from `project-settings.md`
-2. All outputs from phases 01-06 in `/work-in-progress/{PROGRAM}/`
-3. Review confirmation from `/work-in-progress/{PROGRAM}/06-review/review-report.md`
-4. Final output structure: `/final-output/backend/` and `/final-output/frontend/`
+
+### Essential Inputs (Must Have)
+1. **All outputs from phases 01-06 in `/work-in-progress/{PROGRAM}/`** - Artifacts to integrate
+   - If missing: Cannot proceed. This is a blocker for integration.
+2. **Review confirmation from `/work-in-progress/{PROGRAM}/06-review/review-report.md`** - Quality verification
+   - If missing: Cannot confirm code quality. Do not integrate unreviewed code.
+3. **Final output structure: `/final-output/backend/` and `/final-output/frontend/`** - Target directories
+   - If missing: Create the structure following the directory template in this prompt
+
+### Recommended Inputs (Should Have)
+4. **Project settings from `project-settings.md`** - Package naming, configuration
+   - If missing: Use consistent defaults (e.g., `com.company.modernization` for packages)
+5. **Database configuration settings** - Connection details for different environments
+   - If missing: Create template configuration files, document manual setup needed
+
+### Optional Inputs (Nice to Have)
+6. **Integration templates from this agent folder** - Application shell templates
+   - If missing: Create from standard Spring Boot/React patterns
+7. **Deployment configuration (Docker, CI/CD)** - Deployment automation
+   - If missing: Create basic deployment guide, skip automation setup
+
+### Handling Missing Inputs
+- **If one or more Essential Inputs (Must Have) are missing**: The only output to be produced must be `integration-report.md` documenting the missing inputs and blocking the conversion
+- Always document which inputs were missing in `integration-report.md`
+- Document any assumptions made due to missing inputs
+- Create template configuration files when settings are missing
+- Use reasonable defaults for package names and structure
+- Document manual setup steps needed when automation inputs are missing
+- Do NOT proceed if Phase 6 review is incomplete - quality gate must pass
 
 ## Outputs to Produce
 1. **Consolidated Java codebase** in `/final-output/backend/src/`
