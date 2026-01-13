@@ -143,7 +143,6 @@ In `database-notes.md`, **ALWAYS document**:
 │                       └── repositories/
 │                           └── [Repository]Test.java
 ├── database-notes.md
-└── README.md
 ```
 
 #### When CREATING New Artifacts (only when justified):
@@ -168,7 +167,6 @@ In `database-notes.md`, **ALWAYS document**:
 │                       └── repositories/
 │                           └── [New]RepositoryTest.java
 ├── database-notes.md
-└── README.md
 ```
 
 **Critical Rules**:
