@@ -207,7 +207,7 @@ Copy from `/work-in-progress/{PROGRAM}/05-testing/src/` to `/final-output/backen
 Create `/final-output/docs/{PROGRAM}/` with:
 
 1. **integration-report.md** - This integration summary
-2. **analysis.md** - Copy from `01-analysis/{PROGRAM}-analysis.md`
+2. **analysis.md** - Copy from `01-analysis/analysis.md`
 3. **database-notes.md** - Copy from `02-database/database-notes.md`
 4. **conversion-notes.md** - Copy from `03-conversion/conversion-notes.md`
 5. **ui-notes.md** - Copy from `04-ui/ui-notes.md`

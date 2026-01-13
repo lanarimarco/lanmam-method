@@ -11,7 +11,7 @@ Analyze RPGLE programs to extract business logic, data flows, dependencies, and 
 
 ## Outputs to Produce
 Create in `/work-in-progress/{PROGRAM}/01-analysis/`:
-1. `{PROGRAM}-analysis.md` - Complete analysis document including:
+1. `analysis.md` - Complete analysis document including:
    - Business purpose and logic flow
    - All dependencies (programs, files, copybooks)
    - Data flow diagram (Mermaid format)

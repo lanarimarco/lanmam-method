@@ -9,36 +9,25 @@ rpgle-transformer-agents/
 ├── agents/                      # Configuration for 7 specialized AI agents
 │   ├── 01-analysis-agent/       # Analyzes RPGLE programs
 │   │   ├── PROMPT.md            # Analysis phase prompt template
-│   │   ├── analysis-template.md # Program analysis template
-│   │   └── checklist.md         # Analysis quality checklist
+│   │   └── ...                  # Supporting templates and checklists
 │   ├── 02-database-agent/       # Creates JPA entities and repositories
 │   │   ├── PROMPT.md            # Database phase prompt template
-│   │   ├── naming-conventions.md
-│   │   └── type-mappings.md     # AS/400 to Java type mappings
+│   │   └── ...                  # Naming conventions, type mappings, code templates
 │   ├── 03-conversion-agent/     # Converts RPGLE to Java services
 │   │   ├── PROMPT.md            # Conversion phase prompt template
-│   │   ├── conversion-notes-template.md
-│   │   └── conversion-patterns.md
+│   │   └── ...                  # Conversion patterns, code templates
 │   ├── 04-ui-agent/             # Creates React UI components
 │   │   ├── PROMPT.md            # UI phase prompt template
-│   │   ├── dds-to-react-mapping.md
-│   │   └── style-guide.md
+│   │   └── ...                  # DDS mapping, style guide, component templates
 │   ├── 05-testing-agent/        # Generates test suites
-│   │   └── PROMPT.md            # Testing phase prompt template
+│   │   ├── PROMPT.md            # Testing phase prompt template
+│   │   └── ...                  # Test templates
 │   ├── 06-review-agent/         # Reviews and refactors code
 │   │   ├── PROMPT.md            # Review phase prompt template
-│   │   └── review-checklist.md
+│   │   └── ...                  # Quality standards, refactoring patterns, checklists
 │   └── 07-integration-agent/    # Integrates and deploys code
 │       ├── PROMPT.md            # Integration phase prompt template
-│       ├── App.tsx.template     # React app shell templates
-│       ├── index.tsx.template
-│       ├── index.html.template
-│       ├── package.json.template
-│       ├── tsconfig.json.template
-│       ├── globals.css.template
-│       ├── .env.template
-│       ├── deployment-guide-template.md
-│       └── integration-checklist.md
+│       └── ...                  # React templates, deployment guides, checklists
 ├── scripts/                     # Automation scripts (1111 lines total)
 │   ├── run-full-pipeline.sh    # Complete 7-phase setup (540 lines)
 │   ├── run-analysis.sh         # Phase 1 setup (68 lines)
@@ -73,7 +62,7 @@ rpgle-transformer-agents/
 ├── final-output/                # Completed conversion outputs
 │   └── {PROGRAM}/               # Individual program final output
 │       ├── docs/                # Agent-generated documentation (always present)
-│       │   ├── {PROGRAM}-analysis.md
+│       │   ├── analysis.md
 │       │   ├── database-notes.md
 │       │   ├── conversion-notes.md
 │       │   ├── ui-notes.md
@@ -208,7 +197,7 @@ Update the conversion status in:
 - `checklist.md` - Analysis quality checklist
 
 **Outputs:**
-- `{PROGRAM}-analysis.md` - Complete program analysis document
+- `analysis.md` - Complete program analysis document
 
 ### Phase 2: Database Agent
 **Purpose:** Convert DDS files to JPA entities and Spring Data repositories
@@ -383,7 +372,7 @@ Each program conversion creates a structured workspace:
 
 ```
 work-in-progress/{PROGRAM}/
-├── 01-analysis/{PROGRAM}-analysis.md
+├── 01-analysis/analysis.md
 ├── 02-database/
 │   ├── entities/*.java
 │   ├── repositories/*.java
