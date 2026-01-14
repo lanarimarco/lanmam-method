@@ -9,7 +9,7 @@ This project uses an LLM-agnostic pipeline to convert RPGLE programs to modern J
 ✅ **LLM-Agnostic**: Works with Claude Code, ChatGPT, Copilot, or local models
 ✅ **Automated Setup**: Scripts create workspaces and generate prompts automatically
 ✅ **Flexible Execution**: Run as single session or phase-by-phase
-✅ **Comprehensive**: Covers analysis, database, conversion, UI, testing, review, and integration
+✅ **Comprehensive**: Covers analysis, database, conversion, and testing
 ✅ **Documented**: All prompts are standalone, portable markdown files
 
 ## Quick Start
@@ -33,7 +33,7 @@ cd scripts
 ```
 
 This creates:
-- Workspace directories for all 7 phases
+- Workspace directories for all 4 phases
 - Individual prompt files for each phase
 - One master prompt for the complete pipeline
 - Template files and references
@@ -57,7 +57,7 @@ cat work-in-progress/YOUR_PROGRAM/MASTER-PIPELINE-PROMPT.md | pbcopy
 - Faster overall execution
 
 **Cons:**
-- Requires large context window (~40KB+ prompt)
+- Requires large context window (~30KB+ prompt)
 - May be expensive for API-based LLMs
 
 #### Option B: Phase-by-Phase Sessions
@@ -66,14 +66,20 @@ Best for: Managing costs, iterative work, or context-limited LLMs
 
 ```bash
 # Phase 1: Analysis
-cat work-in-progress/YOUR_PROGRAM/01-analysis/PROMPT.md | pbcopy
+cat work-in-progress/YOUR_PROGRAM/10-analysis/PROMPT.md | pbcopy
 # → Paste into LLM, wait for completion
 
 # Phase 2: Database
-cat work-in-progress/YOUR_PROGRAM/02-database/PROMPT.md | pbcopy
+cat work-in-progress/YOUR_PROGRAM/20-database/PROMPT.md | pbcopy
 # → Paste into LLM, wait for completion
 
-# Repeat for phases 3-7...
+# Phase 3: Conversion
+cat work-in-progress/YOUR_PROGRAM/30-conversion/PROMPT.md | pbcopy
+# → Paste into LLM, wait for completion
+
+# Phase 4: Testing
+cat work-in-progress/YOUR_PROGRAM/40-testing/PROMPT.md | pbcopy
+# → Paste into LLM, wait for completion
 ```
 
 **Pros:**
@@ -86,7 +92,7 @@ cat work-in-progress/YOUR_PROGRAM/02-database/PROMPT.md | pbcopy
 - More manual steps
 - Need to track progress across sessions
 
-## The 7 Phases
+## The 4 Phases
 
 ### Phase 1: Analysis
 - Reads RPGLE source code
@@ -94,7 +100,7 @@ cat work-in-progress/YOUR_PROGRAM/02-database/PROMPT.md | pbcopy
 - Identifies dependencies
 - Creates analysis document
 
-**Output**: `01-analysis/YOUR_PROGRAM-analysis.md`
+**Output**: `10-analysis/YOUR_PROGRAM-analysis.md`
 
 ### Phase 2: Database Layer
 - Converts DDS to JPA entities
@@ -102,8 +108,8 @@ cat work-in-progress/YOUR_PROGRAM/02-database/PROMPT.md | pbcopy
 - Maps DB2 types to Java types
 
 **Output**:
-- `02-database/entities/*.java`
-- `02-database/repositories/*.java`
+- `20-database/entities/*.java`
+- `20-database/repositories/*.java`
 
 ### Phase 3: Business Logic Conversion
 - Converts RPGLE to Java services
@@ -112,91 +118,26 @@ cat work-in-progress/YOUR_PROGRAM/02-database/PROMPT.md | pbcopy
 - Documents conversion decisions
 
 **Output**:
-- `03-conversion/services/*.java`
-- `03-conversion/controllers/*.java`
-- `03-conversion/dtos/*.java`
-- `03-conversion/exceptions/*.java` (if needed)
-- `03-conversion/conversion-notes.md`
-- `03-conversion/README.md`
+- `30-conversion/services/*.java`
+- `30-conversion/controllers/*.java`
+- `30-conversion/dtos/*.java`
+- `30-conversion/exceptions/*.java` (if needed)
+- `30-conversion/conversion-notes.md`
+- `30-conversion/README.md`
 
-### Phase 4: UI Layer
-- Converts 5250 screens to React components
-- Creates responsive web interface
-- Implements accessibility features
-- Builds API service layer
-- Creates program-specific components (not full React app)
-
-**Output**:
-- `04-ui/src/pages/{ProgramName}/*.tsx` - Page components
-- `04-ui/src/services/api/*.ts` - API service layer
-- `04-ui/src/types/*.ts` - TypeScript type definitions
-- `04-ui/src/hooks/*.ts` - Custom hooks (if needed)
-- `04-ui/src/utils/*.ts` - Utilities (if needed)
-- `04-ui/ui-notes.md` - UI/UX decisions and mappings
-- `04-ui/README.md` - Component documentation
-- `04-ui/integration-notes.md` - Integration instructions
-- `04-ui/dependencies-to-add.txt` - Additional npm packages
-
-### Phase 5: Testing
+### Phase 4: Testing
 - Creates unit tests for services
 - Creates integration tests for controllers
 - Generates test data
 - Targets >80% code coverage
 
 **Output**:
-- `05-testing/unit-tests/*.java` - Service unit tests
-- `05-testing/integration-tests/*.java` - Controller integration tests
-- `05-testing/repository-tests/*.java` - Repository tests (if needed)
-- `05-testing/test-data/*.sql` - Test data scripts
-- `05-testing/testing-notes.md` - Test coverage documentation
-- `05-testing/README.md` - Test setup and usage guide
-
-### Phase 6: Code Review
-- Reviews all generated code
-- Refactors as needed
-- Ensures quality and best practices
-- Documents all changes
-
-**Output**:
-- `06-review/review-report.md` - Comprehensive review findings
-- `06-review/refactoring-log.md` - All refactoring performed
-- `06-review/src/` - Refactored code (if improvements made)
-
-### Phase 7: Integration & Deployment
-- Consolidates all code to final-output structure
-- Creates/updates Spring Boot backend application
-- Creates/updates React frontend application
-- Verifies Maven build and tests
-- Verifies npm build
-- Creates deployment documentation
-- Prepares for production deployment
-
-**Output**:
-
-**Backend** (`/final-output/backend/`):
-- `src/main/java/...` - Consolidated Java code (entities, repositories, services, controllers, DTOs)
-- `src/test/java/...` - Consolidated test suite
-- `src/main/resources/application*.yml` - Configuration files
-- `pom.xml` - Maven configuration
-- `ModernizationApplication.java` - Spring Boot main class (created on first program)
-- `config/WebConfig.java` - CORS configuration (created on first program)
-
-**Frontend** (`/final-output/frontend/`):
-- `src/pages/{ProgramName}/` - Program page components
-- `src/services/api/` - API service layer
-- `src/types/` - TypeScript types
-- `src/App.tsx` - React app shell with routing (created on first program)
-- `src/index.tsx` - Entry point (created on first program)
-- `public/index.html` - HTML shell (created on first program)
-- `package.json` - npm configuration
-- `tsconfig.json` - TypeScript configuration
-- `.env.development` / `.env.production` - Environment configs
-
-**Documentation** (`/final-output/docs/{PROGRAM}/`):
-- `integration-report.md` - Integration summary and verification
-- `deployment-guide.md` - Deployment instructions
-- `analysis.md` - From Phase 1
-- `database-notes.md` - From Phase 2
+- `40-testing/unit-tests/*.java` - Service unit tests
+- `40-testing/integration-tests/*.java` - Controller integration tests
+- `40-testing/repository-tests/*.java` - Repository tests (if needed)
+- `40-testing/test-data/*.sql` - Test data scripts
+- `40-testing/testing-notes.md` - Test coverage documentation
+- `40-testing/README.md` - Test setup and usage guide
 - `conversion-notes.md` - From Phase 3
 - `ui-notes.md` - From Phase 4
 - `testing-notes.md` - From Phase 5
@@ -275,17 +216,8 @@ cd scripts
 # Just conversion
 ./run-conversion.sh YOUR_PROGRAM
 
-# Just UI
-./run-ui.sh YOUR_PROGRAM
-
 # Just testing
 ./run-testing.sh YOUR_PROGRAM
-
-# Just review
-./run-review.sh YOUR_PROGRAM
-
-# Just integration
-./run-integration.sh YOUR_PROGRAM
 ```
 
 Each generates a `PROMPT.md` file in its phase directory.
@@ -297,44 +229,29 @@ Each generates a `PROMPT.md` file in its phase directory.
 Check outputs in:
 ```
 work-in-progress/YOUR_PROGRAM/
-├── 01-analysis/YOUR_PROGRAM-analysis.md
-├── 02-database/
+├── 10-analysis/YOUR_PROGRAM-analysis.md
+├── 20-database/
 │   ├── entities/*.java
 │   ├── repositories/*.java
 │   └── database-notes.md
-├── 03-conversion/
+├── 30-conversion/
 │   ├── services/*.java
 │   ├── controllers/*.java
 │   ├── dtos/*.java
 │   ├── conversion-notes.md
 │   └── README.md
-├── 04-ui/
-│   ├── src/pages/{ProgramName}/*.tsx
-│   ├── src/services/api/*.ts
-│   ├── src/types/*.ts
-│   ├── ui-notes.md
-│   ├── README.md
-│   └── integration-notes.md
-├── 05-testing/
-│   ├── unit-tests/*.java
-│   ├── integration-tests/*.java
-│   ├── testing-notes.md
-│   └── README.md
-├── 06-review/
-│   ├── review-report.md
-│   └── refactoring-log.md
-└── 07-integration/PROMPT.md
+└── 40-testing/
+    ├── unit-tests/*.java
+    ├── integration-tests/*.java
+    ├── testing-notes.md
+    └── README.md
 
 final-output/
 ├── backend/
 │   ├── src/main/java/...
 │   ├── src/test/java/...
 │   └── pom.xml
-├── frontend/
-│   ├── src/
-│   └── package.json
 └── docs/YOUR_PROGRAM/
-    ├── integration-report.md
     ├── deployment-guide.md
     └── (all phase notes consolidated here)
 ```
@@ -403,15 +320,13 @@ Update these files:
 2. ✅ **Validate the approach** - Review test outputs and validate the conversion quality
 3. ✅ **Run pipeline on first production program** - `./scripts/run-full-pipeline.sh YOUR_PROGRAM`
 4. ✅ **Choose workflow mode** - Single-session or phase-by-phase
-5. ✅ **Execute phases 1-6** with your preferred LLM
-6. ✅ **Run integration** - `./scripts/run-integration.sh YOUR_PROGRAM` to consolidate to final-output
-7. ✅ **Verify builds** - Maven build (backend) and npm build (frontend) in final-output/
-8. ✅ **Review and test** - Check deployment guide and prepare for UAT
-9. ✅ **Document lessons** - Update common-patterns/lessons-learned.md
-10. ✅ **Repeat** for remaining programs
+5. ✅ **Execute all 4 phases** with your preferred LLM
+6. ✅ **Verify builds** - Maven build (backend) in final-output/
+7. ✅ **Document lessons** - Update common-patterns/lessons-learned.md
+8. ✅ **Repeat** for remaining programs
 
 ---
 
 **Remember**: The scripts do the setup work. The LLM does the conversion work. You review and integrate the results.
 
-**Questions?** Check the agent README files in `agents/0X-*-agent/README.md`
+**Questions?** Check the agent README files in `agents/XX-*-agent/README.md`

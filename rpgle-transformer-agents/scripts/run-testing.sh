@@ -12,20 +12,20 @@ if [ -z "$PROGRAM" ]; then
 fi
 
 echo "========================================="
-echo "Phase 5: Testing Agent Setup"
+echo "Phase 4: Testing Agent Setup"
 echo "Program: $PROGRAM"
 echo "========================================="
 echo ""
 
 # Verify prerequisites
-DATABASE_DIR="$PROJECT_ROOT/work-in-progress/$PROGRAM/02-database"
+DATABASE_DIR="$PROJECT_ROOT/work-in-progress/$PROGRAM/20-database"
 if [ ! -d "$DATABASE_DIR" ]; then
     echo "⚠️  Warning: Database layer not found: $DATABASE_DIR"
     echo "  Please complete Phase 2 (Database) first"
     echo ""
 fi
 
-CONVERSION_DIR="$PROJECT_ROOT/work-in-progress/$PROGRAM/03-conversion"
+CONVERSION_DIR="$PROJECT_ROOT/work-in-progress/$PROGRAM/30-conversion"
 if [ ! -d "$CONVERSION_DIR" ]; then
     echo "⚠️  Warning: Conversion layer not found: $CONVERSION_DIR"
     echo "  Please complete Phase 3 (Conversion) first"
@@ -33,7 +33,7 @@ if [ ! -d "$CONVERSION_DIR" ]; then
 fi
 
 # Create work directory (clean if exists)
-WORK_DIR="$PROJECT_ROOT/work-in-progress/$PROGRAM/05-testing"
+WORK_DIR="$PROJECT_ROOT/work-in-progress/$PROGRAM/40-testing"
 if [ -d "$WORK_DIR" ]; then
     echo "✓ Cleaning existing workspace: $WORK_DIR"
     rm -rf "$WORK_DIR"
@@ -42,16 +42,16 @@ mkdir -p "$WORK_DIR"
 
 # Copy templates
 echo "✓ Creating workspace: $WORK_DIR"
-cp -r "$PROJECT_ROOT/agents/05-testing-agent/"*.md "$WORK_DIR/" 2>/dev/null || true
-cp -r "$PROJECT_ROOT/agents/05-testing-agent/"*.java "$WORK_DIR/" 2>/dev/null || true
+cp -r "$PROJECT_ROOT/agents/40-testing-agent/"*.md "$WORK_DIR/" 2>/dev/null || true
+cp -r "$PROJECT_ROOT/agents/40-testing-agent/"*.java "$WORK_DIR/" 2>/dev/null || true
 
 
 # Generate the LLM prompt file
 echo "✓ Generating LLM prompt..."
 cat > "$WORK_DIR/PROMPT.md" <<EOF
-# Phase 5: Testing - Program: $PROGRAM
+# Phase 4: Testing - Program: $PROGRAM
 
-$(cat "$PROJECT_ROOT/agents/05-testing-agent/PROMPT.md")
+$(cat "$PROJECT_ROOT/agents/40-testing-agent/PROMPT.md")
 EOF
 
 echo "✓ Prompt generated: $WORK_DIR/PROMPT.md"

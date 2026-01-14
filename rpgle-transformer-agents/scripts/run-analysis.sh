@@ -26,7 +26,7 @@ if [ ! -f "$SOURCE_FILE" ]; then
 fi
 
 # Create work directory (clean if exists)
-WORK_DIR="$PROJECT_ROOT/work-in-progress/$PROGRAM/01-analysis"
+WORK_DIR="$PROJECT_ROOT/work-in-progress/$PROGRAM/10-analysis"
 if [ -d "$WORK_DIR" ]; then
     echo "✓ Cleaning existing workspace: $WORK_DIR"
     rm -rf "$WORK_DIR"
@@ -35,8 +35,8 @@ mkdir -p "$WORK_DIR"
 
 # Copy templates to work directory
 echo "✓ Creating workspace: $WORK_DIR"
-cp "$PROJECT_ROOT/agents/01-analysis-agent/analysis-template.md" "$WORK_DIR/"
-cp "$PROJECT_ROOT/agents/01-analysis-agent/checklist.md" "$WORK_DIR/"
+cp "$PROJECT_ROOT/agents/10-analysis-agent/analysis-template.md" "$WORK_DIR/"
+cp "$PROJECT_ROOT/agents/10-analysis-agent/checklist.md" "$WORK_DIR/"
 
 
 # Generate the LLM prompt file
@@ -44,7 +44,7 @@ echo "✓ Generating LLM prompt..."
 cat > "$WORK_DIR/PROMPT.md" <<EOF
 # Phase 1: Analysis - Program: $PROGRAM
 
-$(cat "$PROJECT_ROOT/agents/01-analysis-agent/PROMPT.md")
+$(cat "$PROJECT_ROOT/agents/10-analysis-agent/PROMPT.md")
 EOF
 
 echo "✓ Prompt generated: $WORK_DIR/PROMPT.md"

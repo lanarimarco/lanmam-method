@@ -1,42 +1,30 @@
 # RPGLE to Java Modernization Project
 
-AI-assisted modernization framework for converting RPGLE programs to modern Java/Spring Boot applications using a 7-phase agent-based workflow.
+AI-assisted modernization framework for converting RPGLE programs to modern Java/Spring Boot applications using a 4-phase agent-based workflow.
 
 ## Project Structure
 
 ```
 rpgle-transformer-agents/
-├── agents/                      # Configuration for 7 specialized AI agents
-│   ├── 01-analysis-agent/       # Analyzes RPGLE programs
+├── agents/                      # Configuration for 4 specialized AI agents
+│   ├── 10-analysis-agent/       # Analyzes RPGLE programs
 │   │   ├── PROMPT.md            # Analysis phase prompt template
 │   │   └── ...                  # Supporting templates and checklists
-│   ├── 02-database-agent/       # Creates JPA entities and repositories
+│   ├── 20-database-agent/       # Creates JPA entities and repositories
 │   │   ├── PROMPT.md            # Database phase prompt template
 │   │   └── ...                  # Naming conventions, type mappings, code templates
-│   ├── 03-conversion-agent/     # Converts RPGLE to Java services
+│   ├── 30-conversion-agent/     # Converts RPGLE to Java services
 │   │   ├── PROMPT.md            # Conversion phase prompt template
 │   │   └── ...                  # Conversion patterns, code templates
-│   ├── 04-ui-agent/             # Creates React UI components
-│   │   ├── PROMPT.md            # UI phase prompt template
-│   │   └── ...                  # DDS mapping, style guide, component templates
-│   ├── 05-testing-agent/        # Generates test suites
-│   │   ├── PROMPT.md            # Testing phase prompt template
-│   │   └── ...                  # Test templates
-│   ├── 06-review-agent/         # Reviews and refactors code
-│   │   ├── PROMPT.md            # Review phase prompt template
-│   │   └── ...                  # Quality standards, refactoring patterns, checklists
-│   └── 07-integration-agent/    # Integrates and deploys code
-│       ├── PROMPT.md            # Integration phase prompt template
-│       └── ...                  # React templates, deployment guides, checklists
-├── scripts/                     # Automation scripts (1111 lines total)
-│   ├── run-full-pipeline.sh    # Complete 7-phase setup (540 lines)
-│   ├── run-analysis.sh         # Phase 1 setup (68 lines)
-│   ├── run-database.sh         # Phase 2 setup (64 lines)
-│   ├── run-conversion.sh       # Phase 3 setup (67 lines)
-│   ├── run-ui.sh               # Phase 4 setup (76 lines)
-│   ├── run-testing.sh          # Phase 5 setup (79 lines)
-│   ├── run-review.sh           # Phase 6 setup (92 lines)
-│   └── run-integration.sh      # Phase 7 setup (125 lines)
+│   └── 40-testing-agent/        # Generates test suites
+│       ├── PROMPT.md            # Testing phase prompt template
+│       └── ...                  # Test templates
+├── scripts/                     # Automation scripts
+│   ├── run-full-pipeline.sh    # Complete 4-phase setup
+│   ├── run-analysis.sh         # Phase 1 setup
+│   ├── run-database.sh         # Phase 2 setup
+│   ├── run-conversion.sh       # Phase 3 setup
+│   └── run-testing.sh          # Phase 4 setup
 ├── source-rpgle/                # Your RPGLE source files
 │   ├── programs/                # RPGLE programs (.rpgle files)
 │   ├── dds/                     # DDS files
@@ -51,13 +39,10 @@ rpgle-transformer-agents/
 │   └── README.md                # Testing guide and validation checklist
 ├── work-in-progress/            # Active conversion workspaces (created dynamically by scripts)
 │   └── {PROGRAM}/               # Individual program workspace
-│       ├── 01-analysis/         # Analysis phase outputs
-│       ├── 02-database/         # Database layer code
-│       ├── 03-conversion/       # Business logic code
-│       ├── 04-ui/               # React components
-│       ├── 05-testing/          # Test suites
-│       ├── 06-review/           # Review reports
-│       ├── 07-integration/      # Integration outputs
+│       ├── 10-analysis/         # Analysis phase outputs
+│       ├── 20-database/         # Database layer code
+│       ├── 30-conversion/       # Business logic code
+│       ├── 40-testing/          # Test suites
 │       └── MASTER-PIPELINE-PROMPT.md  # Complete pipeline prompt
 ├── final-output/                # Completed conversion outputs
 │   └── {PROGRAM}/               # Individual program final output
@@ -115,7 +100,7 @@ cd scripts
 ```
 
 This will:
-- Create workspaces for all 7 phases
+- Create workspaces for all 4 phases
 - Copy templates and reference files
 - Generate LLM-agnostic prompts for each phase
 - Create a master prompt for the complete pipeline
@@ -141,13 +126,10 @@ cd scripts
 ./run-analysis.sh PROGRAM_NAME      # Phase 1
 ./run-database.sh PROGRAM_NAME      # Phase 2
 ./run-conversion.sh PROGRAM_NAME    # Phase 3
-./run-ui.sh PROGRAM_NAME            # Phase 4
-./run-testing.sh PROGRAM_NAME       # Phase 5
-./run-review.sh PROGRAM_NAME        # Phase 6
-./run-integration.sh PROGRAM_NAME   # Phase 7
+./run-testing.sh PROGRAM_NAME       # Phase 4
 
 # Copy each phase prompt as needed
-cat work-in-progress/PROGRAM_NAME/01-analysis/PROMPT.md | pbcopy
+cat work-in-progress/PROGRAM_NAME/10-analysis/PROMPT.md | pbcopy
 ```
 
 ### 4. Track Progress
@@ -187,7 +169,7 @@ Update the conversion status in:
 - AssertJ
 - React Testing Library
 
-## The 7-Phase Conversion Workflow
+## The 4-Phase Conversion Workflow
 
 ### Phase 1: Analysis Agent
 **Purpose:** Analyze and document RPGLE program structure and business logic
@@ -224,45 +206,13 @@ Update the conversion status in:
 - `dtos/*.java` - Data transfer objects
 - `conversion-notes.md` - Business logic documentation
 
-### Phase 4: UI Agent
-**Purpose:** Convert 5250 green-screen displays to modern React components
-
-**Templates:**
-- `dds-to-react-mapping.md` - Display format to React patterns
-- `style-guide.md` - React component style guide
-
-**Outputs:**
-- `pages/*.tsx` - React page components
-- `services/*.ts` - API service clients
-- `types/*.ts` - TypeScript type definitions
-- `ui-notes.md` - UI layer documentation
-- `integration-notes.md` - Integration instructions
-- `dependencies-to-add.txt` - Required npm packages
-
-### Phase 5: Testing Agent
+### Phase 4: Testing Agent
 **Purpose:** Generate comprehensive test suites
 
 **Outputs:**
 - `unit-tests/*.java` - Service unit tests
 - `integration-tests/*.java` - Controller integration tests
 - `testing-notes.md` - Test coverage documentation
-
-### Phase 6: Review Agent
-**Purpose:** Review, refactor, and ensure code quality
-
-**Templates:**
-- `review-checklist.md` - Code review checklist
-
-**Outputs:**
-- `review-report.md` - Detailed code review findings
-- `final-checklist.md` - Pre-integration checklist
-- Refactored code (updated in work-in-progress)
-
-### Phase 7: Integration Agent
-**Purpose:** Consolidate code, verify builds, and prepare deployment
-
-**Templates:**
-- React app shell templates (App.tsx, index.tsx, package.json, etc.)
 - `deployment-guide-template.md` - Deployment documentation template
 - `integration-checklist.md` - Integration verification checklist
 
@@ -346,7 +296,7 @@ Best for: Powerful LLMs with large context windows (200K+ tokens)
 1. Run `./scripts/run-full-pipeline.sh PROGRAM_NAME`
 2. Copy `work-in-progress/PROGRAM_NAME/MASTER-PIPELINE-PROMPT.md`
 3. Paste into LLM (Claude Opus/Sonnet, GPT-4 Turbo, etc.)
-4. Let LLM work through all 7 phases autonomously
+4. Let LLM work through all 4 phases autonomously
 
 ### Phase-by-Phase Mode
 Best for: Cost management, iterative review, smaller context windows
@@ -372,31 +322,20 @@ Each program conversion creates a structured workspace:
 
 ```
 work-in-progress/{PROGRAM}/
-├── 01-analysis/analysis.md
-├── 02-database/
+├── 10-analysis/analysis.md
+├── 20-database/
 │   ├── entities/*.java
 │   ├── repositories/*.java
 │   └── database-notes.md
-├── 03-conversion/
+├── 30-conversion/
 │   ├── services/*.java
 │   ├── controllers/*.java
 │   ├── dtos/*.java
 │   └── conversion-notes.md
-├── 04-ui/
-│   ├── pages/*.tsx
-│   ├── services/*.ts
-│   ├── types/*.ts
-│   ├── ui-notes.md
-│   └── integration-notes.md
-├── 05-testing/
-│   ├── unit-tests/*.java
-│   ├── integration-tests/*.java
-│   └── testing-notes.md
-├── 06-review/
-│   ├── review-report.md
-│   └── final-checklist.md
-└── 07-integration/
-    └── PROMPT.md
+└── 40-testing/
+    ├── unit-tests/*.java
+    ├── integration-tests/*.java
+    └── testing-notes.md
 ```
 
 ### Project-Wide Status
