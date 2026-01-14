@@ -15,13 +15,11 @@ This project modernizes 50 RPGLE programs to Java using AI-assisted conversion.
 ## Conversion Workflow
 1. Analysis: Understand RPGLE program
 2. Database: Create JPA entities
-3. Conversion: Convert to Java services
+3. Conversion: Convert to Java Main Program
 4. Testing: Build test suites
 
 ## Technology Stack
 - Java 17+
-- Spring Boot 3.x
-- JPA/Hibernate
 - JUnit 5
 - Maven
 
