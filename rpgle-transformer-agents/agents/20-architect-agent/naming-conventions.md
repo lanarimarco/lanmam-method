@@ -20,8 +20,12 @@
 - Example: `@Column(name = "CUSNUM")`
 
 ## Package Structure
-- Entities: `com.company.modernization.entities`
-- Repositories: `com.company.modernization.repositories`
+- Entities: `com.smeup.erp.entities`
+- Repositories: `com.smeup.erp.repositories`
+- Services: `com.smeup.erp.services`
+- Controllers: `com.smeup.erp.controllers`
+- DTOs: `com.smeup.erp.dtos`
+- Exceptions: `com.smeup.erp.exceptions`
 
 ## Examples
 

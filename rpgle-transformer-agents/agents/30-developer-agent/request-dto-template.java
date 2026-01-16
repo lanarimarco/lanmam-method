@@ -1,42 +1,41 @@
-package {PACKAGE_NAME}.dto;
+package {PACKAGE_NAME}.dtos;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import jakarta.validation.constraints.*;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 
 /**
- * Data Transfer Object for {PROGRAM_NAME}
- * Represents data from RPGLE display file: {DISPLAY_FILE}
+ * Request DTO for {PROGRAM_NAME}
+ * Represents input data from display file: {DISPLAY_FILE}
  */
-public class {ProgramName}DTO {
+public class {ProgramName}RequestDTO {
 
-    // Input fields (from display file input fields)
+    // ==================== Input Fields ====================
+
     @JsonProperty("customerNumber")
+    @NotNull(message = "Customer number is required")
     private BigDecimal customerNumber;
 
-    // Output fields (from display file output fields)
     @JsonProperty("customerName")
+    @Size(max = 30, message = "Customer name cannot exceed 30 characters")
     private String customerName;
 
-    // Control fields
+    // ==================== Function Key Fields ====================
+
     @JsonProperty("f3Pressed")
     private boolean f3Pressed;  // Exit key
 
     @JsonProperty("f12Pressed")
     private boolean f12Pressed;  // Cancel key
 
-    // Response metadata
-    @JsonProperty("success")
-    private boolean success = true;
+    // ==================== Constructors ====================
 
-    @JsonProperty("errorMessage")
-    private String errorMessage;
-
-    // Constructors
-    public {ProgramName}DTO() {
+    public {ProgramName}RequestDTO() {
     }
 
-    // Getters and Setters
+    // ==================== Getters and Setters ====================
+
     public BigDecimal getCustomerNumber() {
         return customerNumber;
     }
@@ -69,28 +68,13 @@ public class {ProgramName}DTO {
         this.f12Pressed = f12Pressed;
     }
 
-    public boolean isSuccess() {
-        return success;
-    }
-
-    public void setSuccess(boolean success) {
-        this.success = success;
-    }
-
-    public String getErrorMessage() {
-        return errorMessage;
-    }
-
-    public void setErrorMessage(String errorMessage) {
-        this.errorMessage = errorMessage;
-    }
+    // ==================== toString ====================
 
     @Override
     public String toString() {
-        return "{ProgramName}DTO{" +
+        return "{ProgramName}RequestDTO{" +
                 "customerNumber=" + customerNumber +
                 ", customerName='" + customerName + '\'' +
-                ", success=" + success +
                 '}';
     }
 }
